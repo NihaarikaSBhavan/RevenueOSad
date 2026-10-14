@@ -1,4 +1,4 @@
-import { useCurrentFrame } from "remotion";
+import { CanvasImage, staticFile, useCurrentFrame } from "remotion";
 import { lerp, ramp, sp } from "../anim";
 import { COPY } from "../copy";
 import { sansStack } from "../fonts";
@@ -60,15 +60,12 @@ export const Close: React.FC = () => {
   );
 };
 
-// No logo file in /public/images, so the brief's fallback: a clean wordmark in IBM Plex Sans
+// The company logo (white-text version for dark backgrounds), public/images/logo-white.png
+const LOGO_W = 760;
+const LOGO_H = Math.round((LOGO_W * 590) / 1955);
+
 const Wordmark: React.FC<{ t: number }> = ({ t }) => (
-  <div style={{ display: "flex", alignItems: "center", gap: 22, opacity: t, scale: String(lerp(0.92, 1, t)) }}>
-    <svg width="74" height="74" viewBox="0 0 74 74">
-      <rect x="1" y="1" width="72" height="72" rx="18" fill={C.blue} />
-      <path d="M22 22 L37 54 L52 22" stroke="#fff" strokeWidth="7" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-    <div style={{ fontSize: 76, fontWeight: 600, letterSpacing: 1 }}>
-      TheVertical<span style={{ color: C.blue }}>.ai</span>
-    </div>
+  <div style={{ opacity: t, scale: String(lerp(0.92, 1, t)) }}>
+    <CanvasImage src={staticFile("images/logo-white.png")} width={LOGO_W} height={LOGO_H} style={{ width: LOGO_W, height: LOGO_H }} />
   </div>
 );
