@@ -81,25 +81,44 @@ export const Beat: React.FC<{ at: number; until: number; text: string }> = ({ at
   );
 };
 
-/** Burned-in captions: each word appears on the frame its sound starts. */
+/** Captions in short phrases (split at punctuation, max 7 words), centred; each word appears on its sound. */
+const PHRASES = (() => {
+  const all = words as Word[];
+  const out: Word[][] = [];
+  for (const vo of [1, 2, 3]) {
+    let cur: Word[] = [];
+    for (const w of all.filter((x) => x.vo === vo)) {
+      cur.push(w);
+      if (/[.,!?]$/.test(w.display) || cur.length >= 7) {
+        out.push(cur);
+        cur = [];
+      }
+    }
+    if (cur.length) out.push(cur);
+  }
+  return out;
+})();
+
 export const Captions: React.FC = () => {
   const frame = useCurrentFrame();
-  const all = words as Word[];
-  const line = [1, 2, 3].find((vo) => {
-    const ws = all.filter((w) => w.vo === vo);
-    return frame >= ws[0].frame && frame < Math.ceil((ws[ws.length - 1].end_ms / 1000) * 30) + 18;
-  });
   // The end card lands in silence: no captions from the first drumbeat on
-  if (!line || frame >= T.endCard1) return null;
-  const ws = all.filter((w) => w.vo === line);
-  // Long lines are split at sentence ends so the caption stays on two lines at most
+  if (frame >= T.endCard1) return null;
+  const idx = PHRASES.findIndex((p, i) => {
+    const next = PHRASES[i + 1];
+    const sameLine = next && next[0].vo === p[0].vo;
+    const until = sameLine ? next[0].frame : Math.ceil((p[p.length - 1].end_ms / 1000) * 30) + 18;
+    return frame >= p[0].frame && frame < until;
+  });
+  if (idx < 0) return null;
+  // Only words already spoken are laid out, so the caption stays centred as it grows
+  const phrase = PHRASES[idx].filter((w) => frame >= w.frame);
   return (
-    <div style={{ position: "absolute", left: 220, right: 220, bottom: 36, display: "flex", justifyContent: "center" }}>
-      <div style={{ padding: "12px 26px", borderRadius: 16, background: "rgba(5,18,52,0.72)", fontFamily: sansStack, fontSize: 34, fontWeight: 500, lineHeight: 1.35, textAlign: "center", color: C.text }}>
-        {ws.map((w, i) => (
-          <span key={i} style={{ opacity: frame >= w.frame ? 1 : 0 }}>
+    <div style={{ position: "absolute", left: 220, right: 220, bottom: 40, display: "flex", justifyContent: "center" }}>
+      <div style={{ padding: "12px 28px", borderRadius: 16, background: "rgba(5,18,52,0.78)", fontFamily: sansStack, fontSize: 40, fontWeight: 500, lineHeight: 1.3, textAlign: "center", color: C.text }}>
+        {phrase.map((w, i) => (
+          <span key={i}>
             {w.display}
-            {i < ws.length - 1 ? " " : ""}
+            {i < phrase.length - 1 ? " " : ""}
           </span>
         ))}
       </div>

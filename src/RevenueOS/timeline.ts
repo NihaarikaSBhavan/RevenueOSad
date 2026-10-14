@@ -82,17 +82,18 @@ export const T = {
 };
 
 /** One still per beat, for approval before animation polish. */
+/** One still per beat, each taken where the beat has fully settled. */
 export const STILLS: [string, number][] = [
-  ["01-tension", 124],
-  ["02-os-on", 196],
-  ["03-chat", 300],
-  ["04-writeback", 364],
-  ["05-score", 428],
-  ["06-calendar-click1", 512],
-  ["07-click3-money-shot", 600],
+  ["01-tension", 122],
+  ["02-os-on", 200],
+  ["03-chat", 296],
+  ["04-writeback", 362],
+  ["05-score", 437],
+  ["06-calendar-click1", 518],
+  ["07-click3-money-shot", 606],
   ["08-plus30-grown", 678],
-  ["09-pullback", 714],
-  ["10-title", 765],
-  ["11-endcard1", 836],
-  ["12-endcard2", 895],
+  ["09-pullback", 712],
+  ["10-title", 770],
+  ["11-endcard1", 834],
+  ["12-endcard2", 892],
 ];

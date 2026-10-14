@@ -3,320 +3,320 @@
     "vo": 1,
     "text": "You",
     "display": "You",
-    "start_ms": 1145,
-    "end_ms": 1354,
-    "frame": 35
+    "start_ms": 945,
+    "end_ms": 1154,
+    "frame": 29
   },
   {
     "vo": 1,
     "text": "paid",
     "display": "paid",
-    "start_ms": 1354,
-    "end_ms": 1703,
-    "frame": 41
+    "start_ms": 1154,
+    "end_ms": 1503,
+    "frame": 35
   },
   {
     "vo": 1,
     "text": "for",
     "display": "for",
-    "start_ms": 1703,
-    "end_ms": 1982,
-    "frame": 52
+    "start_ms": 1503,
+    "end_ms": 1782,
+    "frame": 46
   },
   {
     "vo": 1,
     "text": "every",
     "display": "every",
-    "start_ms": 1982,
-    "end_ms": 2331,
-    "frame": 60
+    "start_ms": 1782,
+    "end_ms": 2131,
+    "frame": 54
   },
   {
     "vo": 1,
     "text": "lead",
     "display": "lead.",
-    "start_ms": 2331,
-    "end_ms": 2610,
-    "frame": 70
+    "start_ms": 2131,
+    "end_ms": 2410,
+    "frame": 64
   },
   {
     "vo": 1,
     "text": "Most",
     "display": "Most",
-    "start_ms": 3020,
-    "end_ms": 3385,
-    "frame": 91
+    "start_ms": 2660,
+    "end_ms": 3025,
+    "frame": 80
   },
   {
     "vo": 1,
     "text": "of",
     "display": "of",
-    "start_ms": 3385,
-    "end_ms": 3567,
-    "frame": 102
+    "start_ms": 3025,
+    "end_ms": 3207,
+    "frame": 91
   },
   {
     "vo": 1,
     "text": "them",
     "display": "them",
-    "start_ms": 3567,
-    "end_ms": 3810,
-    "frame": 108
+    "start_ms": 3207,
+    "end_ms": 3450,
+    "frame": 97
   },
   {
     "vo": 1,
     "text": "never",
     "display": "never",
-    "start_ms": 3810,
-    "end_ms": 4114,
-    "frame": 115
+    "start_ms": 3450,
+    "end_ms": 3754,
+    "frame": 104
   },
   {
     "vo": 1,
     "text": "heard",
     "display": "heard",
-    "start_ms": 4114,
-    "end_ms": 4357,
-    "frame": 124
+    "start_ms": 3754,
+    "end_ms": 3997,
+    "frame": 113
   },
   {
     "vo": 1,
     "text": "back",
     "display": "back.",
-    "start_ms": 4357,
-    "end_ms": 4600,
-    "frame": 131
+    "start_ms": 3997,
+    "end_ms": 4240,
+    "frame": 120
   },
   {
     "vo": 2,
     "text": "Revenue",
     "display": "Revenue",
-    "start_ms": 11176,
-    "end_ms": 11692,
-    "frame": 336
+    "start_ms": 9176,
+    "end_ms": 9692,
+    "frame": 276
   },
   {
     "vo": 2,
     "text": "OS",
     "display": "OS",
-    "start_ms": 11692,
-    "end_ms": 12061,
-    "frame": 351
+    "start_ms": 9692,
+    "end_ms": 10061,
+    "frame": 291
   },
   {
     "vo": 2,
     "text": "works",
     "display": "works",
-    "start_ms": 12061,
-    "end_ms": 12430,
-    "frame": 362
+    "start_ms": 10061,
+    "end_ms": 10430,
+    "frame": 302
   },
   {
     "vo": 2,
     "text": "every",
     "display": "every",
-    "start_ms": 12430,
-    "end_ms": 12798,
-    "frame": 373
+    "start_ms": 10430,
+    "end_ms": 10798,
+    "frame": 313
   },
   {
     "vo": 2,
     "text": "lead",
     "display": "lead,",
-    "start_ms": 12798,
-    "end_ms": 13093,
-    "frame": 384
+    "start_ms": 10798,
+    "end_ms": 11093,
+    "frame": 324
   },
   {
     "vo": 2,
     "text": "books",
     "display": "books",
-    "start_ms": 13093,
-    "end_ms": 13462,
-    "frame": 393
+    "start_ms": 11093,
+    "end_ms": 11462,
+    "frame": 333
   },
   {
     "vo": 2,
     "text": "every",
     "display": "every",
-    "start_ms": 13462,
-    "end_ms": 13831,
-    "frame": 404
+    "start_ms": 11462,
+    "end_ms": 11831,
+    "frame": 344
   },
   {
     "vo": 2,
     "text": "visit",
     "display": "visit,",
-    "start_ms": 13831,
-    "end_ms": 14274,
-    "frame": 415
+    "start_ms": 11831,
+    "end_ms": 12274,
+    "frame": 355
   },
   {
     "vo": 2,
     "text": "and",
     "display": "and",
-    "start_ms": 14274,
-    "end_ms": 14569,
-    "frame": 429
+    "start_ms": 12274,
+    "end_ms": 12569,
+    "frame": 369
   },
   {
     "vo": 2,
     "text": "grows",
     "display": "grows",
-    "start_ms": 14569,
-    "end_ms": 15011,
-    "frame": 438
+    "start_ms": 12569,
+    "end_ms": 13011,
+    "frame": 378
   },
   {
     "vo": 2,
     "text": "every",
     "display": "every",
-    "start_ms": 15011,
-    "end_ms": 15380,
-    "frame": 451
+    "start_ms": 13011,
+    "end_ms": 13380,
+    "frame": 391
   },
   {
     "vo": 2,
     "text": "customer",
     "display": "customer.",
-    "start_ms": 15380,
-    "end_ms": 15970,
-    "frame": 462
+    "start_ms": 13380,
+    "end_ms": 13970,
+    "frame": 402
   },
   {
     "vo": 2,
     "text": "In",
     "display": "In",
-    "start_ms": 16520,
-    "end_ms": 16698,
-    "frame": 496
+    "start_ms": 14220,
+    "end_ms": 14362,
+    "frame": 427
   },
   {
     "vo": 2,
     "text": "their",
     "display": "their",
-    "start_ms": 16698,
-    "end_ms": 16936,
-    "frame": 501
+    "start_ms": 14362,
+    "end_ms": 14553,
+    "frame": 431
   },
   {
     "vo": 2,
     "text": "language",
     "display": "language.",
-    "start_ms": 16936,
-    "end_ms": 17470,
-    "frame": 509
+    "start_ms": 14553,
+    "end_ms": 14980,
+    "frame": 437
   },
   {
     "vo": 2,
     "text": "At",
     "display": "At",
-    "start_ms": 17860,
-    "end_ms": 18028,
-    "frame": 536
+    "start_ms": 15040,
+    "end_ms": 15170,
+    "frame": 452
   },
   {
     "vo": 2,
     "text": "the",
     "display": "the",
-    "start_ms": 18028,
-    "end_ms": 18195,
-    "frame": 541
+    "start_ms": 15420,
+    "end_ms": 15619,
+    "frame": 463
   },
   {
     "vo": 2,
     "text": "right",
     "display": "right",
-    "start_ms": 18195,
-    "end_ms": 18474,
-    "frame": 546
+    "start_ms": 15619,
+    "end_ms": 15951,
+    "frame": 469
   },
   {
     "vo": 2,
     "text": "moment",
     "display": "moment.",
-    "start_ms": 18474,
-    "end_ms": 18921,
-    "frame": 555
+    "start_ms": 15951,
+    "end_ms": 16481,
+    "frame": 479
   },
   {
     "vo": 3,
     "text": "Your",
     "display": "Your",
-    "start_ms": 21361,
-    "end_ms": 21645,
-    "frame": 641
+    "start_ms": 21421,
+    "end_ms": 21705,
+    "frame": 643
   },
   {
     "vo": 3,
     "text": "CRM",
     "display": "CRM",
-    "start_ms": 21645,
-    "end_ms": 22212,
-    "frame": 650
+    "start_ms": 21705,
+    "end_ms": 22272,
+    "frame": 652
   },
   {
     "vo": 3,
     "text": "records",
     "display": "records",
-    "start_ms": 22212,
-    "end_ms": 22709,
-    "frame": 667
+    "start_ms": 22272,
+    "end_ms": 22769,
+    "frame": 669
   },
   {
     "vo": 3,
     "text": "what",
     "display": "what",
-    "start_ms": 22709,
-    "end_ms": 22993,
-    "frame": 682
+    "start_ms": 22769,
+    "end_ms": 23053,
+    "frame": 684
   },
   {
     "vo": 3,
     "text": "happened",
     "display": "happened.",
-    "start_ms": 22993,
-    "end_ms": 23490,
-    "frame": 690
+    "start_ms": 23053,
+    "end_ms": 23550,
+    "frame": 692
   },
   {
     "vo": 3,
     "text": "Revenue",
     "display": "Revenue",
-    "start_ms": 23960,
-    "end_ms": 24426,
-    "frame": 719
+    "start_ms": 23800,
+    "end_ms": 24266,
+    "frame": 714
   },
   {
     "vo": 3,
     "text": "OS",
     "display": "OS",
-    "start_ms": 24426,
-    "end_ms": 24760,
-    "frame": 733
+    "start_ms": 24266,
+    "end_ms": 24600,
+    "frame": 728
   },
   {
     "vo": 3,
     "text": "makes",
     "display": "makes",
-    "start_ms": 24760,
-    "end_ms": 25160,
-    "frame": 743
+    "start_ms": 24600,
+    "end_ms": 25000,
+    "frame": 738
   },
   {
     "vo": 3,
     "text": "it",
     "display": "it",
-    "start_ms": 25160,
-    "end_ms": 25359,
-    "frame": 755
+    "start_ms": 25000,
+    "end_ms": 25199,
+    "frame": 750
   },
   {
     "vo": 3,
     "text": "happen",
     "display": "happen.",
-    "start_ms": 25359,
-    "end_ms": 25759,
-    "frame": 761
+    "start_ms": 25199,
+    "end_ms": 25599,
+    "frame": 756
   }
 ]

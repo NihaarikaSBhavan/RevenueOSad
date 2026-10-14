@@ -108,6 +108,29 @@ export const Calendar: React.FC = () => {
             <div style={{ width: 80, fontFamily: monoStack, fontSize: 17, color: C.textDim }}>{t}</div>
           </div>
         ))}
+        {/* The rest of a busy Saturday */}
+        {COPY.otherBookings.map(([time, who]) => (
+          <div
+            key={time}
+            style={{
+              position: "absolute",
+              left: 120,
+              right: 30,
+              top: SLOT_TOP + TIMES.indexOf(time) * SLOT_H + 6,
+              height: SLOT_H - 12,
+              borderRadius: 12,
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.1)",
+              display: "flex",
+              alignItems: "center",
+              padding: "0 18px",
+              fontSize: 18,
+              color: C.greyDim,
+            }}
+          >
+            {who}
+          </div>
+        ))}
         {/* Already booked: the collision */}
         <div
           style={{

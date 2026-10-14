@@ -19,7 +19,7 @@ const START: Cam = { x: 960, y: 540, s: 1 };
 // Each move eases from the previous target to its own, on a spring; moves can overlap
 const MOVES: { at: number; to: Cam; damping?: number }[] = [
   { at: 0, to: { x: 1000, y: 560, s: 1.07 }, damping: 20 }, // slow push-in (tension)
-  { at: T.glideChat, to: { x: 2535, y: 575, s: 0.88 } }, // glide into the chat
+  { at: T.glideChat, to: { x: 2420, y: 590, s: 0.88 } }, // glide into the chat + its action rail
   { at: T.glideContact, to: { x: 2990, y: 552, s: 0.84 } }, // widen: chat + Contact 360
   { at: T.zoomGauge, to: { x: 3290, y: 790, s: 1.2 } }, // in on the score
   { at: T.glideCalendar, to: { x: 3085, y: 1795, s: 0.9 } }, // down to booking

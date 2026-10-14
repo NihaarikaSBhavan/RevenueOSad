@@ -181,6 +181,23 @@ def clean(token: str) -> str:
     return token.strip(".,!?;:\"'()")
 
 
+def compress_pauses(samples, sample_rate: int, max_pause: float):
+    """Shorten every inside-the-line silence longer than max_pause to max_pause."""
+    import numpy as np
+
+    keep = np.ones(len(samples), dtype=bool)
+    for a, b in find_pauses(samples, sample_rate):
+        if b - a > max_pause:
+            # Cut from the middle of the pause so both edges keep their natural decay
+            mid = (a + b) / 2
+            cut = (b - a - max_pause) / 2
+            keep[int((mid - cut) * sample_rate) : int((mid + cut) * sample_rate)] = False
+    return samples[keep]
+
+
+MAX_PAUSE = None  # set from --max-pause
+
+
 def run_kokoro(text: str, out: Path, voice: str, rate: str) -> list:
     import soundfile as sf
     from kokoro_onnx import Kokoro
@@ -190,6 +207,8 @@ def run_kokoro(text: str, out: Path, voice: str, rate: str) -> list:
     kokoro = Kokoro(str(KOKORO_MODEL), str(KOKORO_VOICES))
     speed = 1.0 + int(rate.rstrip("%")) / 100
     samples, sample_rate = kokoro.create(text, voice=voice, speed=speed, lang="en-us")
+    if MAX_PAUSE:
+        samples = compress_pauses(samples, sample_rate, MAX_PAUSE)
     with tempfile.TemporaryDirectory() as tmp:
         wav = Path(tmp) / "voice.wav"
         sf.write(wav, samples, sample_rate)
@@ -250,10 +269,13 @@ def main() -> None:
     ap.add_argument("--voice", help="engine-specific voice id (defaults: %s)" % DEFAULT_VOICES)
     ap.add_argument("--rate", default="+0%", help="speed change, e.g. +10%% or --rate=-5%%")
     ap.add_argument("--pitch", default="+0Hz", help="pitch offset, e.g. --pitch=-2Hz")
+    ap.add_argument("--max-pause", type=float, help="shorten pauses inside the line to this many seconds (local engines)")
     args = ap.parse_args()
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
+    global MAX_PAUSE
+    MAX_PAUSE = args.max_pause
 
     engine = args.engine
     if engine == "auto":

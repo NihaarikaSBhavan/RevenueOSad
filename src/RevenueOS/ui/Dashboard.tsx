@@ -31,10 +31,12 @@ export const Dashboard: React.FC = () => {
   const scanY = -20 + (W.dash.h + 40) * ramp(frame, T.scan, T.scan + SCAN_FRAMES);
   const scanOn = frame >= T.scan - 2 && frame <= T.scan + SCAN_FRAMES + 6;
 
+  // Once the camera follows Priya out, the dashboard steps back like every other station
+  const away = 1 - 0.75 * sp(frame, T.glideChat, 18);
   return (
-    <div style={{ position: "absolute", left: W.dash.x, top: W.dash.y, width: W.dash.w, height: W.dash.h }}>
+    <div style={{ position: "absolute", left: W.dash.x, top: W.dash.y, width: W.dash.w, height: W.dash.h, opacity: away }}>
       {/* Top bar */}
-      <div style={{ position: "absolute", left: 120, top: 70, right: 120, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div style={{ position: "absolute", left: 120, top: 70, right: 120, display: "flex", justifyContent: "space-between", alignItems: "center", opacity: 1 - sp(frame, T.glideChat, 18) }}>
         <div style={{ fontSize: 30, fontWeight: 600, color: C.text }}>{COPY.dashTitle}</div>
         <div style={{ fontFamily: monoStack, fontSize: 34, fontWeight: 500, color: C.textDim }}>{COPY.clock}</div>
       </div>

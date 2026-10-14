@@ -6,6 +6,7 @@ import { sansStack } from "./fonts";
 import { T } from "./timeline";
 import { Background, Grain } from "./ui/Background";
 import { BookingCursor, button, Calendar, MiniPhone, slotY, TodayFeed } from "./ui/Booking";
+import { ActionRail } from "./ui/ActionRail";
 import { ChatPhone } from "./ui/ChatPhone";
 import { Close } from "./ui/Close";
 import { Contact360, FlyingPhrases } from "./ui/Contact360";
@@ -56,6 +57,7 @@ const World: React.FC = () => {
         <CustomerGrid />
         <div style={{ opacity: stations }}>
           <Dashboard />
+          <ActionRail />
           <ChatPhone />
           <Contact360 />
           <TodayFeed />

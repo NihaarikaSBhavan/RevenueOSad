@@ -94,6 +94,32 @@ def whoosh(length: float = 0.55) -> np.ndarray:
     return band * shape
 
 
+def pop() -> np.ndarray:
+    """A soft bubble pop for chat messages and notifications."""
+    n = int(0.07 * SR)
+    t = np.arange(n) / SR
+    f = 650 + 700 * (t / 0.07)
+    return np.sin(2 * np.pi * np.cumsum(f) / SR) * env(n, 0.002, 0.018)
+
+
+def stamp() -> np.ndarray:
+    """A low, short thud for the time stamps."""
+    n = int(0.25 * SR)
+    t = np.arange(n) / SR
+    body = np.sin(2 * np.pi * np.cumsum(90 + 60 * np.exp(-t / 0.02)) / SR) * env(n, 0.001, 0.07)
+    paper = lowpass(rng.standard_normal(n), 3000) * env(n, 0.0005, 0.012)
+    return body + 0.4 * paper
+
+
+def shimmer(length: float = 0.9) -> np.ndarray:
+    """The scan line: a quiet, rising airy sweep."""
+    n = int(length * SR)
+    t = np.arange(n) / SR
+    air = rng.standard_normal(n)
+    band = lowpass(air, 1500 + 6000 * t / length) - lowpass(air, 800 + 3000 * t / length)
+    return band * np.sin(np.pi * t / length) ** 2
+
+
 def riser(length: float) -> np.ndarray:
     n = int(length * SR)
     t = np.arange(n) / SR
@@ -203,10 +229,29 @@ def main() -> None:
     v_lufs = meter.integrated_loudness(voice[int(1.0 * SR): int(26 * SR)])
     m_lufs = meter.integrated_loudness(bed[: int(cut * SR)])
     bed *= 10 ** (((v_lufs - 18) - m_lufs) / 20)
+    # Duck: 18 LU under the voice while it speaks, up 9 dB in the gaps between lines
+    hop = int(0.01 * SR)
+    frames = np.abs(voice[: N // hop * hop]).reshape(-1, hop).max(axis=1)
+    speaking = frames > 0.02
+    # Hold through the short pauses inside a line, and open early before each line
+    hold = int(0.35 / 0.01)
+    spk = np.convolve(speaking.astype(float), np.ones(2 * hold + 1), mode="same") > 0
+    duck = np.repeat(np.where(spk, 1.0, 10 ** (9 / 20)), hop)
+    duck = np.concatenate([duck, np.full(N - len(duck), duck[-1])])
+    k = int(0.25 * SR)  # 250 ms smoothing on every ramp
+    duck = np.convolve(duck, np.ones(k) / k, mode="same")
+    bed *= duck
 
     sfx = np.zeros(N)
     for f in [T["numberSnap"], T["sourceStamp"], T["warmChip"], *T["land"], T["snap"]]:
         place(sfx, tick() * 0.22, t_of(f))
+    for f in [T["msg1"], T["reply1"], T["msgHindi"], T["replyHindi"], T["invite"], T["reminder"], T["thankYou"]]:
+        place(sfx, pop() * 0.16, t_of(f))
+    for f in [T["feedItem"], T["preview"], T["visitDone"], T["nba"], *T["labels"]]:
+        place(sfx, tick() * 0.14, t_of(f))
+    for f in [T["saturday"], T["days30"]]:
+        place(sfx, stamp() * 0.35, t_of(f))
+    place(sfx, shimmer() * 0.08, t_of(T["scan"]))
     for f, gain in [(T["glideChat"], 0.16), (T["glideCalendar"], 0.11), (T["glideGrowth"], 0.11)]:
         place(sfx, whoosh() * gain, t_of(f) - 0.12)
     for f in [T["click1"], T["click2"], T["click3"]]:

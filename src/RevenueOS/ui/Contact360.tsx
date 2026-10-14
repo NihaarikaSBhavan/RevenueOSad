@@ -27,7 +27,7 @@ export const fieldPos = (i: number) => ({ x: W.c360.x + 250, y: W.c360.y + ROW_T
 
 export const score = (frame: number) => {
   // Low damping: the needle overshoots 86 and settles
-  const t = sp(frame, T.gauge, 14, 90, 2.4);
+  const t = sp(frame, T.gauge, 17, 200, 1.6);
   return lerp(54, 86, t);
 };
 
