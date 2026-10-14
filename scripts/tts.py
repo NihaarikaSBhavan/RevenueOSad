@@ -30,12 +30,12 @@ TICKS_PER_SECOND = 10_000_000
 DEFAULT_VOICES = {"edge": "en-US-AriaNeural", "kokoro": "af_heart", "espeak": "en-us"}
 
 
-def run_edge(text: str, out: Path, voice: str, rate: str) -> list:
+def run_edge(text: str, out: Path, voice: str, rate: str, pitch: str = "+0Hz") -> list:
     import edge_tts
 
     async def go() -> list:
         words = []
-        communicate = edge_tts.Communicate(text, voice, rate=rate, boundary="WordBoundary")
+        communicate = edge_tts.Communicate(text, voice, rate=rate, pitch=pitch, boundary="WordBoundary")
         audio = bytearray()
         async for chunk in communicate.stream():
             if chunk["type"] == "audio":
@@ -199,6 +199,21 @@ def finish(tokens: list[str], weights: list[int], samples, sample_rate: int) -> 
     return words
 
 
+def shift_pitch(path: Path, pitch: str) -> None:
+    """Approximate edge-tts's pitch offset (Hz) for local engines; timing is preserved."""
+    hz = float(pitch.rstrip("Hz") or 0)
+    if hz == 0:
+        return
+    factor = 1 + hz / 120  # relative to a typical ~120 Hz speaking voice
+    tmp = path.with_suffix(".pitch.mp3")
+    subprocess.run(
+        ["ffmpeg", "-y", "-loglevel", "error", "-i", str(path), "-af",
+         f"asetrate=44100*{factor},aresample=44100,atempo={1 / factor}", "-b:a", "192k", str(tmp)],
+        check=True,
+    )
+    tmp.replace(path)
+
+
 ENGINES = {"edge": run_edge, "kokoro": run_kokoro, "espeak": run_espeak}
 
 
@@ -208,7 +223,8 @@ def main() -> None:
     ap.add_argument("out")
     ap.add_argument("--engine", choices=["auto", *ENGINES], default="auto")
     ap.add_argument("--voice", help="engine-specific voice id (defaults: %s)" % DEFAULT_VOICES)
-    ap.add_argument("--rate", default="+0%", help="speed change, e.g. +10%% or -5%%")
+    ap.add_argument("--rate", default="+0%", help="speed change, e.g. +10%% or --rate=-5%%")
+    ap.add_argument("--pitch", default="+0Hz", help="pitch offset, e.g. --pitch=-2Hz")
     args = ap.parse_args()
 
     out = Path(args.out)
@@ -217,14 +233,20 @@ def main() -> None:
     engine = args.engine
     if engine == "auto":
         try:
-            words = run_edge(args.text, out, args.voice or DEFAULT_VOICES["edge"], args.rate)
+            words = run_edge(args.text, out, args.voice or DEFAULT_VOICES["edge"], args.rate, args.pitch)
             engine = "edge"
         except Exception as e:  # network blocked, DNS failure, proxy rejection...
             print(f"edge-tts unavailable ({type(e).__name__}); falling back to kokoro", file=sys.stderr)
             engine = "kokoro"
-            words = run_kokoro(args.text, out, DEFAULT_VOICES["kokoro"], args.rate)
+            # Keep a Kokoro voice id if one was given; edge ids look like en-US-AriaNeural
+            voice = args.voice if args.voice and "Neural" not in args.voice else DEFAULT_VOICES["kokoro"]
+            words = run_kokoro(args.text, out, voice, args.rate)
+            shift_pitch(out, args.pitch)
+    elif engine == "edge":
+        words = run_edge(args.text, out, args.voice or DEFAULT_VOICES["edge"], args.rate, args.pitch)
     else:
         words = ENGINES[engine](args.text, out, args.voice or DEFAULT_VOICES[engine], args.rate)
+        shift_pitch(out, args.pitch)
 
     words_path = out.with_suffix(".words.json")
     words_path.write_text(json.dumps(words, indent=2))

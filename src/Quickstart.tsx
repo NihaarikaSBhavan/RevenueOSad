@@ -8,7 +8,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import words from "../public/audio/words.json";
+import words from "../public/audio/quickstart-words.json";
 
 type Word = { text: string; start: number; end: number; beat: number };
 
