@@ -1,90 +1,236 @@
 #!/usr/bin/env python3
-"""Generate a voice line with edge-tts and save word-boundary timestamps.
+"""Generate a voice line and save word-boundary timestamps.
 
 Usage:
-  python3 scripts/tts.py "Your line here" public/audio/name.mp3 [--voice en-US-AriaNeural] [--rate +0%]
+  python3 scripts/tts.py "Your line here" public/audio/name.mp3 [--engine auto] [--voice ...] [--rate +0%]
 
 Writes <name>.mp3 and <name>.words.json ([{text, start, end}] in seconds).
 
---offline uses espeak-ng instead (for networks that block the edge-tts
-WebSocket); word timings are then estimated from character length.
+Engines (all free):
+  edge    Microsoft edge-tts. Exact word timestamps. Needs network access
+          to speech.platform.bing.com (WebSocket).
+  kokoro  Local neural TTS (Kokoro-82M, Apache 2.0). Runs offline after
+          `bash scripts/setup-kokoro.sh`. Word timings are estimated from
+          phoneme counts.
+  espeak  espeak-ng. Robotic; for quick drafts only. Estimated timings.
+  auto    (default) edge, falling back to kokoro if edge can't connect.
 """
 import argparse
 import asyncio
 import json
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
-import edge_tts
-
+ROOT = Path(__file__).resolve().parent.parent
+KOKORO_MODEL = ROOT / "models/kokoro/kokoro-v1.0.onnx"
+KOKORO_VOICES = ROOT / "models/kokoro/voices-v1.0.bin"
 TICKS_PER_SECOND = 10_000_000
+DEFAULT_VOICES = {"edge": "en-US-AriaNeural", "kokoro": "af_heart", "espeak": "en-us"}
 
 
-def offline_tts(text: str, out: Path) -> list:
-    with tempfile.TemporaryDirectory() as tmp:
-        wav = Path(tmp) / "voice.wav"
-        subprocess.run(["espeak-ng", "-v", "en-us", "-s", "160", "-w", str(wav), text], check=True)
-        subprocess.run(
-            ["ffmpeg", "-y", "-loglevel", "error", "-i", str(wav), "-ar", "44100", str(out)],
-            check=True,
-        )
-    duration = float(
-        subprocess.run(
-            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
-             "-of", "default=nw=1:nk=1", str(out)],
-            check=True, capture_output=True, text=True,
-        ).stdout
+def run_edge(text: str, out: Path, voice: str, rate: str) -> list:
+    import edge_tts
+
+    async def go() -> list:
+        words = []
+        communicate = edge_tts.Communicate(text, voice, rate=rate, boundary="WordBoundary")
+        audio = bytearray()
+        async for chunk in communicate.stream():
+            if chunk["type"] == "audio":
+                audio.extend(chunk["data"])
+            elif chunk["type"] == "WordBoundary":
+                start = chunk["offset"] / TICKS_PER_SECOND
+                end = start + chunk["duration"] / TICKS_PER_SECOND
+                words.append({"text": chunk["text"], "start": round(start, 3), "end": round(end, 3)})
+        out.write_bytes(audio)
+        return words
+
+    return asyncio.run(go())
+
+
+def to_mp3(wav: Path, out: Path) -> None:
+    subprocess.run(
+        ["ffmpeg", "-y", "-loglevel", "error", "-i", str(wav), "-ar", "44100", "-b:a", "192k", str(out)],
+        check=True,
     )
-    tokens = text.split()
-    total = sum(len(t) + 1 for t in tokens)
-    words, cursor = [], 0.0
-    for t in tokens:
-        span = duration * (len(t) + 1) / total
-        words.append({"text": t.strip(".,!?;:"), "start": round(cursor, 3), "end": round(cursor + span, 3)})
+
+
+def speech_span(samples, sample_rate: int, threshold: float = 0.01) -> tuple[float, float]:
+    """First and last moments the signal rises above the silence threshold."""
+    import numpy as np
+
+    loud = np.flatnonzero(np.abs(samples) > threshold)
+    if loud.size == 0:
+        return 0.0, len(samples) / sample_rate
+    return loud[0] / sample_rate, loud[-1] / sample_rate
+
+
+def find_pauses(samples, sample_rate: int, threshold: float = 0.01, min_gap: float = 0.06) -> list:
+    """(start, end) of each quiet stretch longer than min_gap, inside the speech."""
+    import numpy as np
+
+    frame = int(sample_rate * 0.01)
+    n = len(samples) // frame
+    loud = np.abs(np.asarray(samples[: n * frame])).reshape(n, frame).max(axis=1) > threshold
+    pauses, run_start = [], None
+    for i, is_loud in enumerate(loud):
+        if not is_loud and run_start is None:
+            run_start = i
+        elif is_loud and run_start is not None:
+            if run_start > 0 and (i - run_start) * 0.01 >= min_gap:
+                pauses.append((run_start * 0.01, i * 0.01))
+            run_start = None
+    return pauses
+
+
+def align(guesses: list[float], pauses: list, marks: list[str]) -> list[tuple[int, int]]:
+    """Pair clause breaks with pauses, in order, at least total cost.
+
+    Cost is the distance between a break's guessed time and the pause. A break
+    with no pause is cheap for a comma and dearer for a full stop; a pause with
+    no punctuation is dearest, since speech rarely stops mid-phrase.
+    """
+    m, n = len(guesses), len(pauses)
+    skip_break = [0.8 if mark in ".!?" else 0.25 for mark in marks]
+    skip_pause = 0.6
+    inf = float("inf")
+    cost = [[inf] * (n + 1) for _ in range(m + 1)]
+    move = [[None] * (n + 1) for _ in range(m + 1)]
+    cost[0][0] = 0.0
+    for c in range(m + 1):
+        for p in range(n + 1):
+            here = cost[c][p]
+            if here == inf:
+                continue
+            steps = []
+            if c < m:
+                steps.append((c + 1, p, skip_break[c], None))
+            if p < n:
+                steps.append((c, p + 1, skip_pause, None))
+            if c < m and p < n:
+                mid = (pauses[p][0] + pauses[p][1]) / 2
+                steps.append((c + 1, p + 1, abs(guesses[c] - mid), (c, p)))
+            for nc, np_, step, pair in steps:
+                if here + step < cost[nc][np_]:
+                    cost[nc][np_] = here + step
+                    move[nc][np_] = (c, p, pair)
+    pairs, c, p = [], m, n
+    while (c, p) != (0, 0):
+        c, p, pair = move[c][p]
+        if pair:
+            pairs.append(pair)
+    return pairs[::-1]
+
+
+def time_words(tokens: list[str], weights: list[int], samples, sample_rate: int) -> list:
+    """Estimate word times: snap clause ends (punctuation) to real pauses, spread the rest by weight."""
+    start, end = speech_span(samples, sample_rate)
+    pauses = find_pauses(samples, sample_rate)
+    clause_ends = [i for i, t in enumerate(tokens[:-1]) if t[-1:] in ",.!?;:"]
+
+    # Where each clause break would fall with a plain proportional spread
+    total = sum(weights)
+    guesses = [start + (end - start) * sum(weights[: i + 1]) / total for i in clause_ends]
+    bounds = [(clause_ends[c], *pauses[p]) for c, p in align(guesses, pauses, [tokens[i][-1] for i in clause_ends])]
+
+    words, seg_start, first = [], start, 0
+    for i, pause_start, pause_end in [*bounds, (len(tokens) - 1, end, end)]:
+        words += spread_words(tokens[first : i + 1], weights[first : i + 1], seg_start, pause_start)
+        seg_start, first = pause_end, i + 1
+    return words
+
+
+def spread_words(tokens: list[str], weights: list[int], start: float, end: float) -> list:
+    total = sum(weights)
+    words, cursor = [], start
+    for token, weight in zip(tokens, weights):
+        span = (end - start) * weight / total
+        words.append({"text": token, "start": round(cursor, 3), "end": round(cursor + span, 3)})
         cursor += span
     return words
 
 
-async def main() -> None:
+def clean(token: str) -> str:
+    return token.strip(".,!?;:\"'()")
+
+
+def run_kokoro(text: str, out: Path, voice: str, rate: str) -> list:
+    import soundfile as sf
+    from kokoro_onnx import Kokoro
+
+    if not KOKORO_MODEL.exists():
+        sys.exit("Kokoro model missing. Run: bash scripts/setup-kokoro.sh")
+    kokoro = Kokoro(str(KOKORO_MODEL), str(KOKORO_VOICES))
+    speed = 1.0 + int(rate.rstrip("%")) / 100
+    samples, sample_rate = kokoro.create(text, voice=voice, speed=speed, lang="en-us")
+    with tempfile.TemporaryDirectory() as tmp:
+        wav = Path(tmp) / "voice.wav"
+        sf.write(wav, samples, sample_rate)
+        to_mp3(wav, out)
+
+    # Weight each word by its phoneme count (plus one for the gap after it)
+    tokens = text.split()
+    weights = [
+        len(kokoro.tokenizer.phonemize(clean(t) or t, "en-us").replace(" ", "")) + 1 for t in tokens
+    ]
+    return finish(tokens, weights, samples, sample_rate)
+
+
+def run_espeak(text: str, out: Path, voice: str, rate: str) -> list:
+    import numpy as np
+    import soundfile as sf
+
+    words_per_min = int(160 * (1.0 + int(rate.rstrip("%")) / 100))
+    with tempfile.TemporaryDirectory() as tmp:
+        wav = Path(tmp) / "voice.wav"
+        subprocess.run(["espeak-ng", "-v", voice, "-s", str(words_per_min), "-w", str(wav), text], check=True)
+        samples, sample_rate = sf.read(wav)
+        to_mp3(wav, out)
+    tokens = text.split()
+    return finish(tokens, [len(t) + 1 for t in tokens], np.asarray(samples), sample_rate)
+
+
+def finish(tokens: list[str], weights: list[int], samples, sample_rate: int) -> list:
+    words = time_words(tokens, weights, samples, sample_rate)
+    for w in words:
+        w["text"] = clean(w["text"]) or w["text"]
+    return words
+
+
+ENGINES = {"edge": run_edge, "kokoro": run_kokoro, "espeak": run_espeak}
+
+
+def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("text")
     ap.add_argument("out")
-    ap.add_argument("--voice", default="en-US-AriaNeural")
-    ap.add_argument("--rate", default="+0%")
-    ap.add_argument("--offline", action="store_true")
+    ap.add_argument("--engine", choices=["auto", *ENGINES], default="auto")
+    ap.add_argument("--voice", help="engine-specific voice id (defaults: %s)" % DEFAULT_VOICES)
+    ap.add_argument("--rate", default="+0%", help="speed change, e.g. +10%% or -5%%")
     args = ap.parse_args()
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
+
+    engine = args.engine
+    if engine == "auto":
+        try:
+            words = run_edge(args.text, out, args.voice or DEFAULT_VOICES["edge"], args.rate)
+            engine = "edge"
+        except Exception as e:  # network blocked, DNS failure, proxy rejection...
+            print(f"edge-tts unavailable ({type(e).__name__}); falling back to kokoro", file=sys.stderr)
+            engine = "kokoro"
+            words = run_kokoro(args.text, out, DEFAULT_VOICES["kokoro"], args.rate)
+    else:
+        words = ENGINES[engine](args.text, out, args.voice or DEFAULT_VOICES[engine], args.rate)
+
     words_path = out.with_suffix(".words.json")
-    if args.offline:
-        words = offline_tts(args.text, out)
-        words_path.write_text(json.dumps(words, indent=2))
-        print(f"wrote {out} and {words_path} ({len(words)} words, estimated timings)")
-        return
-
-    words = []
-    communicate = edge_tts.Communicate(
-        args.text, args.voice, rate=args.rate, boundary="WordBoundary"
-    )
-    with out.open("wb") as f:
-        async for chunk in communicate.stream():
-            if chunk["type"] == "audio":
-                f.write(chunk["data"])
-            elif chunk["type"] == "WordBoundary":
-                start = chunk["offset"] / TICKS_PER_SECOND
-                words.append(
-                    {
-                        "text": chunk["text"],
-                        "start": round(start, 3),
-                        "end": round(start + chunk["duration"] / TICKS_PER_SECOND, 3),
-                    }
-                )
-
     words_path.write_text(json.dumps(words, indent=2))
-    print(f"wrote {out} and {words_path} ({len(words)} words)")
+    timing = "exact" if engine == "edge" else "estimated"
+    print(f"[{engine}] wrote {out} and {words_path} ({len(words)} words, {timing} timings)")
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()

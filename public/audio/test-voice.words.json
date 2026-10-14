@@ -1,22 +1,22 @@
 [
   {
     "text": "Your",
-    "start": 0.0,
-    "end": 0.373
+    "start": 0.056,
+    "end": 0.245
   },
   {
     "text": "revenue",
-    "start": 0.373,
-    "end": 1.045
+    "start": 0.245,
+    "end": 0.72
   },
   {
     "text": "on",
-    "start": 1.045,
-    "end": 1.269
+    "start": 0.86,
+    "end": 1.057
   },
   {
     "text": "autopilot",
-    "start": 1.269,
-    "end": 2.09
+    "start": 1.057,
+    "end": 1.744
   }
 ]

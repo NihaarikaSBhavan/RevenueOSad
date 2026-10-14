@@ -7,11 +7,14 @@ This folder is a video ad studio. Follow these rules for every ad.
 - **Video = Remotion** (TypeScript, React). Compositions live in `src/` and are registered in `src/Root.tsx`. Use the Remotion skills in `.claude/skills/` (start with `remotion-best-practices`).
 - **Voice = edge-tts**, with word-boundary timestamps saved as JSON next to the audio:
   ```bash
-  python3 scripts/tts.py "Line to speak" public/audio/<name>.mp3 --voice en-US-AriaNeural
+  python3 scripts/tts.py "Line to speak" public/audio/<name>.mp3
   # -> public/audio/<name>.mp3 + public/audio/<name>.words.json  ([{text, start, end}] in seconds)
   ```
   Drive captions and word-synced animation from the `.words.json` file. Add the frame the voice `<Sequence>` starts on to each word's time.
-  If the network blocks edge-tts (e.g. a sandboxed cloud container), add `--offline` to use espeak-ng with estimated timings in the same JSON format. Use this only for drafts and tests.
+  - `--engine auto` (default): edge-tts, falling back to **Kokoro** (free, local, Apache 2.0) when the network blocks edge-tts (as in sandboxed cloud containers).
+  - `--engine kokoro --voice af_heart` forces Kokoro. Good voices: `af_heart`, `af_bella`, `af_nicole`, `am_michael`, `am_fenrir`, `bf_emma`, `bm_george`. Its word timings are estimated (phoneme counts, snapped to real pauses), so check caption sync in a still.
+  - `--engine espeak` is robotic; drafts only. `--rate +10%` speeds up any engine.
+  - First-time Kokoro setup (~350 MB model, git-ignored): `bash scripts/setup-kokoro.sh`
 - **Sound = SFX from `/public/sfx`** (or generated with ffmpeg, e.g. filtered noise for whooshes) **plus a soft music bed** (keep it low, around volume 0.1–0.15, under the voice).
 
 ## Assets
@@ -34,5 +37,5 @@ This folder is a video ad studio. Follow these rules for every ad.
 
 ## Tools
 
-- Node 18+ (Remotion 4), ffmpeg, Python 3 + edge-tts.
+- Node 18+ (Remotion 4), ffmpeg, Python 3 (`pip install -r requirements.txt`): edge-tts, kokoro-onnx.
 - `npm run dev` opens Remotion Studio. `npm run lint` type-checks.
