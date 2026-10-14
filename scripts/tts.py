@@ -27,6 +27,8 @@ ROOT = Path(__file__).resolve().parent.parent
 KOKORO_MODEL = ROOT / "models/kokoro/kokoro-v1.0.onnx"
 KOKORO_VOICES = ROOT / "models/kokoro/voices-v1.0.bin"
 TICKS_PER_SECOND = 10_000_000
+# Stress and length marks in phoneme strings aren't sounds of their own
+NOT_SOUNDS = str.maketrans("", "", " ˈˌː")
 DEFAULT_VOICES = {"edge": "en-US-AriaNeural", "kokoro": "af_heart", "espeak": "en-us"}
 
 
@@ -89,11 +91,11 @@ def align(guesses: list[float], pauses: list, marks: list[str]) -> list[tuple[in
     """Pair clause breaks with pauses, in order, at least total cost.
 
     Cost is the distance between a break's guessed time and the pause. A break
-    with no pause is cheap for a comma and dearer for a full stop; a pause with
-    no punctuation is dearest, since speech rarely stops mid-phrase.
+    with no pause is free between plain words, cheap for a comma and dearer for
+    a full stop; a pause matching no break costs most.
     """
     m, n = len(guesses), len(pauses)
-    skip_break = [0.8 if mark in ".!?" else 0.25 for mark in marks]
+    skip_break = [0.8 if mark in ".!?" else 0.25 if mark in ",;:" else 0.0 for mark in marks]
     skip_pause = 0.6
     inf = float("inf")
     cost = [[inf] * (n + 1) for _ in range(m + 1)]
@@ -111,7 +113,9 @@ def align(guesses: list[float], pauses: list, marks: list[str]) -> list[tuple[in
                 steps.append((c, p + 1, skip_pause, None))
             if c < m and p < n:
                 mid = (pauses[p][0] + pauses[p][1]) / 2
-                steps.append((c + 1, p + 1, abs(guesses[c] - mid), (c, p)))
+                # Long pauses belong at punctuation, not between plain words
+                long_at_plain = 0.4 if marks[c] not in ".!?,;:" and pauses[p][1] - pauses[p][0] > 0.2 else 0.0
+                steps.append((c + 1, p + 1, abs(guesses[c] - mid) + long_at_plain, (c, p)))
             for nc, np_, step, pair in steps:
                 if here + step < cost[nc][np_]:
                     cost[nc][np_] = here + step
@@ -125,20 +129,38 @@ def align(guesses: list[float], pauses: list, marks: list[str]) -> list[tuple[in
 
 
 def time_words(tokens: list[str], weights: list[int], samples, sample_rate: int) -> list:
-    """Estimate word times: snap clause ends (punctuation) to real pauses, spread the rest by weight."""
+    """Estimate word times: snap word gaps to real pauses (punctuation first), spread the rest by weight."""
     start, end = speech_span(samples, sample_rate)
-    pauses = find_pauses(samples, sample_rate)
-    clause_ends = [i for i, t in enumerate(tokens[:-1]) if t[-1:] in ",.!?;:"]
+    # A stop consonant inside the final word reads as a pause; ignore the tail
+    pauses = [p for p in find_pauses(samples, sample_rate) if p[1] < end - 0.2]
+    # Every gap between words may hold a pause; punctuated gaps are expected to
+    clause_ends = list(range(len(tokens) - 1))
 
     # Where each clause break would fall with a plain proportional spread
     total = sum(weights)
     guesses = [start + (end - start) * sum(weights[: i + 1]) / total for i in clause_ends]
     bounds = [(clause_ends[c], *pauses[p]) for c, p in align(guesses, pauses, [tokens[i][-1] for i in clause_ends])]
 
-    words, seg_start, first = [], start, 0
-    for i, pause_start, pause_end in [*bounds, (len(tokens) - 1, end, end)]:
-        words += spread_words(tokens[first : i + 1], weights[first : i + 1], seg_start, pause_start)
-        seg_start, first = pause_end, i + 1
+    # Drop any snap that would squeeze words below a plausible length, then re-spread
+    min_per_weight = 0.04  # seconds per phoneme (or character) of weight
+    while True:
+        segments, seg_start, first = [], start, 0
+        for k, (i, pause_start, pause_end) in enumerate([*bounds, (len(tokens) - 1, end, end)]):
+            segments.append((k, first, i, seg_start, pause_start))
+            seg_start, first = pause_end, i + 1
+        tight = [k for k, a, b, t0, t1 in segments if t1 - t0 < min_per_weight * sum(weights[a : b + 1])]
+        if not tight or not bounds:
+            break
+        # Of the snaps on either side of the squeezed stretch, drop the weaker one:
+        # an unpunctuated gap before a punctuated one, then the shorter pause
+        k = tight[0]
+        sides = [j for j in (k - 1, k) if 0 <= j < len(bounds)]
+        strength = lambda j: (tokens[bounds[j][0]][-1:] in ".!?,;:", bounds[j][2] - bounds[j][1])
+        bounds.pop(min(sides, key=strength))
+
+    words = []
+    for _, a, b, t0, t1 in segments:
+        words += spread_words(tokens[a : b + 1], weights[a : b + 1], t0, t1)
     return words
 
 
@@ -173,7 +195,7 @@ def run_kokoro(text: str, out: Path, voice: str, rate: str) -> list:
     # Weight each word by its phoneme count (plus one for the gap after it)
     tokens = text.split()
     weights = [
-        len(kokoro.tokenizer.phonemize(clean(t) or t, "en-us").replace(" ", "")) + 1 for t in tokens
+        len(kokoro.tokenizer.phonemize(clean(t) or t, "en-us").translate(NOT_SOUNDS)) + 1 for t in tokens
     ]
     return finish(tokens, weights, samples, sample_rate)
 

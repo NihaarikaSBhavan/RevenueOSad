@@ -2,281 +2,281 @@
   {
     "vo": 1,
     "text": "You",
-    "start_ms": 1145,
-    "end_ms": 1362,
-    "frame": 35
+    "start_ms": 1042,
+    "end_ms": 1200,
+    "frame": 32
   },
   {
     "vo": 1,
     "text": "paid",
-    "start_ms": 1362,
-    "end_ms": 1688,
-    "frame": 41
+    "start_ms": 1280,
+    "end_ms": 1730,
+    "frame": 39
   },
   {
     "vo": 1,
     "text": "for",
-    "start_ms": 1688,
-    "end_ms": 1959,
-    "frame": 51
+    "start_ms": 1840,
+    "end_ms": 2062,
+    "frame": 56
   },
   {
     "vo": 1,
     "text": "every",
-    "start_ms": 1959,
-    "end_ms": 2284,
-    "frame": 59
+    "start_ms": 2062,
+    "end_ms": 2338,
+    "frame": 62
   },
   {
     "vo": 1,
     "text": "lead",
-    "start_ms": 2284,
-    "end_ms": 2610,
-    "frame": 69
+    "start_ms": 2338,
+    "end_ms": 2560,
+    "frame": 71
   },
   {
     "vo": 1,
     "text": "Most",
-    "start_ms": 3020,
-    "end_ms": 3366,
-    "frame": 91
+    "start_ms": 2840,
+    "end_ms": 3233,
+    "frame": 86
   },
   {
     "vo": 1,
     "text": "of",
-    "start_ms": 3366,
-    "end_ms": 3514,
-    "frame": 101
+    "start_ms": 3233,
+    "end_ms": 3430,
+    "frame": 97
   },
   {
     "vo": 1,
     "text": "them",
-    "start_ms": 3514,
-    "end_ms": 3761,
-    "frame": 106
+    "start_ms": 3430,
+    "end_ms": 3692,
+    "frame": 103
   },
   {
     "vo": 1,
     "text": "never",
-    "start_ms": 3761,
-    "end_ms": 4057,
-    "frame": 113
+    "start_ms": 3692,
+    "end_ms": 4020,
+    "frame": 111
   },
   {
     "vo": 1,
     "text": "heard",
-    "start_ms": 4057,
-    "end_ms": 4353,
-    "frame": 122
+    "start_ms": 4020,
+    "end_ms": 4282,
+    "frame": 121
   },
   {
     "vo": 1,
     "text": "back",
-    "start_ms": 4353,
-    "end_ms": 4600,
-    "frame": 131
+    "start_ms": 4282,
+    "end_ms": 4545,
+    "frame": 129
   },
   {
     "vo": 2,
     "text": "Revenue",
-    "start_ms": 11176,
-    "end_ms": 11767,
-    "frame": 336
+    "start_ms": 11039,
+    "end_ms": 11580,
+    "frame": 332
   },
   {
     "vo": 2,
     "text": "OS",
-    "start_ms": 11767,
-    "end_ms": 12182,
-    "frame": 354
+    "start_ms": 11680,
+    "end_ms": 12090,
+    "frame": 351
   },
   {
     "vo": 2,
     "text": "works",
-    "start_ms": 12182,
-    "end_ms": 12596,
-    "frame": 366
+    "start_ms": 12090,
+    "end_ms": 12500,
+    "frame": 363
   },
   {
     "vo": 2,
     "text": "every",
-    "start_ms": 12596,
-    "end_ms": 12951,
-    "frame": 378
+    "start_ms": 12560,
+    "end_ms": 12954,
+    "frame": 377
   },
   {
     "vo": 2,
     "text": "lead",
-    "start_ms": 12951,
-    "end_ms": 13306,
+    "start_ms": 12954,
+    "end_ms": 13270,
     "frame": 389
   },
   {
     "vo": 2,
     "text": "books",
-    "start_ms": 13306,
-    "end_ms": 13662,
-    "frame": 400
+    "start_ms": 13560,
+    "end_ms": 13891,
+    "frame": 407
   },
   {
     "vo": 2,
     "text": "every",
-    "start_ms": 13662,
-    "end_ms": 14017,
-    "frame": 410
+    "start_ms": 13891,
+    "end_ms": 14223,
+    "frame": 417
   },
   {
     "vo": 2,
     "text": "visit",
-    "start_ms": 14017,
-    "end_ms": 14431,
-    "frame": 421
+    "start_ms": 14223,
+    "end_ms": 14620,
+    "frame": 427
   },
   {
     "vo": 2,
     "text": "and",
-    "start_ms": 14431,
-    "end_ms": 14668,
-    "frame": 433
+    "start_ms": 14880,
+    "end_ms": 15130,
+    "frame": 447
   },
   {
     "vo": 2,
     "text": "grows",
-    "start_ms": 14668,
-    "end_ms": 15082,
-    "frame": 441
+    "start_ms": 15130,
+    "end_ms": 15506,
+    "frame": 454
   },
   {
     "vo": 2,
     "text": "every",
-    "start_ms": 15082,
-    "end_ms": 15437,
-    "frame": 453
+    "start_ms": 15506,
+    "end_ms": 15819,
+    "frame": 466
   },
   {
     "vo": 2,
     "text": "customer",
-    "start_ms": 15437,
-    "end_ms": 15970,
-    "frame": 464
+    "start_ms": 15819,
+    "end_ms": 16320,
+    "frame": 475
   },
   {
     "vo": 2,
     "text": "In",
-    "start_ms": 16520,
-    "end_ms": 16731,
-    "frame": 496
+    "start_ms": 16750,
+    "end_ms": 16928,
+    "frame": 503
   },
   {
     "vo": 2,
     "text": "their",
-    "start_ms": 16731,
-    "end_ms": 16942,
-    "frame": 502
+    "start_ms": 16928,
+    "end_ms": 17166,
+    "frame": 508
   },
   {
     "vo": 2,
     "text": "language",
-    "start_ms": 16942,
-    "end_ms": 17470,
-    "frame": 509
+    "start_ms": 17166,
+    "end_ms": 17700,
+    "frame": 515
   },
   {
     "vo": 2,
     "text": "At",
-    "start_ms": 17860,
-    "end_ms": 18012,
-    "frame": 536
+    "start_ms": 18000,
+    "end_ms": 18157,
+    "frame": 540
   },
   {
     "vo": 2,
     "text": "the",
-    "start_ms": 18012,
-    "end_ms": 18163,
-    "frame": 541
-  },
-  {
-    "vo": 2,
-    "text": "right",
-    "start_ms": 18163,
-    "end_ms": 18466,
+    "start_ms": 18157,
+    "end_ms": 18315,
     "frame": 545
   },
   {
     "vo": 2,
+    "text": "right",
+    "start_ms": 18315,
+    "end_ms": 18577,
+    "frame": 550
+  },
+  {
+    "vo": 2,
     "text": "moment",
-    "start_ms": 18466,
-    "end_ms": 18921,
-    "frame": 554
+    "start_ms": 18577,
+    "end_ms": 18997,
+    "frame": 558
   },
   {
     "vo": 3,
     "text": "Your",
-    "start_ms": 24061,
-    "end_ms": 24285,
-    "frame": 722
+    "start_ms": 21338,
+    "end_ms": 21623,
+    "frame": 641
   },
   {
     "vo": 3,
     "text": "CRM",
-    "start_ms": 24285,
-    "end_ms": 25013,
-    "frame": 729
+    "start_ms": 21623,
+    "end_ms": 22195,
+    "frame": 649
   },
   {
     "vo": 3,
     "text": "records",
-    "start_ms": 25013,
-    "end_ms": 25462,
-    "frame": 751
+    "start_ms": 22195,
+    "end_ms": 22695,
+    "frame": 666
   },
   {
     "vo": 3,
     "text": "what",
-    "start_ms": 25462,
-    "end_ms": 25742,
-    "frame": 764
+    "start_ms": 22695,
+    "end_ms": 22980,
+    "frame": 681
   },
   {
     "vo": 3,
     "text": "happened",
-    "start_ms": 25742,
-    "end_ms": 26190,
-    "frame": 773
+    "start_ms": 22980,
+    "end_ms": 23480,
+    "frame": 690
   },
   {
     "vo": 3,
     "text": "Revenue",
-    "start_ms": 26660,
-    "end_ms": 27189,
-    "frame": 800
+    "start_ms": 23900,
+    "end_ms": 24390,
+    "frame": 718
   },
   {
     "vo": 3,
     "text": "OS",
-    "start_ms": 27189,
-    "end_ms": 27560,
-    "frame": 816
+    "start_ms": 24510,
+    "end_ms": 24842,
+    "frame": 736
   },
   {
     "vo": 3,
     "text": "makes",
-    "start_ms": 27560,
-    "end_ms": 27930,
-    "frame": 827
+    "start_ms": 24842,
+    "end_ms": 25242,
+    "frame": 746
   },
   {
     "vo": 3,
     "text": "it",
-    "start_ms": 27930,
-    "end_ms": 28089,
-    "frame": 838
+    "start_ms": 25242,
+    "end_ms": 25441,
+    "frame": 758
   },
   {
     "vo": 3,
     "text": "happen",
-    "start_ms": 28089,
-    "end_ms": 28459,
-    "frame": 843
+    "start_ms": 25441,
+    "end_ms": 25840,
+    "frame": 764
   }
 ]
