@@ -58,7 +58,7 @@ export const T = {
   days30: 616,
   glideGrowth: 614,
   nba: 630,
-  revenue: 636,
+  revenue: 648,
   churnFlag: 644,
   retention: 654,
   labels: [650, 661, 672],

@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { useCurrentFrame } from "remotion";
-import { sp } from "../anim";
+import { lerp, sp } from "../anim";
 import { monoStack, sansStack } from "../fonts";
 import { C, glass } from "../theme";
 
@@ -105,3 +105,45 @@ export const Cursor: React.FC<{ x: number; y: number; pressed: number; opacity: 
     </svg>
   </div>
 );
+
+/** A pulse of the OS carrying an action from one element to the one it gives birth to. */
+export const Streak: React.FC<{ at: number; from: { x: number; y: number }; to: { x: number; y: number }; color?: string }> = ({
+  at,
+  from,
+  to,
+  color = C.blue,
+}) => {
+  const frame = useCurrentFrame();
+  if (frame < at || frame > at + 26) return null;
+  const head = sp(frame, at, 18, 140);
+  const arc = Math.hypot(to.x - from.x, to.y - from.y) * 0.18;
+  const point = (t: number) => ({
+    x: lerp(from.x, to.x, t),
+    y: lerp(from.y, to.y, t) - Math.sin(Math.PI * t) * arc,
+  });
+  const fade = head > 0.97 ? Math.max(0, 1 - (frame - at - 14) / 8) : 1;
+  return (
+    <>
+      {[0, 0.05, 0.1, 0.16, 0.23].map((lag, i) => {
+        const p = point(Math.max(0, head - lag));
+        const r = 11 - i * 2;
+        return (
+          <div
+            key={i}
+            style={{
+              position: "absolute",
+              left: p.x - r,
+              top: p.y - r,
+              width: r * 2,
+              height: r * 2,
+              borderRadius: 99,
+              background: color,
+              opacity: (1 - i * 0.18) * fade,
+              boxShadow: i === 0 ? `0 0 28px 8px ${color}99` : undefined,
+            }}
+          />
+        );
+      })}
+    </>
+  );
+};

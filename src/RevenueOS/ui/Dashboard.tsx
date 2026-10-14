@@ -1,4 +1,4 @@
-import { interpolate, useCurrentFrame } from "remotion";
+import { useCurrentFrame } from "remotion";
 import { mixColor, ramp, sp } from "../anim";
 import { COPY } from "../copy";
 import { monoStack } from "../fonts";
@@ -28,10 +28,7 @@ export const Dashboard: React.FC = () => {
   const frame = useCurrentFrame();
   const count = 1247 + T.counter.filter((f) => frame >= f).length - 1;
   const bump = Math.max(...T.counter.map((f) => (frame >= f ? 1 - sp(frame, f, 14) : 0)));
-  const scanY = interpolate(frame, [T.scan, T.scan + SCAN_FRAMES], [-20, W.dash.h + 20], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+  const scanY = -20 + (W.dash.h + 40) * ramp(frame, T.scan, T.scan + SCAN_FRAMES);
   const scanOn = frame >= T.scan - 2 && frame <= T.scan + SCAN_FRAMES + 6;
 
   return (

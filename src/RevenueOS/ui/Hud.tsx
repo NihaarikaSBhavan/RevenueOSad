@@ -1,4 +1,4 @@
-import { interpolate, useCurrentFrame } from "remotion";
+import { useCurrentFrame } from "remotion";
 import { lerp, ramp, sp } from "../anim";
 import { COPY } from "../copy";
 import { monoStack, sansStack } from "../fonts";
@@ -16,7 +16,7 @@ export const ClickCounter: React.FC = () => {
   const clicks = [T.click1, T.click2, T.click3];
   const n = clicks.filter((c) => frame >= c).length;
   if (n === 0) return null;
-  const bump = 1 - sp(frame, clicks[n - 1], 12);
+  const bump = 1 - sp(frame, clicks[n - 1], 14, 200);
   const vis = 1 - ramp(frame, T.days30 + 4, T.days30 + 16);
   const locked = frame >= T.lock;
   const lockT = sp(frame, T.lock, 16);
@@ -89,7 +89,8 @@ export const Captions: React.FC = () => {
     const ws = all.filter((w) => w.vo === vo);
     return frame >= ws[0].frame && frame < Math.ceil((ws[ws.length - 1].end_ms / 1000) * 30) + 18;
   });
-  if (!line) return null;
+  // The end card lands in silence: no captions from the first drumbeat on
+  if (!line || frame >= T.endCard1) return null;
   const ws = all.filter((w) => w.vo === line);
   // Long lines are split at sentence ends so the caption stays on two lines at most
   return (
@@ -136,7 +137,7 @@ export const AuditLog: React.FC = () => {
   const v = windowed(frame, T.pullBack + 2, T.dissolve);
   if (v <= 0) return null;
   // Scrolls continuously: a new entry every 3 frames
-  const scroll = interpolate(frame, [T.pullBack, T.dissolve], [0, COPY.audit.length - 6], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const scroll = ramp(frame, T.pullBack, T.dissolve) * (COPY.audit.length - 6);
   return (
     <div style={{ ...glass, background: "rgba(5,18,52,0.88)", position: "absolute", right: 80, top: 300, width: 600, height: 470, padding: 28, opacity: v, overflow: "hidden", color: C.text, translate: `${30 * (1 - v)}px 0px` }}>
       <div style={{ fontFamily: sansStack, fontSize: 15, letterSpacing: 2.4, textTransform: "uppercase", color: C.textDim, fontWeight: 600 }}>{COPY.auditLabel}</div>

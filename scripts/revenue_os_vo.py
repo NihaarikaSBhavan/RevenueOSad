@@ -2,7 +2,7 @@
 """Build the Revenue OS 30s voiceover: three lines, placed on the timeline, one word file.
 
 Usage:
-  python3 scripts/revenue_os_vo.py                       # Kokoro hm_omega (sandbox default)
+  python3 scripts/revenue_os_vo.py                       # Kokoro am_michael (sandbox default)
   python3 scripts/revenue_os_vo.py --engine edge --voice en-IN-PrabhatNeural   # the brief's voice
 
 Writes public/audio/revenue-os-vo.mp3 (30s) and public/audio/words.json:
@@ -30,7 +30,7 @@ LINES = [
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--engine", default="kokoro")
-    ap.add_argument("--voice", default="hm_omega")
+    ap.add_argument("--voice", default="am_michael")
     ap.add_argument("--rate", default="-8%")
     ap.add_argument("--pitch", default="-2Hz")
     args = ap.parse_args()

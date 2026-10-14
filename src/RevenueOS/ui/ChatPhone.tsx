@@ -96,8 +96,9 @@ export const PhoneFrame: React.FC<{ x: number; y: number; w: number; h: number; 
 export const ChatPhone: React.FC = () => {
   const frame = useCurrentFrame();
   const glow = sp(frame, T.glideChat + 10, 18);
+  const lit = 0.3 + 0.7 * sp(frame, T.glideChat + 6, 16);
   return (
-    <>
+    <div style={{ opacity: lit }}>
       <PhoneFrame x={W.phone.x} y={W.phone.y} w={W.phone.w} h={W.phone.h} title={COPY.chatHeader} sub={COPY.chatSub} glow={glow}>
         <Bubble at={T.msg1}>{COPY.msg1}</Bubble>
         <Typing from={T.typing} to={T.reply1} />
@@ -129,6 +130,6 @@ export const ChatPhone: React.FC = () => {
           {COPY.chip247}
         </Chip>
       </Appear>
-    </>
+    </div>
   );
 };

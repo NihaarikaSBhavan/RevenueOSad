@@ -1,4 +1,4 @@
-import { interpolate, useCurrentFrame } from "remotion";
+import { useCurrentFrame } from "remotion";
 import { mixColor, ramp, sp } from "../anim";
 import { COPY } from "../copy";
 import { monoStack } from "../fonts";
@@ -11,9 +11,9 @@ const G = W.growth;
 
 export const Growth: React.FC = () => {
   const frame = useCurrentFrame();
-  const born = sp(frame, T.glideGrowth + 6, 16);
+  const born = 0.3 + 0.7 * sp(frame, T.glideGrowth + 6, 16);
   const sent = frame >= T.nba + 12;
-  const rev = Math.round(interpolate(sp(frame, T.revenue, 18, 90), [0, 1], [1500, 6500]) / 100) * 100;
+  const rev = Math.round((1500 + 5000 * sp(frame, T.revenue, 18, 90)) / 100) * 100;
   return (
     <div style={{ opacity: born }}>
       {/* Next best action, executed */}

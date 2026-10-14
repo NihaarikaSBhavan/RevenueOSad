@@ -14,7 +14,7 @@ export const Close: React.FC = () => {
     <div style={{ position: "absolute", inset: 0, fontFamily: sansStack, color: C.text }}>
       {title > 0 && (
         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-          <div style={{ fontSize: 150, fontWeight: 600, letterSpacing: 14, opacity: title, scale: String(lerp(0.94, 1, title)) }}>{COPY.title}</div>
+          <div style={{ fontSize: 150, fontWeight: 600, letterSpacing: 14, opacity: title, scale: String(lerp(0.94, 1, title) * (1 + 0.0009 * Math.max(0, frame - T.title))) }}>{COPY.title}</div>
           <div style={{ fontSize: 26, letterSpacing: 4, color: C.textDim, marginTop: 6, opacity: title }}>{COPY.endorsed}</div>
           <div style={{ fontSize: 46, fontWeight: 500, marginTop: 44, opacity: sub, translate: `0px ${16 * (1 - sub)}px` }}>{COPY.subline}</div>
         </div>
@@ -36,7 +36,7 @@ export const Close: React.FC = () => {
 
       {/* End card 2: logo, endorsement line, CTA */}
       {frame >= T.endCard2 && (
-        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", scale: String(1 + 0.0008 * (frame - T.endCard2)) }}>
           <Wordmark t={sp(frame, T.logo, 18)} />
           <div style={{ fontSize: 30, color: C.textDim, marginTop: 30, opacity: sp(frame, T.partOf, 18) }}>{COPY.partOf}</div>
           <div

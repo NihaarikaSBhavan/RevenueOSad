@@ -114,8 +114,11 @@ def align(guesses: list[float], pauses: list, marks: list[str]) -> list[tuple[in
             if c < m and p < n:
                 mid = (pauses[p][0] + pauses[p][1]) / 2
                 # Long pauses belong at punctuation, not between plain words
-                long_at_plain = 0.4 if marks[c] not in ".!?,;:" and pauses[p][1] - pauses[p][0] > 0.2 else 0.0
-                steps.append((c + 1, p + 1, abs(guesses[c] - mid) + long_at_plain, (c, p)))
+                length = pauses[p][1] - pauses[p][0]
+                long_at_plain = 0.4 if marks[c] not in ".!?,;:" and length > 0.2 else 0.0
+                # ...and the longest pauses are sentence ends
+                long_at_stop = -0.3 * min(1.0, length / 0.3) if marks[c] in ".!?" and length > 0.2 else 0.0
+                steps.append((c + 1, p + 1, abs(guesses[c] - mid) + long_at_plain + long_at_stop, (c, p)))
             for nc, np_, step, pair in steps:
                 if here + step < cost[nc][np_]:
                     cost[nc][np_] = here + step

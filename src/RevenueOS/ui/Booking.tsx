@@ -6,6 +6,7 @@ import { C } from "../theme";
 import { T } from "../timeline";
 import { W } from "../world";
 import { Bubble, PhoneFrame } from "./ChatPhone";
+import { fieldPos } from "./Contact360";
 import { Appear, Check, Chip, Cursor, Glass, Label } from "./primitives";
 
 const ITEM_TOP = 104;
@@ -13,14 +14,14 @@ const ITEM_STEP = 214;
 const CLICKS = [T.click1, T.click2, T.click3];
 
 /** World position of each Today Feed item's button. */
-const button = (i: number) => ({ x: W.feed.x + W.feed.w - 120, y: W.feed.y + ITEM_TOP + i * ITEM_STEP + 150 });
+export const button = (i: number) => ({ x: W.feed.x + W.feed.w - 120, y: W.feed.y + ITEM_TOP + i * ITEM_STEP + 150 });
 
 export const TodayFeed: React.FC = () => {
   const frame = useCurrentFrame();
-  const born = sp(frame, T.glideCalendar + 8, 16);
+  const lit = 0.3 + 0.7 * sp(frame, T.glideCalendar + 8, 16);
   const appearAt = [T.feedItem, T.preview, T.visitDone];
   return (
-    <Glass style={{ left: W.feed.x, top: W.feed.y, width: W.feed.w, height: W.feed.h, padding: 30, opacity: born }}>
+    <Glass style={{ left: W.feed.x, top: W.feed.y, width: W.feed.w, height: W.feed.h, padding: 30, opacity: lit }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ fontSize: 30, fontWeight: 600 }}>{COPY.todayFeed}</div>
         <Label style={{ fontSize: 13 }}>Needs a person</Label>
@@ -29,7 +30,7 @@ export const TodayFeed: React.FC = () => {
         const clicked = frame >= CLICKS[i];
         const press = clicked ? sp(frame, CLICKS[i], 14) : 0;
         return (
-          <Appear key={title} at={appearAt[i]} dy={24} style={{ position: "absolute", left: 30, right: 30, top: ITEM_TOP + i * ITEM_STEP }}>
+          <Appear key={title} at={appearAt[i]} dx={70} dy={0} style={{ position: "absolute", left: 30, right: 30, top: ITEM_TOP + i * ITEM_STEP }}>
             <div
               style={{
                 height: ITEM_STEP - 20,
@@ -80,17 +81,19 @@ export const TodayFeed: React.FC = () => {
 const SLOT_TOP = 120;
 const SLOT_H = 70;
 const TIMES = ["9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00"];
-const slotY = (i: number) => W.cal.y + SLOT_TOP + i * SLOT_H;
+export const slotY = (i: number) => W.cal.y + SLOT_TOP + i * SLOT_H;
 
 export const Calendar: React.FC = () => {
   const frame = useCurrentFrame();
-  const born = sp(frame, T.glideCalendar + 4, 16);
+  const born = 0.3 + 0.7 * sp(frame, T.glideCalendar + 4, 16);
+  const field = fieldPos(2);
 
-  // The ask drops into 10:30, collides with the booked slot, shakes, then snaps to 11:00
+  // The ask flies down from her "Preferred time" field into 10:30, collides with the booked slot, shakes, then snaps to 11:00
   const drop = sp(frame, T.askDrop, 15, 160);
   const shake = frame >= T.collide && frame < T.snap ? Math.sin((frame - T.collide) * 2.2) * 14 * Math.exp(-(frame - T.collide) / 7) : 0;
   const snap = sp(frame, T.snap, 14, 170);
-  const askY = frame < T.snap ? lerp(W.cal.y - 260, slotY(3), drop) : lerp(slotY(3), slotY(4), snap);
+  const askX = frame < T.snap ? lerp(field.x, W.cal.x + 120, drop) : W.cal.x + 120;
+  const askY = frame < T.snap ? lerp(field.y, slotY(3), drop) - Math.sin(Math.PI * drop) * 160 : lerp(slotY(3), slotY(4), snap);
   const colliding = frame >= T.collide && frame < T.snap;
   const placed = frame >= T.snap;
   const done = frame >= T.visitDone;
@@ -132,7 +135,7 @@ export const Calendar: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            left: W.cal.x + 120 + shake,
+            left: askX + shake,
             width: W.cal.w - 150,
             top: askY + 6,
             height: SLOT_H - 12,
@@ -141,7 +144,9 @@ export const Calendar: React.FC = () => {
             alignItems: "center",
             justifyContent: "space-between",
             padding: "0 18px",
-            opacity: Math.min(1, drop * 2),
+            opacity: Math.min(1, drop * 3),
+            scale: String(0.6 + 0.4 * Math.min(1, drop)),
+            transformOrigin: "left center",
             background: done ? mixColor(C.blue, C.green, doneT) : placed ? C.blue : "rgba(1,119,255,0.35)",
             border: `1px solid ${colliding ? C.orange : C.blue}`,
             boxShadow: placed ? "0 10px 40px rgba(1,119,255,0.45)" : undefined,
@@ -161,9 +166,9 @@ export const Calendar: React.FC = () => {
 /** Her phone: invite, 24h reminder and the thank-you arrive without anyone sending them. */
 export const MiniPhone: React.FC = () => {
   const frame = useCurrentFrame();
-  const born = sp(frame, T.glideCalendar + 12, 16);
+  const lit = 0.3 + 0.7 * sp(frame, T.invite - 4, 16);
   return (
-    <div style={{ opacity: born }}>
+    <div style={{ opacity: lit }}>
       <PhoneFrame x={W.mini.x} y={W.mini.y} w={W.mini.w} h={W.mini.h} title={COPY.chatHeader} sub={COPY.phoneE164}>
         <Bubble at={T.invite} out time="9:02 AM">
           {COPY.preview}

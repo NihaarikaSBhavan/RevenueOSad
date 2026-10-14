@@ -39,9 +39,11 @@ export const camera = (frame: number): Cam => {
   const cam = { ...START };
   MOVES.forEach((m, i) => {
     const t = progress(frame, m.at, m.damping ?? 17, i);
-    cam.x += (m.to.x - prev.x) * t;
-    cam.y += (m.to.y - prev.y) * t;
-    cam.s += (m.to.s - prev.s) * t;
+    // Anticipation: ease a touch the other way for ~6 frames, then release into the move
+    const wind = i === 0 ? 0 : sp(frame, m.at - 6, 18, 160) - sp(frame, m.at + 2, 18, 160);
+    cam.x += (m.to.x - prev.x) * (t - 0.025 * wind);
+    cam.y += (m.to.y - prev.y) * (t - 0.025 * wind);
+    cam.s += (m.to.s - prev.s) * (t - 0.06 * wind);
     prev = m.to;
   });
   // Breathing drift: the camera is never perfectly still

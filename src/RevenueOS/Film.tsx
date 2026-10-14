@@ -5,7 +5,7 @@ import { COPY } from "./copy";
 import { sansStack } from "./fonts";
 import { T } from "./timeline";
 import { Background, Grain } from "./ui/Background";
-import { BookingCursor, Calendar, MiniPhone, TodayFeed } from "./ui/Booking";
+import { BookingCursor, button, Calendar, MiniPhone, slotY, TodayFeed } from "./ui/Booking";
 import { ChatPhone } from "./ui/ChatPhone";
 import { Close } from "./ui/Close";
 import { Contact360, FlyingPhrases } from "./ui/Contact360";
@@ -13,7 +13,25 @@ import { CustomerGrid } from "./ui/Grid";
 import { Dashboard } from "./ui/Dashboard";
 import { Growth } from "./ui/Growth";
 import { AuditLog, AutonomyDial, Beat, Captions, ClickCounter, MoneyShotDim, Stamp } from "./ui/Hud";
-import { camera } from "./world";
+import { Streak } from "./ui/primitives";
+import { camera, W } from "./world";
+
+/** Each action visibly gives birth to the next element. */
+const Births: React.FC = () => {
+  const priyaCard = { x: 820, y: 190 + 3 * 118 + 49 };
+  const slot11 = { x: W.cal.x + 400, y: slotY(4) + 35 };
+  const miniThread = { x: W.mini.x + 120, y: W.mini.y + 200 };
+  return (
+    <>
+      <Streak at={T.glideChat - 2} from={priyaCard} to={{ x: W.phone.x + 40, y: W.phone.y + 70 }} />
+      <Streak at={T.click1 + 1} from={button(0)} to={slot11} />
+      <Streak at={T.click2 + 1} from={button(1)} to={miniThread} />
+      <Streak at={T.visitDone + 1} from={slot11} to={{ x: W.mini.x + 120, y: W.mini.y + 470 }} />
+      <Streak at={T.glideGrowth + 2} from={{ x: W.mini.x + W.mini.w, y: W.mini.y + 470 }} to={{ x: W.growth.x + 40, y: W.growth.y + 90 }} />
+      <Streak at={T.nba + 12} from={{ x: W.growth.x + 120, y: W.growth.y + 200 }} to={{ x: W.growth.x + 160, y: W.growth.y + 380 }} />
+    </>
+  );
+};
 
 /** Everything the camera travels through. */
 const World: React.FC = () => {
@@ -45,6 +63,7 @@ const World: React.FC = () => {
           <MiniPhone />
           <Growth />
           <FlyingPhrases />
+          <Births />
           <BookingCursor />
         </div>
       </div>
@@ -71,7 +90,8 @@ export const RevenueOSFilm: React.FC = () => {
       <Close />
       <Captions />
       <Grain />
-      <Audio src={staticFile("audio/revenue-os-vo.mp3")} premountFor={fps} />
+      {/* Voice + music + SFX, mixed to -14 LUFS by scripts/revenue_os_sound.py */}
+      <Audio src={staticFile("audio/revenue-os-mix.wav")} premountFor={fps} />
     </AbsoluteFill>
   );
 };

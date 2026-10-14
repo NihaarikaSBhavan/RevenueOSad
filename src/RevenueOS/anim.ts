@@ -1,23 +1,22 @@
-import { interpolate, spring } from "remotion";
+import { spring } from "remotion";
 import { FPS } from "./theme";
 
-/** Spring progress 0→1 starting at `at` (damping kept in the brief's 14–20 range). */
-export const sp = (frame: number, at: number, damping = 16, stiffness = 120) =>
-  spring({ frame: frame - at, fps: FPS, config: { damping, stiffness, mass: 0.9 } });
-
-/** Spring that dips slightly backwards first: anticipation before a big move. */
-export const spAnticipate = (frame: number, at: number, damping = 16) => {
-  const windUp = interpolate(frame, [at - 6, at], [0, -0.06], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  return frame < at ? windUp : -0.06 * (1 - sp(frame, at, 20, 200)) + sp(frame, at, damping);
-};
+/**
+ * Spring progress 0→1 starting at `at`. Damping is held to the brief's 14–20 range;
+ * heavier mass gives more overshoot and follow-through at the same damping.
+ */
+export const sp = (frame: number, at: number, damping = 16, stiffness = 120, mass = 0.9) =>
+  spring({ frame: frame - at, fps: FPS, config: { damping: Math.min(20, Math.max(14, damping)), stiffness, mass } });
 
 export const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
 export const clamp01 = (t: number) => Math.min(1, Math.max(0, t));
 
-/** Linear ramp 0→1 between two frames, clamped. */
+/** 0→1 between two frames, on a critically damped spring stretched to fit (springs only, no linear ramps). */
 export const ramp = (frame: number, from: number, to: number) =>
-  interpolate(frame, [from, to], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  to <= from
+    ? Number(frame >= from)
+    : spring({ frame: frame - from, fps: FPS, config: { damping: 20, stiffness: 100, mass: 1 }, durationInFrames: to - from });
 
 const hex = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
 

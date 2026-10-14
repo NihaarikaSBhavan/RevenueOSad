@@ -22,9 +22,12 @@ export const PHRASES = COPY.fields.map((f, i) => ({
   to: { x: W.c360.x + 250, y: W.c360.y + ROW_TOP + i * ROW_STEP + 42 },
 }));
 
+/** World position of a captured-profile field's value. */
+export const fieldPos = (i: number) => ({ x: W.c360.x + 250, y: W.c360.y + ROW_TOP + i * ROW_STEP + 22 });
+
 export const score = (frame: number) => {
   // Low damping: the needle overshoots 86 and settles
-  const t = sp(frame, T.gauge, 9, 70);
+  const t = sp(frame, T.gauge, 14, 90, 2.4);
   return lerp(54, 86, t);
 };
 
@@ -43,8 +46,11 @@ export const Contact360: React.FC = () => {
         width: W.c360.w,
         height: W.c360.h,
         padding: 36,
-        opacity: born,
-        translate: `${-60 * (1 - born)}px 0px`,
+        // Born from the chat: grows out of the phone's right edge
+        opacity: Math.min(1, born * 2),
+        translate: `${-(W.c360.x - (W.phone.x + W.phone.w)) * (1 - born)}px 0px`,
+        scale: String(0.3 + 0.7 * born),
+        transformOrigin: "left center",
         borderColor: isHot ? mixColor("#3a4560", C.orange, hot) : "rgba(255,255,255,0.12)",
         boxShadow: isHot ? `0 0 ${70 * hot}px rgba(254,119,44,${0.35 * hot}), 0 24px 64px rgba(0,0,0,0.38)` : undefined,
       }}
@@ -87,7 +93,7 @@ export const Contact360: React.FC = () => {
       <Label style={{ position: "absolute", left: 36, top: ROW_TOP - 34, fontSize: 14 }}>{COPY.profileLabel}</Label>
       {COPY.fields.map((f, i) => {
         const filled = sp(frame, T.land[i], 15);
-        const tick = frame >= T.land[i] ? 1 - sp(frame, T.land[i], 12) : 0;
+        const tick = frame >= T.land[i] ? 1 - sp(frame, T.land[i], 14) : 0;
         return (
           <div
             key={f.label}
