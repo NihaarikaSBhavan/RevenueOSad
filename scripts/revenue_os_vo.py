@@ -1,0 +1,75 @@
+#!/usr/bin/env python3
+"""Build the Revenue OS 30s voiceover: three lines, placed on the timeline, one word file.
+
+Usage:
+  python3 scripts/revenue_os_vo.py                       # Kokoro hm_omega (sandbox default)
+  python3 scripts/revenue_os_vo.py --engine edge --voice en-IN-PrabhatNeural   # the brief's voice
+
+Writes public/audio/revenue-os-vo.mp3 (30s) and public/audio/words.json:
+  [{vo, text, display, start_ms, end_ms, frame}], times absolute and including leading
+  silence; `frame` is the first frame at or after the word's sound.
+"""
+import argparse
+import json
+import math
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+FPS = 30
+LINES = [
+    (1.0, "You paid for every lead. Most of them never heard back."),
+    (11.0, "Revenue OS works every lead, books every visit, and grows every customer. In their language. At the right moment."),
+    # Ends before the silent end card at 26.0s
+    (21.3, "Your CRM records what happened. Revenue OS makes it happen."),
+]
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--engine", default="kokoro")
+    ap.add_argument("--voice", default="hm_omega")
+    ap.add_argument("--rate", default="-8%")
+    ap.add_argument("--pitch", default="-2Hz")
+    args = ap.parse_args()
+
+    words = []
+    with tempfile.TemporaryDirectory() as tmp:
+        clips = []
+        for vo, (start, text) in enumerate(LINES, 1):
+            clip = Path(tmp) / f"vo{vo}.mp3"
+            subprocess.run(
+                [sys.executable, str(ROOT / "scripts/tts.py"), text, str(clip), "--engine", args.engine,
+                 "--voice", args.voice, f"--rate={args.rate}", f"--pitch={args.pitch}"],
+                check=True,
+            )
+            timed = json.loads(clip.with_suffix(".words.json").read_text())
+            display = text.split()
+            assert len(display) == len(timed), f"VO{vo}: {len(display)} tokens vs {len(timed)} timed words"
+            for shown, w in zip(display, timed):
+                a, b = w["start"] + start, w["end"] + start
+                words.append({"vo": vo, "text": w["text"], "display": shown, "start_ms": round(a * 1000),
+                              "end_ms": round(b * 1000), "frame": math.ceil(a * FPS)})
+            clips.append((clip, start))
+
+        inputs, chains = [], []
+        for i, (clip, start) in enumerate(clips):
+            inputs += ["-i", str(clip)]
+            ms = int(start * 1000)
+            chains.append(f"[{i}:a]aresample=44100,adelay={ms}|{ms}[a{i}]")
+        chains.append("".join(f"[a{i}]" for i in range(len(clips))) + f"amix=inputs={len(clips)}:normalize=0,apad=whole_dur=30,atrim=0:30[out]")
+        out = ROOT / "public/audio/revenue-os-vo.mp3"
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *inputs, "-filter_complex", ";".join(chains),
+                        "-map", "[out]", "-b:a", "192k", str(out)], check=True)
+
+    (ROOT / "public/audio/words.json").write_text(json.dumps(words, indent=2, ensure_ascii=False))
+    last = words[-1]["end_ms"]
+    print(f"{len(words)} words in {len(LINES)} VO lines; last word ends {last} ms")
+    if last > 26000:
+        print("WARNING: VO3 runs into the silent end card (26.0s)")
+
+
+if __name__ == "__main__":
+    main()
