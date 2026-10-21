@@ -3,145 +3,145 @@
     "vo": 1,
     "text": "Every",
     "display": "Every",
-    "start_ms": 534,
-    "end_ms": 892,
-    "frame": 17
+    "start_ms": 334,
+    "end_ms": 692,
+    "frame": 11
   },
   {
     "vo": 1,
     "text": "unworked",
     "display": "unworked",
-    "start_ms": 892,
-    "end_ms": 1394,
-    "frame": 27
+    "start_ms": 692,
+    "end_ms": 1194,
+    "frame": 21
   },
   {
     "vo": 1,
     "text": "lead",
     "display": "lead",
-    "start_ms": 1394,
-    "end_ms": 1680,
-    "frame": 42
+    "start_ms": 1194,
+    "end_ms": 1480,
+    "frame": 36
   },
   {
     "vo": 1,
     "text": "is",
     "display": "is",
-    "start_ms": 1680,
-    "end_ms": 1895,
-    "frame": 51
+    "start_ms": 1480,
+    "end_ms": 1695,
+    "frame": 45
   },
   {
     "vo": 1,
     "text": "revenue",
     "display": "revenue",
-    "start_ms": 1895,
-    "end_ms": 2396,
-    "frame": 57
+    "start_ms": 1695,
+    "end_ms": 2196,
+    "frame": 51
   },
   {
     "vo": 1,
     "text": "you",
     "display": "you",
-    "start_ms": 2396,
-    "end_ms": 2611,
-    "frame": 72
+    "start_ms": 2196,
+    "end_ms": 2411,
+    "frame": 66
   },
   {
     "vo": 1,
     "text": "paid",
     "display": "paid",
-    "start_ms": 2611,
-    "end_ms": 2969,
-    "frame": 79
+    "start_ms": 2411,
+    "end_ms": 2769,
+    "frame": 73
   },
   {
     "vo": 1,
     "text": "for",
     "display": "for,",
-    "start_ms": 2969,
-    "end_ms": 3256,
-    "frame": 90
+    "start_ms": 2769,
+    "end_ms": 3056,
+    "frame": 84
   },
   {
     "vo": 1,
     "text": "and",
     "display": "and",
-    "start_ms": 3256,
-    "end_ms": 3542,
-    "frame": 98
+    "start_ms": 3056,
+    "end_ms": 3342,
+    "frame": 92
   },
   {
     "vo": 1,
     "text": "lost",
     "display": "lost.",
-    "start_ms": 3542,
-    "end_ms": 3900,
-    "frame": 107
+    "start_ms": 3342,
+    "end_ms": 3700,
+    "frame": 101
   },
   {
     "vo": 1,
     "text": "Every",
     "display": "Every",
-    "start_ms": 4150,
-    "end_ms": 4431,
-    "frame": 125
+    "start_ms": 3950,
+    "end_ms": 4231,
+    "frame": 119
   },
   {
     "vo": 1,
     "text": "month",
     "display": "month",
-    "start_ms": 4431,
-    "end_ms": 4711,
-    "frame": 133
+    "start_ms": 4231,
+    "end_ms": 4511,
+    "frame": 127
   },
   {
     "vo": 1,
     "text": "you",
     "display": "you",
-    "start_ms": 4711,
-    "end_ms": 4879,
-    "frame": 142
+    "start_ms": 4511,
+    "end_ms": 4679,
+    "frame": 136
   },
   {
     "vo": 1,
     "text": "wait",
     "display": "wait,",
-    "start_ms": 4879,
-    "end_ms": 5160,
-    "frame": 147
+    "start_ms": 4679,
+    "end_ms": 4960,
+    "frame": 141
   },
   {
     "vo": 1,
     "text": "a",
     "display": "a",
-    "start_ms": 5410,
-    "end_ms": 5572,
-    "frame": 163
+    "start_ms": 5210,
+    "end_ms": 5372,
+    "frame": 157
   },
   {
     "vo": 1,
     "text": "competitor",
     "display": "competitor",
-    "start_ms": 5572,
-    "end_ms": 6110,
-    "frame": 168
+    "start_ms": 5372,
+    "end_ms": 5910,
+    "frame": 162
   },
   {
     "vo": 1,
     "text": "answers",
     "display": "answers",
-    "start_ms": 6180,
-    "end_ms": 6743,
-    "frame": 186
+    "start_ms": 5980,
+    "end_ms": 6543,
+    "frame": 180
   },
   {
     "vo": 1,
     "text": "first",
     "display": "first.",
-    "start_ms": 6743,
-    "end_ms": 7211,
-    "frame": 203
+    "start_ms": 6543,
+    "end_ms": 7011,
+    "frame": 197
   },
   {
     "vo": 2,

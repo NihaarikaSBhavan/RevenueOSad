@@ -35,8 +35,8 @@ export const Dashboard: React.FC = () => {
   const scanY = -20 + (W.dash.h + 40) * ramp(frame, T.scan, T.scan + SCAN_FRAMES);
   const scanOn = frame >= T.scan - 2 && frame <= T.scan + SCAN_FRAMES + 6;
 
-  // Once the camera follows Priya out, the dashboard steps back like every other station
-  const away = 1 - 0.75 * sp(frame, T.glideChat, 18);
+  // Once the camera follows Priya out, the dashboard leaves: its big numbers would ghost behind the chat
+  const away = 1 - sp(frame, T.glideChat, 18);
   return (
     <div style={{ position: "absolute", left: W.dash.x, top: W.dash.y, width: W.dash.w, height: W.dash.h, opacity: away }}>
       {/* Top bar */}

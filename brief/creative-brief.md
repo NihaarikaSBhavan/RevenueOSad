@@ -49,7 +49,7 @@ chatbot, voicebot, bot, CRM (as what we are), AI-powered, AI-enabled, AI-assiste
 - Exactly 3 voiceover lines
 - Captions burned in; must work with sound off
 - End card frame 1 (2s, in silence on drumbeats): REAL TIME. / UNDER POLICY. / ON YOUR INFRASTRUCTURE.
-- End card frame 2 (2s): TheVertical.ai logo + "Part of the TheVertical.ai Enterprise OS" + CTA
+- End card frame 2 (2s): TheVertical.ai logo + "Part of TheVertical.ai Enterprise OS" + CTA
 
 ## Choices (defaults; change any line)
 - Logo: [use /public/images/logo.svg if present, else a clean "TheVertical.ai" wordmark in IBM Plex Sans]

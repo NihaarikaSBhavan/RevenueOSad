@@ -80,7 +80,7 @@ export const RevenueOSFilm: React.FC = () => {
       <Background />
       <World />
       <Beat at={T.beatWorked} until={T.glideContact + 20} text={COPY.beatWorked} />
-      <Beat at={T.beatRecords} until={T.zoomGauge + 30} text={COPY.beatRecords} />
+      <Beat at={T.beatRecords} until={T.zoomGauge} text={COPY.beatRecords} />
       <Beat at={T.beatGrown} until={T.pullBack + 4} text={COPY.beatGrown} />
       <Beat at={T.beat100} until={T.dissolve + 6} text={COPY.beat100} />
       <Stamp at={T.saturday} until={T.click3 - 2} text={COPY.saturday} />

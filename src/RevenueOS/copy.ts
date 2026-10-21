@@ -115,7 +115,7 @@ export const COPY = {
   subline: "Every lead worked. Every customer grown.",
   endLines: ["REAL TIME.", "UNDER POLICY.", "ON YOUR INFRASTRUCTURE."],
   logo: "TheVertical.ai",
-  partOf: "Part of the TheVertical.ai Enterprise OS",
+  partOf: "Part of TheVertical.ai Enterprise OS",
   cta: "thevertical.ai · Book a demo",
 };
 

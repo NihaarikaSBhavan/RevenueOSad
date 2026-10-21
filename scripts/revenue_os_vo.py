@@ -29,7 +29,7 @@ LINES = [
     "Revenue OS works every lead within minutes, books the visit, and grows the customer, on the systems you already run. Live in weeks.",
     "Your CRM records what happened. Revenue OS makes it happen. Starting this quarter.",
 ]
-VO1_START = 0.4
+VO1_START = 0.2
 VO3_END = 25.8
 
 

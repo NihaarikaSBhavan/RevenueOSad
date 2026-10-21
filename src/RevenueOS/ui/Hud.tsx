@@ -74,7 +74,7 @@ export const Beat: React.FC<{ at: number; until: number; text: string; color?: s
   const v = windowed(frame, at, until);
   if (v <= 0) return null;
   return (
-    <div style={{ position: "absolute", left: 80, top: 56, fontFamily: sansStack, fontSize: 42, fontWeight: 600, color: C.text, opacity: v, translate: `${-20 * (1 - v)}px 0px` }}>
+    <div style={{ position: "absolute", left: 60, top: 40, padding: "14px 26px 14px 20px", borderRadius: 16, background: "rgba(5,18,52,0.82)", fontFamily: sansStack, fontSize: 42, fontWeight: 600, color: C.text, opacity: v, translate: `${-20 * (1 - v)}px 0px` }}>
       <span style={{ display: "inline-block", width: 6, height: 40, background: color, marginRight: 20, verticalAlign: "-6px", borderRadius: 3 }} />
       {text}
     </div>

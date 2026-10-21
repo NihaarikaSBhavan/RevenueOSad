@@ -55,14 +55,14 @@ export const T = {
   lock: 602, // "3 clicks. Enquiry to visit." held to days30: the money shot
 
   // 0:21 +30 days
-  days30: 630,
-  glideGrowth: 628,
-  nba: 642,
-  revenue: 657,
-  churnFlag: 654,
-  retention: 663,
-  labels: [659, 669, 678],
-  beatGrown: 657,
+  days30: 638,
+  glideGrowth: 636,
+  nba: 648,
+  revenue: 662,
+  churnFlag: 659,
+  retention: 667,
+  labels: [664, 672, 680],
+  beatGrown: 662,
 
   // 0:23 pull back
   pullBack: 685,
@@ -90,7 +90,7 @@ export const STILLS: [string, number][] = [
   ["04-writeback", 409],
   ["05-score", 474],
   ["06-calendar-click1", 545],
-  ["07-click3-money-shot", 621],
+  ["07-click3-money-shot", 628],
   ["08-plus30-grown", 683],
   ["09-pullback", 713],
   ["10-title", 770],
