@@ -2,6 +2,22 @@
 
 This folder is a video ad studio. Follow these rules for every ad.
 
+## Creative direction (standing, every video)
+
+These apply to every video unless a brief for that video says otherwise. Where they disagree with an older brief (e.g. `brief/creative-brief.md` using blue as "the OS acting"), this section wins.
+
+- **Audience:** enterprises and large businesses. Write for the CEO, CFO and revenue leadership: people who think in margin, pipeline, risk and board-level outcomes, not features.
+- **Tonality:** a classy, credible CEO. Calm, measured, assured; speaks in business consequences, never hype. No exclamation marks, no trailer voice, no buzzwords. Every claim must be one a CEO would say on stage and stand behind.
+- **Story arc:** pain points → solution (us). Open on the problem the business is living with, make its cost felt, then turn to us as the clear way out.
+- **Colour arc: blue → orange.** Blue carries the pain (the problem, the status quo, the cost). Orange carries the solution (us, the turn, the CTA). The shift from blue to orange is the emotional turn of the film; time it to the moment we enter, and let orange own the close and end card.
+- **Emotion to instill:**
+  - **Urgency:** this matters now, not next quarter.
+  - **Cost of the problem:** what it is costing the business today (revenue lost, leads wasted, customers churning, teams stretched).
+  - **Cost of waiting:** every month it stays unsolved compounds the loss.
+  - **Risk of not acting now:** competitors who move first, revenue that doesn't come back.
+  - **Balanced with optimism:** state the stakes plainly, then resolve them. The viewer should feel clarity and confidence, never fear or paranoia. Name the cost once and move on; no doom imagery, no alarm sounds, no red flashing.
+- **Look and feel:** minimal yet attention-grabbing. One idea per scene, lots of negative space, few words on screen, bold typography, one strong motion per beat. Grab attention with contrast, scale and timing, not clutter.
+
 ## Stack
 
 - **Video = Remotion** (TypeScript, React). Compositions live in `src/` and are registered in `src/Root.tsx`. Use the Remotion skills in `.claude/skills/` (start with `remotion-best-practices`).
