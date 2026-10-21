@@ -1,8 +1,10 @@
 import { AbsoluteFill, useCurrentFrame } from "remotion";
+import { lerp, ramp } from "../anim";
 import { C } from "../theme";
+import { T } from "../timeline";
 import { camera, toScreen } from "../world";
 
-/** Deep navy, a parallax dot field, a blue glow that trails the camera, and 2% grain. */
+/** Deep navy, a parallax dot field, a glow that trails the camera, and 2% grain. The glow turns blue → orange as Revenue OS arrives. */
 export const Background: React.FC = () => {
   const frame = useCurrentFrame();
   const cam = camera(frame);
@@ -12,6 +14,11 @@ export const Background: React.FC = () => {
   // Far layer moves at 35% of camera travel for depth
   const px = -(cam.x * 0.35 * cam.s) % 64;
   const py = -(cam.y * 0.35 * cam.s) % 64;
+  const k = ramp(frame, T.scan, T.scan + 40);
+  const rgb = [lerp(1, 254, k), lerp(119, 119, k), lerp(255, 44, k)].map(Math.round).join(",");
+  // Orange reads hotter than blue at the same alpha, so it is held a touch lower
+  // ...then swells behind the close so orange owns the end card
+  const a = lerp(0.3, 0.22, k) + 0.12 * ramp(frame, T.dissolve, T.title + 20);
   return (
     <AbsoluteFill style={{ background: C.navy, overflow: "hidden" }}>
       <AbsoluteFill
@@ -28,7 +35,7 @@ export const Background: React.FC = () => {
           top: glow.y - 700,
           width: 1800,
           height: 1400,
-          background: "radial-gradient(closest-side, rgba(1,119,255,0.30), rgba(1,119,255,0.08) 55%, transparent)",
+          background: `radial-gradient(closest-side, rgba(${rgb},${a}), rgba(${rgb},${a / 3.6}) 55%, transparent)`,
         }}
       />
     </AbsoluteFill>

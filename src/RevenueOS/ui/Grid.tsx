@@ -30,7 +30,7 @@ export const CustomerGrid: React.FC = () => {
         const dist = Math.hypot(col - PRIYA.col, row - PRIYA.row);
         const born = ramp(frame, T.pullBack + dist * 0.9, T.pullBack + dist * 0.9 + 8);
         const pulse = 0.5 + 0.5 * Math.sin(frame / 5 + r * 20);
-        const state = r < 0.62 ? C.blue : r < 0.9 ? C.green : C.orange;
+        const state = r < 0.8 ? C.orange : C.green;
         return (
           <div
             key={i}
@@ -41,7 +41,7 @@ export const CustomerGrid: React.FC = () => {
               width: TILE_W,
               height: TILE_H,
               borderRadius: 22,
-              background: isPriya ? "rgba(254,119,44,0.25)" : "rgba(255,255,255,0.07)",
+              background: isPriya ? "rgba(254,119,44,0.35)" : "rgba(255,255,255,0.07)",
               border: `2px solid ${isPriya ? C.orange : "rgba(255,255,255,0.12)"}`,
               opacity: born,
               scale: String(0.7 + 0.3 * born),

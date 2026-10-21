@@ -4,10 +4,10 @@
 Reads every cue frame from src/RevenueOS/timeline.ts, synthesises the music bed and SFX,
 mixes them under public/audio/revenue-os-vo.mp3 and writes public/audio/revenue-os-mix.wav.
 
-  - Music: low 100 BPM pulse building 0-24s, pad underneath, hats from 11s; hard cut to
-    silence at the end card (26.0s). The pulse grid is phased so the three end-card
+  - Music: low 100 BPM pulse building 0-24s, pad underneath (A minor through the cost, lifting
+    to C major on the turn), hats from 11s; hard cut to silence at the end card (26.0s). The pulse grid is phased so the three end-card
     drumbeats land on it.
-  - SFX: ticks on field writes, whoosh on camera glides, a click on each of the 3 clicks,
+  - SFX: a low clock tick on each unanswered-counter tick, ticks on field writes, whoosh on camera glides, a click on each of the 3 clicks,
     a low riser 22-24s, three drums. Each is trimmed to its own beat.
   - Music sits 18 LU under the voice; the full mix is normalised to -14 LUFS, peaks <= -1 dBFS.
 """
@@ -142,7 +142,7 @@ def drum() -> np.ndarray:
 
 
 # ---------- music ----------
-def music(cut: float) -> np.ndarray:
+def music(cut: float, turn: float) -> np.ndarray:
     out = np.zeros(N)
     period = 0.6  # 100 BPM
     phase = (cut + 0.0667) % period  # first drum (frame 782) sits on the grid
@@ -159,10 +159,13 @@ def music(cut: float) -> np.ndarray:
         place(out, thump * (0.35 + 0.65 * min(1, at / 24.0) ** 1.3), at)
         k += 1
 
-    # Pad: A minor, very low in the mix, slow swell
+    # Pad: A minor under the cost, crossfading to C major over 1.2s on the turn (optimism, not alarm)
+    lift = np.clip((t_all - turn) / 1.2, 0, 1)
     pad = np.zeros(N)
     for f, a in [(110.0, 1.0), (164.81, 0.7), (220.0, 0.55), (261.63, 0.4)]:
-        pad += a * np.sin(2 * np.pi * f * t_all + rng.uniform(0, 6.28))
+        pad += (1 - lift) * a * np.sin(2 * np.pi * f * t_all + rng.uniform(0, 6.28))
+    for f, a in [(130.81, 1.0), (196.0, 0.7), (261.63, 0.55), (329.63, 0.4)]:
+        pad += lift * a * np.sin(2 * np.pi * f * t_all + rng.uniform(0, 6.28))
     pad *= (0.12 + 0.38 * build) * (1 + 0.08 * np.sin(2 * np.pi * 0.25 * t_all))
     out += 0.09 * pad
 
@@ -224,7 +227,7 @@ def main() -> None:
     meter = pyln.Meter(SR)
 
     voice = load_voice()
-    bed = music(cut)
+    bed = music(cut, t_of(T["scan"]))
     # Music 18 LU under the voice (both measured where they play)
     v_lufs = meter.integrated_loudness(voice[int(1.0 * SR): int(26 * SR)])
     m_lufs = meter.integrated_loudness(bed[: int(cut * SR)])
@@ -243,6 +246,8 @@ def main() -> None:
     bed *= duck
 
     sfx = np.zeros(N)
+    for f in T["counter"]:
+        place(sfx, stamp() * 0.12, t_of(f))
     for f in [T["numberSnap"], T["sourceStamp"], T["warmChip"], *T["land"], T["snap"]]:
         place(sfx, tick() * 0.22, t_of(f))
     for f in [T["msg1"], T["reply1"], T["msgHindi"], T["replyHindi"], T["invite"], T["reminder"], T["thankYou"]]:

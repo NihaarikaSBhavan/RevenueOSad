@@ -104,9 +104,9 @@ export const Contact360: React.FC = () => {
               top: ROW_TOP + i * ROW_STEP,
               height: ROW_STEP - 12,
               borderRadius: 16,
-              border: `1px solid ${frame >= T.land[i] ? `rgba(1,119,255,${0.25 + 0.5 * tick})` : "rgba(255,255,255,0.1)"}`,
+              border: `1px solid ${frame >= T.land[i] ? `rgba(254,119,44,${0.25 + 0.5 * tick})` : "rgba(255,255,255,0.1)"}`,
               borderStyle: frame >= T.land[i] ? "solid" : "dashed",
-              background: `rgba(1,119,255,${0.1 * tick})`,
+              background: `rgba(254,119,44,${0.1 * tick})`,
               padding: "12px 18px",
               display: "flex",
               alignItems: "center",
@@ -118,7 +118,7 @@ export const Contact360: React.FC = () => {
               <div style={{ fontSize: 23, fontWeight: 600 }}>{f.value}</div>
               <div style={{ fontSize: 16, color: C.greyDim, marginTop: 2 }}>{f.quote}</div>
             </div>
-            <div style={{ fontFamily: monoStack, fontSize: 22, color: C.blue, opacity: filled }}>{f.conf}</div>
+            <div style={{ fontFamily: monoStack, fontSize: 22, color: C.orange, opacity: filled }}>{f.conf}</div>
           </div>
         );
       })}
@@ -207,7 +207,7 @@ export const FlyingPhrases: React.FC = () => {
         const lift = sp(frame, T.lift[i], 14);
         return (
           <div key={i} style={{ position: "absolute", left: x, top: y, scale: String(0.9 + 0.15 * lift) }}>
-            <Chip color={C.blue} style={{ fontSize: 18, background: "rgba(1,119,255,0.3)", boxShadow: "0 10px 30px rgba(1,119,255,0.4)" }}>
+            <Chip color={C.orange} style={{ fontSize: 18, background: "rgba(254,119,44,0.3)", boxShadow: "0 10px 30px rgba(254,119,44,0.4)" }}>
               {p.text}
             </Chip>
           </div>

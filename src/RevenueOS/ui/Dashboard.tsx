@@ -17,6 +17,10 @@ const LEADS = [
   { name: "Divya T.", src: "Website form", ago: "2h ago" },
 ];
 
+// Enquiries already unanswered when the film opens, and what each one is worth
+const UNANSWERED = 12838;
+const FEE = 1500;
+
 const CARD_TOP = 190;
 const CARD_STEP = 118;
 const SCAN_FRAMES = 26;
@@ -26,7 +30,7 @@ const scanAt = (y: number) => T.scan + (y / W.dash.h) * SCAN_FRAMES;
 
 export const Dashboard: React.FC = () => {
   const frame = useCurrentFrame();
-  const count = 1247 + T.counter.filter((f) => frame >= f).length - 1;
+  const count = UNANSWERED + T.counter.filter((f) => frame >= f).length;
   const bump = Math.max(...T.counter.map((f) => (frame >= f ? 1 - sp(frame, f, 14) : 0)));
   const scanY = -20 + (W.dash.h + 40) * ramp(frame, T.scan, T.scan + SCAN_FRAMES);
   const scanOn = frame >= T.scan - 2 && frame <= T.scan + SCAN_FRAMES + 6;
@@ -61,9 +65,9 @@ export const Dashboard: React.FC = () => {
               alignItems: "center",
               gap: 20,
               opacity: isPriya ? 1 : 0.55 + lit * 0.25,
-              borderColor: isPriya && priyaLit > 0 ? mixColor("#2a3550", C.blue, priyaLit) : `rgba(1,119,255,${lit * 0.55})`,
+              borderColor: isPriya && priyaLit > 0 ? mixColor("#2a3550", C.orange, priyaLit) : `rgba(254,119,44,${lit * 0.55})`,
               boxShadow: isPriya
-                ? `0 0 ${60 * priyaLit}px rgba(1,119,255,${0.55 * priyaLit}), 0 24px 64px rgba(0,0,0,0.38)`
+                ? `0 0 ${60 * priyaLit}px rgba(254,119,44,${0.55 * priyaLit}), 0 24px 64px rgba(0,0,0,0.38)`
                 : undefined,
               scale: isPriya ? String(1 + priyaLit * 0.03) : "1",
             }}
@@ -73,7 +77,7 @@ export const Dashboard: React.FC = () => {
                 width: 54,
                 height: 54,
                 borderRadius: 999,
-                background: isPriya ? mixColor("#2b3651", C.blue, priyaLit) : "#2b3651",
+                background: isPriya ? mixColor("#2b3651", C.orange, priyaLit) : "#2b3651",
                 display: "grid",
                 placeItems: "center",
                 fontWeight: 600,
@@ -91,7 +95,7 @@ export const Dashboard: React.FC = () => {
                 {isPriya ? <PriyaPhone /> : <span>{lead.ago}</span>}
                 {isPriya && frame >= T.sourceStamp ? (
                   <Appear at={T.sourceStamp} from={1.5} dy={0} damping={14}>
-                    <Chip color={C.blue} mono style={{ fontSize: 15, padding: "1px 10px" }}>
+                    <Chip color={C.orange} mono style={{ fontSize: 15, padding: "1px 10px" }}>
                       {COPY.sourceTag}
                     </Chip>
                   </Appear>
@@ -103,7 +107,7 @@ export const Dashboard: React.FC = () => {
             {isPriya ? (
               <PriyaChips chipFade={chipFade} />
             ) : (
-              <Chip color={C.grey}>Cold</Chip>
+              <Chip color={C.blue}>Cold</Chip>
             )}
           </Glass>
         );
@@ -126,26 +130,17 @@ export const Dashboard: React.FC = () => {
           {count.toLocaleString("en-IN")}
         </div>
         <svg width="820" height="80" style={{ position: "absolute", left: 40, bottom: 30 }}>
-          <path d="M0 70 C 120 66, 220 60, 330 52 S 560 34, 680 22 S 780 10, 820 6" stroke={C.grey} strokeWidth="3" fill="none" />
+          <path d="M0 70 C 120 66, 220 60, 330 52 S 560 34, 680 22 S 780 10, 820 6" stroke={C.blue} strokeWidth="3" fill="none" />
         </svg>
       </Glass>
 
-      {/* Leads by source, all grey: nobody is working them */}
+      {/* The cost, still climbing: every unanswered enquiry is a consultation fee not earned */}
       <Glass style={{ left: 900, top: 590, width: 900, height: 340, padding: 40 }}>
-        <Label>Paid leads by source · this week</Label>
-        {[
-          ["Instagram ad", 0.86],
-          ["Google ad", 0.72],
-          ["Facebook ad", 0.54],
-          ["Website form", 0.38],
-        ].map(([name, v], i) => (
-          <div key={name as string} style={{ display: "flex", alignItems: "center", gap: 20, marginTop: i === 0 ? 30 : 22 }}>
-            <div style={{ width: 200, fontSize: 20, color: C.textDim }}>{name}</div>
-            <div style={{ flex: 1, height: 14, borderRadius: 7, background: "rgba(255,255,255,0.06)" }}>
-              <div style={{ width: `${(v as number) * 100}%`, height: "100%", borderRadius: 7, background: C.grey, opacity: 0.6 }} />
-            </div>
-          </div>
-        ))}
+        <Label>{COPY.atRisk}</Label>
+        <div style={{ fontFamily: monoStack, fontSize: 110, fontWeight: 500, color: C.text, marginTop: 26, scale: String(1 + bump * 0.03), transformOrigin: "left center" }}>
+          ₹{(count * FEE).toLocaleString("en-IN")}
+        </div>
+        <div style={{ fontSize: 22, color: C.blue, marginTop: 14, fontWeight: 600 }}>{COPY.atRiskSub}</div>
       </Glass>
 
       {/* Clinical line, bottom left */}
@@ -162,8 +157,8 @@ export const Dashboard: React.FC = () => {
             right: -40,
             top: scanY,
             height: 2,
-            background: C.blue,
-            boxShadow: `0 0 24px 6px rgba(1,119,255,0.7), 0 0 120px 30px rgba(1,119,255,0.25)`,
+            background: C.orange,
+            boxShadow: `0 0 24px 6px rgba(254,119,44,0.7), 0 0 120px 30px rgba(254,119,44,0.25)`,
           }}
         />
       )}
@@ -195,7 +190,7 @@ const PriyaChips: React.FC<{ chipFade: number }> = ({ chipFade }) => {
   return (
     <div style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6 }}>
       {frame < T.warmChip ? (
-        <Chip color={mixColor(C.orange, C.grey, chipFade)}>{chipFade > 0.6 ? "Cold" : "New"}</Chip>
+        <Chip color={mixColor(C.text, C.blue, chipFade)}>{chipFade > 0.6 ? "Cold" : "New"}</Chip>
       ) : (
         <Appear at={T.warmChip} from={0.6} dy={0}>
           <Chip color={C.blue} mono>

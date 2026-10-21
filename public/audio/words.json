@@ -1,322 +1,434 @@
 [
   {
     "vo": 1,
-    "text": "You",
-    "display": "You",
-    "start_ms": 945,
-    "end_ms": 1154,
-    "frame": 29
+    "text": "Every",
+    "display": "Every",
+    "start_ms": 534,
+    "end_ms": 892,
+    "frame": 17
+  },
+  {
+    "vo": 1,
+    "text": "unworked",
+    "display": "unworked",
+    "start_ms": 892,
+    "end_ms": 1394,
+    "frame": 27
+  },
+  {
+    "vo": 1,
+    "text": "lead",
+    "display": "lead",
+    "start_ms": 1394,
+    "end_ms": 1680,
+    "frame": 42
+  },
+  {
+    "vo": 1,
+    "text": "is",
+    "display": "is",
+    "start_ms": 1680,
+    "end_ms": 1895,
+    "frame": 51
+  },
+  {
+    "vo": 1,
+    "text": "revenue",
+    "display": "revenue",
+    "start_ms": 1895,
+    "end_ms": 2396,
+    "frame": 57
+  },
+  {
+    "vo": 1,
+    "text": "you",
+    "display": "you",
+    "start_ms": 2396,
+    "end_ms": 2611,
+    "frame": 72
   },
   {
     "vo": 1,
     "text": "paid",
     "display": "paid",
-    "start_ms": 1154,
-    "end_ms": 1503,
-    "frame": 35
+    "start_ms": 2611,
+    "end_ms": 2969,
+    "frame": 79
   },
   {
     "vo": 1,
     "text": "for",
-    "display": "for",
-    "start_ms": 1503,
-    "end_ms": 1782,
-    "frame": 46
+    "display": "for,",
+    "start_ms": 2969,
+    "end_ms": 3256,
+    "frame": 90
   },
   {
     "vo": 1,
-    "text": "every",
-    "display": "every",
-    "start_ms": 1782,
-    "end_ms": 2131,
-    "frame": 54
+    "text": "and",
+    "display": "and",
+    "start_ms": 3256,
+    "end_ms": 3542,
+    "frame": 98
   },
   {
     "vo": 1,
-    "text": "lead",
-    "display": "lead.",
-    "start_ms": 2131,
-    "end_ms": 2410,
-    "frame": 64
+    "text": "lost",
+    "display": "lost.",
+    "start_ms": 3542,
+    "end_ms": 3900,
+    "frame": 107
   },
   {
     "vo": 1,
-    "text": "Most",
-    "display": "Most",
-    "start_ms": 2660,
-    "end_ms": 3025,
-    "frame": 80
+    "text": "Every",
+    "display": "Every",
+    "start_ms": 4150,
+    "end_ms": 4431,
+    "frame": 125
   },
   {
     "vo": 1,
-    "text": "of",
-    "display": "of",
-    "start_ms": 3025,
-    "end_ms": 3207,
-    "frame": 91
+    "text": "month",
+    "display": "month",
+    "start_ms": 4431,
+    "end_ms": 4711,
+    "frame": 133
   },
   {
     "vo": 1,
-    "text": "them",
-    "display": "them",
-    "start_ms": 3207,
-    "end_ms": 3450,
-    "frame": 97
+    "text": "you",
+    "display": "you",
+    "start_ms": 4711,
+    "end_ms": 4879,
+    "frame": 142
   },
   {
     "vo": 1,
-    "text": "never",
-    "display": "never",
-    "start_ms": 3450,
-    "end_ms": 3754,
-    "frame": 104
+    "text": "wait",
+    "display": "wait,",
+    "start_ms": 4879,
+    "end_ms": 5160,
+    "frame": 147
   },
   {
     "vo": 1,
-    "text": "heard",
-    "display": "heard",
-    "start_ms": 3754,
-    "end_ms": 3997,
-    "frame": 113
+    "text": "a",
+    "display": "a",
+    "start_ms": 5410,
+    "end_ms": 5572,
+    "frame": 163
   },
   {
     "vo": 1,
-    "text": "back",
-    "display": "back.",
-    "start_ms": 3997,
-    "end_ms": 4240,
-    "frame": 120
+    "text": "competitor",
+    "display": "competitor",
+    "start_ms": 5572,
+    "end_ms": 6110,
+    "frame": 168
+  },
+  {
+    "vo": 1,
+    "text": "answers",
+    "display": "answers",
+    "start_ms": 6180,
+    "end_ms": 6743,
+    "frame": 186
+  },
+  {
+    "vo": 1,
+    "text": "first",
+    "display": "first.",
+    "start_ms": 6743,
+    "end_ms": 7211,
+    "frame": 203
   },
   {
     "vo": 2,
     "text": "Revenue",
     "display": "Revenue",
-    "start_ms": 9176,
-    "end_ms": 9692,
-    "frame": 276
+    "start_ms": 7536,
+    "end_ms": 8050,
+    "frame": 227
   },
   {
     "vo": 2,
     "text": "OS",
     "display": "OS",
-    "start_ms": 9692,
-    "end_ms": 10061,
-    "frame": 291
+    "start_ms": 8050,
+    "end_ms": 8417,
+    "frame": 242
   },
   {
     "vo": 2,
     "text": "works",
     "display": "works",
-    "start_ms": 10061,
-    "end_ms": 10430,
-    "frame": 302
+    "start_ms": 8417,
+    "end_ms": 8785,
+    "frame": 253
   },
   {
     "vo": 2,
     "text": "every",
     "display": "every",
-    "start_ms": 10430,
-    "end_ms": 10798,
-    "frame": 313
+    "start_ms": 8785,
+    "end_ms": 9152,
+    "frame": 264
   },
   {
     "vo": 2,
     "text": "lead",
-    "display": "lead,",
-    "start_ms": 10798,
-    "end_ms": 11093,
-    "frame": 324
+    "display": "lead",
+    "start_ms": 9152,
+    "end_ms": 9445,
+    "frame": 275
+  },
+  {
+    "vo": 2,
+    "text": "within",
+    "display": "within",
+    "start_ms": 9445,
+    "end_ms": 9886,
+    "frame": 284
+  },
+  {
+    "vo": 2,
+    "text": "minutes",
+    "display": "minutes,",
+    "start_ms": 9886,
+    "end_ms": 10400,
+    "frame": 297
   },
   {
     "vo": 2,
     "text": "books",
     "display": "books",
-    "start_ms": 11093,
-    "end_ms": 11462,
-    "frame": 333
-  },
-  {
-    "vo": 2,
-    "text": "every",
-    "display": "every",
-    "start_ms": 11462,
-    "end_ms": 11831,
-    "frame": 344
-  },
-  {
-    "vo": 2,
-    "text": "visit",
-    "display": "visit,",
-    "start_ms": 11831,
-    "end_ms": 12274,
-    "frame": 355
-  },
-  {
-    "vo": 2,
-    "text": "and",
-    "display": "and",
-    "start_ms": 12274,
-    "end_ms": 12569,
-    "frame": 369
-  },
-  {
-    "vo": 2,
-    "text": "grows",
-    "display": "grows",
-    "start_ms": 12569,
-    "end_ms": 13011,
-    "frame": 378
-  },
-  {
-    "vo": 2,
-    "text": "every",
-    "display": "every",
-    "start_ms": 13011,
-    "end_ms": 13380,
-    "frame": 391
-  },
-  {
-    "vo": 2,
-    "text": "customer",
-    "display": "customer.",
-    "start_ms": 13380,
-    "end_ms": 13970,
-    "frame": 402
-  },
-  {
-    "vo": 2,
-    "text": "In",
-    "display": "In",
-    "start_ms": 14220,
-    "end_ms": 14362,
-    "frame": 427
-  },
-  {
-    "vo": 2,
-    "text": "their",
-    "display": "their",
-    "start_ms": 14362,
-    "end_ms": 14553,
-    "frame": 431
-  },
-  {
-    "vo": 2,
-    "text": "language",
-    "display": "language.",
-    "start_ms": 14553,
-    "end_ms": 14980,
-    "frame": 437
-  },
-  {
-    "vo": 2,
-    "text": "At",
-    "display": "At",
-    "start_ms": 15040,
-    "end_ms": 15170,
-    "frame": 452
+    "start_ms": 10650,
+    "end_ms": 10956,
+    "frame": 320
   },
   {
     "vo": 2,
     "text": "the",
     "display": "the",
-    "start_ms": 15420,
-    "end_ms": 15619,
-    "frame": 463
+    "start_ms": 10956,
+    "end_ms": 11139,
+    "frame": 329
   },
   {
     "vo": 2,
-    "text": "right",
-    "display": "right",
-    "start_ms": 15619,
-    "end_ms": 15951,
-    "frame": 469
+    "text": "visit",
+    "display": "visit,",
+    "start_ms": 11139,
+    "end_ms": 11506,
+    "frame": 335
   },
   {
     "vo": 2,
-    "text": "moment",
-    "display": "moment.",
-    "start_ms": 15951,
-    "end_ms": 16481,
-    "frame": 479
+    "text": "and",
+    "display": "and",
+    "start_ms": 11506,
+    "end_ms": 11751,
+    "frame": 346
+  },
+  {
+    "vo": 2,
+    "text": "grows",
+    "display": "grows",
+    "start_ms": 11751,
+    "end_ms": 12117,
+    "frame": 353
+  },
+  {
+    "vo": 2,
+    "text": "the",
+    "display": "the",
+    "start_ms": 12117,
+    "end_ms": 12301,
+    "frame": 364
+  },
+  {
+    "vo": 2,
+    "text": "customer",
+    "display": "customer,",
+    "start_ms": 12301,
+    "end_ms": 12790,
+    "frame": 370
+  },
+  {
+    "vo": 2,
+    "text": "on",
+    "display": "on",
+    "start_ms": 13040,
+    "end_ms": 13248,
+    "frame": 392
+  },
+  {
+    "vo": 2,
+    "text": "the",
+    "display": "the",
+    "start_ms": 13248,
+    "end_ms": 13456,
+    "frame": 398
+  },
+  {
+    "vo": 2,
+    "text": "systems",
+    "display": "systems",
+    "start_ms": 13456,
+    "end_ms": 14010,
+    "frame": 404
+  },
+  {
+    "vo": 2,
+    "text": "you",
+    "display": "you",
+    "start_ms": 14010,
+    "end_ms": 14218,
+    "frame": 421
+  },
+  {
+    "vo": 2,
+    "text": "already",
+    "display": "already",
+    "start_ms": 14218,
+    "end_ms": 14703,
+    "frame": 427
+  },
+  {
+    "vo": 2,
+    "text": "run",
+    "display": "run.",
+    "start_ms": 14703,
+    "end_ms": 14980,
+    "frame": 442
+  },
+  {
+    "vo": 2,
+    "text": "Live",
+    "display": "Live",
+    "start_ms": 15230,
+    "end_ms": 15639,
+    "frame": 457
+  },
+  {
+    "vo": 2,
+    "text": "in",
+    "display": "in",
+    "start_ms": 15639,
+    "end_ms": 15884,
+    "frame": 470
+  },
+  {
+    "vo": 2,
+    "text": "weeks",
+    "display": "weeks.",
+    "start_ms": 15884,
+    "end_ms": 16293,
+    "frame": 477
   },
   {
     "vo": 3,
     "text": "Your",
     "display": "Your",
-    "start_ms": 21421,
-    "end_ms": 21705,
-    "frame": 643
+    "start_ms": 20180,
+    "end_ms": 20418,
+    "frame": 606
   },
   {
     "vo": 3,
     "text": "CRM",
     "display": "CRM",
-    "start_ms": 21705,
-    "end_ms": 22272,
-    "frame": 652
+    "start_ms": 20418,
+    "end_ms": 20894,
+    "frame": 613
   },
   {
     "vo": 3,
     "text": "records",
     "display": "records",
-    "start_ms": 22272,
-    "end_ms": 22769,
-    "frame": 669
+    "start_ms": 20894,
+    "end_ms": 21310,
+    "frame": 627
   },
   {
     "vo": 3,
     "text": "what",
     "display": "what",
-    "start_ms": 22769,
-    "end_ms": 23053,
-    "frame": 684
+    "start_ms": 21370,
+    "end_ms": 21705,
+    "frame": 642
   },
   {
     "vo": 3,
     "text": "happened",
     "display": "happened.",
-    "start_ms": 23053,
-    "end_ms": 23550,
-    "frame": 692
+    "start_ms": 21705,
+    "end_ms": 22290,
+    "frame": 652
   },
   {
     "vo": 3,
     "text": "Revenue",
     "display": "Revenue",
-    "start_ms": 23800,
-    "end_ms": 24266,
-    "frame": 714
+    "start_ms": 22540,
+    "end_ms": 23012,
+    "frame": 677
   },
   {
     "vo": 3,
     "text": "OS",
     "display": "OS",
-    "start_ms": 24266,
-    "end_ms": 24600,
-    "frame": 728
+    "start_ms": 23012,
+    "end_ms": 23349,
+    "frame": 691
   },
   {
     "vo": 3,
     "text": "makes",
     "display": "makes",
-    "start_ms": 24600,
-    "end_ms": 25000,
-    "frame": 738
+    "start_ms": 23349,
+    "end_ms": 23753,
+    "frame": 701
   },
   {
     "vo": 3,
     "text": "it",
     "display": "it",
-    "start_ms": 25000,
-    "end_ms": 25199,
-    "frame": 750
+    "start_ms": 23753,
+    "end_ms": 23956,
+    "frame": 713
   },
   {
     "vo": 3,
     "text": "happen",
     "display": "happen.",
-    "start_ms": 25199,
-    "end_ms": 25599,
-    "frame": 756
+    "start_ms": 23956,
+    "end_ms": 24360,
+    "frame": 719
+  },
+  {
+    "vo": 3,
+    "text": "Starting",
+    "display": "Starting",
+    "start_ms": 24610,
+    "end_ms": 25113,
+    "frame": 739
+  },
+  {
+    "vo": 3,
+    "text": "this",
+    "display": "this",
+    "start_ms": 25113,
+    "end_ms": 25364,
+    "frame": 754
+  },
+  {
+    "vo": 3,
+    "text": "quarter",
+    "display": "quarter.",
+    "start_ms": 25364,
+    "end_ms": 25804,
+    "frame": 761
   }
 ]

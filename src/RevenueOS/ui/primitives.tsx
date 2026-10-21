@@ -111,7 +111,7 @@ export const Streak: React.FC<{ at: number; from: { x: number; y: number }; to: 
   at,
   from,
   to,
-  color = C.blue,
+  color = C.orange,
 }) => {
   const frame = useCurrentFrame();
   if (frame < at || frame > at + 26) return null;

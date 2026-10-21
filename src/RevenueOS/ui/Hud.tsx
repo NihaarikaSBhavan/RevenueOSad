@@ -69,13 +69,13 @@ export const Stamp: React.FC<{ at: number; until: number; text: string }> = ({ a
 };
 
 /** On-screen beat lines, top left. */
-export const Beat: React.FC<{ at: number; until: number; text: string }> = ({ at, until, text }) => {
+export const Beat: React.FC<{ at: number; until: number; text: string; color?: string }> = ({ at, until, text, color = C.orange }) => {
   const frame = useCurrentFrame();
   const v = windowed(frame, at, until);
   if (v <= 0) return null;
   return (
     <div style={{ position: "absolute", left: 80, top: 56, fontFamily: sansStack, fontSize: 42, fontWeight: 600, color: C.text, opacity: v, translate: `${-20 * (1 - v)}px 0px` }}>
-      <span style={{ display: "inline-block", width: 6, height: 40, background: C.blue, marginRight: 20, verticalAlign: "-6px", borderRadius: 3 }} />
+      <span style={{ display: "inline-block", width: 6, height: 40, background: color, marginRight: 20, verticalAlign: "-6px", borderRadius: 3 }} />
       {text}
     </div>
   );
@@ -137,7 +137,7 @@ export const AutonomyDial: React.FC = () => {
       <div style={{ fontSize: 15, letterSpacing: 2.4, textTransform: "uppercase", color: C.textDim, fontWeight: 600 }}>{COPY.dialLabel}</div>
       <svg width="274" height="150" style={{ marginTop: 14 }}>
         <path d="M 27 140 A 110 110 0 0 1 247 140" stroke="rgba(255,255,255,0.12)" strokeWidth="14" fill="none" strokeLinecap="round" />
-        <path d="M 27 140 A 110 110 0 0 1 247 140" stroke={C.blue} strokeWidth="14" fill="none" strokeLinecap="round" strokeDasharray={`${345 * (0.25 + 0.75 * t)} 999`} />
+        <path d="M 27 140 A 110 110 0 0 1 247 140" stroke={C.orange} strokeWidth="14" fill="none" strokeLinecap="round" strokeDasharray={`${345 * (0.25 + 0.75 * t)} 999`} />
         <g transform={`translate(137 140) rotate(${angle})`}>
           <line x1="0" y1="0" x2="0" y2="-88" stroke="#fff" strokeWidth="5" strokeLinecap="round" />
           <circle r="10" fill="#fff" />
@@ -145,7 +145,7 @@ export const AutonomyDial: React.FC = () => {
       </svg>
       <div style={{ display: "flex", justifyContent: "space-between", fontSize: 18, marginTop: 4 }}>
         <span style={{ color: t < 0.5 ? C.text : C.textDim, fontWeight: t < 0.5 ? 600 : 400 }}>{COPY.supervised}</span>
-        <span style={{ color: t >= 0.5 ? C.blue : C.textDim, fontWeight: t >= 0.5 ? 600 : 400 }}>{COPY.autonomous}</span>
+        <span style={{ color: t >= 0.5 ? C.orange : C.textDim, fontWeight: t >= 0.5 ? 600 : 400 }}>{COPY.autonomous}</span>
       </div>
     </div>
   );

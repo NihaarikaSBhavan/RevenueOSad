@@ -27,7 +27,8 @@ export const Close: React.FC = () => {
             const t = sp(frame, T.drums[i], 14, 220);
             return (
               <div key={line} style={{ fontSize: 76, fontWeight: 600, letterSpacing: 8, opacity: Math.min(1, t * 2), scale: String(lerp(1.12, 1, t)) }}>
-                {line}
+                {line.slice(0, -1)}
+                <span style={{ color: C.orange }}>{line.slice(-1)}</span>
               </div>
             );
           })}

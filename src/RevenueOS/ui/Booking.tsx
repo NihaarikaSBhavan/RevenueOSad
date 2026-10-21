@@ -140,8 +140,8 @@ export const Calendar: React.FC = () => {
             top: SLOT_TOP + 3 * SLOT_H + 6,
             height: SLOT_H - 12,
             borderRadius: 12,
-            background: colliding ? "rgba(254,119,44,0.18)" : "rgba(255,255,255,0.08)",
-            border: `1px solid ${colliding ? C.orange : "rgba(255,255,255,0.14)"}`,
+            background: colliding ? "rgba(1,119,255,0.22)" : "rgba(255,255,255,0.08)",
+            border: `1px solid ${colliding ? C.blue : "rgba(255,255,255,0.14)"}`,
             display: "flex",
             alignItems: "center",
             padding: "0 18px",
@@ -170,9 +170,9 @@ export const Calendar: React.FC = () => {
             opacity: Math.min(1, drop * 3),
             scale: String(0.6 + 0.4 * Math.min(1, drop)),
             transformOrigin: "left center",
-            background: done ? mixColor(C.blue, C.green, doneT) : placed ? C.blue : "rgba(1,119,255,0.35)",
-            border: `1px solid ${colliding ? C.orange : C.blue}`,
-            boxShadow: placed ? "0 10px 40px rgba(1,119,255,0.45)" : undefined,
+            background: done ? mixColor(C.orange, C.green, doneT) : placed ? C.orange : "rgba(254,119,44,0.35)",
+            border: `1px solid ${colliding ? C.blue : C.orange}`,
+            boxShadow: placed ? "0 10px 40px rgba(254,119,44,0.45)" : undefined,
             fontSize: 20,
             fontWeight: 600,
             color: "#fff",
@@ -197,11 +197,11 @@ export const MiniPhone: React.FC = () => {
           {COPY.preview}
           <div style={{ marginTop: 10, padding: "10px 12px", borderRadius: 12, background: "rgba(255,255,255,0.1)", display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 17 }}>
             <span>{COPY.invite}</span>
-            <span style={{ color: C.blue, fontWeight: 600 }}>{COPY.addToCal}</span>
+            <span style={{ color: C.orange, fontWeight: 600 }}>{COPY.addToCal}</span>
           </div>
         </Bubble>
         <Appear at={T.reminder} dy={10} style={{ alignSelf: "center" }}>
-          <Chip color={C.blue} style={{ fontSize: 16 }}>
+          <Chip color={C.orange} style={{ fontSize: 16 }}>
             {COPY.reminder}
           </Chip>
         </Appear>

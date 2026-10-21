@@ -30,11 +30,11 @@ export const ActionRail: React.FC = () => {
                   alignItems: "flex-start",
                   padding: "10px 12px",
                   borderRadius: 12,
-                  background: active ? "rgba(1,119,255,0.18)" : "rgba(255,255,255,0.04)",
-                  border: `1px solid ${policy ? "rgba(34,197,94,0.45)" : active ? "rgba(1,119,255,0.6)" : "rgba(255,255,255,0.06)"}`,
+                  background: active ? "rgba(254,119,44,0.18)" : "rgba(255,255,255,0.04)",
+                  border: `1px solid ${policy ? "rgba(34,197,94,0.45)" : active ? "rgba(254,119,44,0.6)" : "rgba(255,255,255,0.06)"}`,
                 }}
               >
-                <div style={{ width: 8, height: 8, borderRadius: 8, marginTop: 7, flex: "none", background: policy ? C.green : C.blue }} />
+                <div style={{ width: 8, height: 8, borderRadius: 8, marginTop: 7, flex: "none", background: policy ? C.green : C.orange }} />
                 <div>
                   <div style={{ fontFamily: monoStack, fontSize: 13, color: C.textDim }}>{COPY.railTimes[i]}</div>
                   <div style={{ fontSize: 18, lineHeight: 1.3, color: C.text }}>{item}</div>

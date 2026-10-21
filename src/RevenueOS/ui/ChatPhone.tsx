@@ -38,7 +38,7 @@ export const Bubble: React.FC<{ at: number; out?: boolean; time?: string; childr
 );
 
 const RepliedBy: React.FC = () => (
-  <div style={{ fontSize: 14, color: C.blue, fontWeight: 600, textAlign: "right", marginTop: 5, letterSpacing: 0.3 }}>
+  <div style={{ fontSize: 14, color: C.orange, fontWeight: 600, textAlign: "right", marginTop: 5, letterSpacing: 0.3 }}>
     {COPY.repliedBy}
   </div>
 );
@@ -75,7 +75,7 @@ export const PhoneFrame: React.FC<{ x: number; y: number; w: number; h: number; 
       borderRadius: 52,
       background: "#0A1430",
       border: "1px solid rgba(255,255,255,0.14)",
-      boxShadow: `0 40px 90px rgba(0,0,0,0.5), 0 0 ${80 * glow}px rgba(1,119,255,${0.35 * glow})`,
+      boxShadow: `0 40px 90px rgba(0,0,0,0.5), 0 0 ${80 * glow}px rgba(254,119,44,${0.35 * glow})`,
       overflow: "hidden",
       color: C.text,
     }}
@@ -108,7 +108,7 @@ export const ChatPhone: React.FC = () => {
           note={
             <>
               <Appear at={T.rateChip} dy={10} dx={20} style={{ marginTop: 10, display: "flex", justifyContent: "flex-end" }}>
-                <Chip color={C.blue} style={{ fontSize: 17 }}>
+                <Chip color={C.orange} style={{ fontSize: 17 }}>
                   {COPY.rateChip}
                 </Chip>
               </Appear>
@@ -126,7 +126,7 @@ export const ChatPhone: React.FC = () => {
       </PhoneFrame>
       {/* 24/7: the reply landed at 2:47 AM */}
       <Appear at={T.chip247} from={0.5} dy={0} style={{ position: "absolute", left: W.phone.x + W.phone.w - 70, top: W.phone.y - 26 }}>
-        <Chip color={C.blue} fill mono style={{ fontSize: 24, padding: "8px 18px" }}>
+        <Chip color={C.orange} fill mono style={{ fontSize: 24, padding: "8px 18px" }}>
           {COPY.chip247}
         </Chip>
       </Appear>

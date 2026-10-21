@@ -10,7 +10,7 @@ Source of truth: the three files in /brief. The Master Positioning Document gove
 - Positioning: sits on top of the CRM and systems already in place. No rip-out. Live in weeks.
 
 ## Audience
-CEO, Founder, Head of Revenue, Head of Sales at businesses with real digital lead inflow: edtech, healthcare, real estate, insurance, D2C, B2B SaaS. India-first.
+Enterprises and large businesses (CEO, CFO, Head of Revenue) with real digital lead inflow at scale: edtech, healthcare, real estate, insurance, D2C, B2B SaaS. India-first.
 
 ## The three revenue states
 1. Not yet won: leads paid for that go cold, get called late, or are never reached
@@ -38,15 +38,14 @@ CEO, Founder, Head of Revenue, Head of Sales at businesses with real digital lea
 chatbot, voicebot, bot, CRM (as what we are), AI-powered, AI-enabled, AI-assisted, platform, solution, seamless, robust, cutting-edge, state-of-the-art, transform, revolutionise, disrupt, 10x, 100x, digital transformation, unlock, supercharge, turbocharge, democratise, living system, alive, nervous system, brain, workflow automation, insights
 
 ## Brand
-- #0177FF primary (the OS acting)
+- Colour arc (CLAUDE.md creative direction): #0177FF blue carries the pain (the cost, the status quo); #FE772C orange carries Revenue OS from the turn on (the OS acting, the clicks, the close, the CTA)
 - #051234 deep navy background
-- #FE772C accent, used sparingly (hot lead, the clicks, the CTA)
 - #111827 neutral
 - Font: IBM Plex Sans (numbers in IBM Plex Mono)
 - Tone: confident, direct, calm. Never trailer-excited.
 
 ## Film rules
-- 30 seconds: 5s tension (one shot) → 20s one continuous demonstration → 5s close + end card
+- 30 seconds: 7s tension, the cost (one shot) → 17s one continuous demonstration → 6s close + end card
 - Exactly 3 voiceover lines
 - Captions burned in; must work with sound off
 - End card frame 1 (2s, in silence on drumbeats): REAL TIME. / UNDER POLICY. / ON YOUR INFRASTRUCTURE.

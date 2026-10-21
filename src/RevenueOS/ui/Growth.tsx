@@ -21,11 +21,11 @@ export const Growth: React.FC = () => {
         <Label style={{ fontSize: 14 }}>{COPY.nbaLabel}</Label>
         <div style={{ fontSize: 27, fontWeight: 600, marginTop: 12 }}>{COPY.nba}</div>
         <div style={{ position: "absolute", left: 30, bottom: 28, display: "flex", gap: 12 }}>
-          <Chip color={sent ? C.green : C.blue} fill={sent}>
+          <Chip color={sent ? C.green : C.orange} fill={sent}>
             {sent ? <Check size={18} color="rgba(255,255,255,0.3)" /> : null}
             {sent ? COPY.sent : "Sending on WhatsApp"}
           </Chip>
-          <Chip color={C.blue} style={{ fontSize: 16 }}>
+          <Chip color={C.orange} style={{ fontSize: 16 }}>
             Hindi · 10:00 AM
           </Chip>
         </div>
@@ -45,7 +45,7 @@ export const Growth: React.FC = () => {
                   flex: 1,
                   height: `${(i >= 4 ? 0.24 + (h - 0.24) * grow : h) * 100}%`,
                   borderRadius: 8,
-                  background: i >= 4 ? C.blue : "rgba(255,255,255,0.14)",
+                  background: i >= 4 ? C.orange : "rgba(255,255,255,0.14)",
                 }}
               />
             );
@@ -111,7 +111,7 @@ const ChurnCard: React.FC = () => {
   const flagged = frame >= T.churnFlag;
   const acted = frame >= T.retention;
   const recovered = recover >= 1;
-  const lineColor = acted ? mixColor(C.grey, C.blue, sp(frame, T.retention, 16)) : C.grey;
+  const lineColor = acted ? mixColor(C.blue, C.orange, sp(frame, T.retention, 16)) : C.blue;
   return (
     <Glass style={{ left: G.x + 700, top: G.y, width: 680, height: 590, padding: 30 }}>
       <Label style={{ fontSize: 14 }}>{COPY.churnName}</Label>
@@ -121,14 +121,14 @@ const ChurnCard: React.FC = () => {
       </svg>
       {flagged && (
         <Appear at={T.churnFlag} from={0.6} dy={0} style={{ position: "absolute", left: 300, top: 300 }}>
-          <Chip color={C.grey} style={{ fontSize: 19, background: "rgba(124,135,155,0.3)" }}>
+          <Chip color={C.blue} style={{ fontSize: 19, background: "rgba(1,119,255,0.3)" }}>
             {COPY.churnFlag}
           </Chip>
         </Appear>
       )}
       {acted && (
         <Appear at={T.retention} dy={14} style={{ position: "absolute", left: 30, bottom: 34 }}>
-          <Chip color={recovered ? C.green : C.blue} fill style={{ fontSize: 19 }}>
+          <Chip color={recovered ? C.green : C.orange} fill style={{ fontSize: 19 }}>
             {recovered ? <Check size={18} color="rgba(255,255,255,0.3)" /> : null}
             {COPY.retention}
           </Chip>

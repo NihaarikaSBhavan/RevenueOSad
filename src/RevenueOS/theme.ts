@@ -2,10 +2,11 @@ import type { CSSProperties } from "react";
 
 export const C = {
   navy: "#051234",
-  blue: "#0177FF", // the OS acting
-  orange: "#FE772C", // hot lead, the clicks, the CTA
+  // The colour arc: blue carries the pain (the cost, the status quo), orange carries us (Revenue OS, the CTA)
+  blue: "#0177FF",
+  orange: "#FE772C",
   neutral: "#111827",
-  grey: "#7C879B", // cold or neglected
+  grey: "#7C879B",
   greyDim: "rgba(255,255,255,0.38)",
   text: "#F4F7FC",
   textDim: "rgba(244,247,252,0.62)",

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the Revenue OS 30s voiceover: three lines, placed on the timeline, one word file.
+"""Build the Revenue OS 30s voiceover: three lines (the cost, us, the close), placed on the timeline, one word file.
 
 Usage:
   python3 scripts/revenue_os_vo.py                       # Kokoro am_michael (sandbox default)
@@ -12,6 +12,7 @@ Writes public/audio/revenue-os-vo.mp3 (30s) and public/audio/words.json:
 import argparse
 import json
 import math
+import re
 import subprocess
 import sys
 import tempfile
@@ -19,15 +20,22 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 FPS = 30
-# Starts are spaced so the two gaps between lines are even; VO3 must end before the
-# silent end card at 26.0s. Pauses inside a line are capped at MAX_PAUSE.
+# VO1 (the cost) opens the film; VO2 (us) starts on the turn, 4 frames after the scan line
+# (T.scan in src/RevenueOS/timeline.ts); VO3 ends before the silent end card at 26.0s.
+# Pauses inside a line are capped at MAX_PAUSE.
 MAX_PAUSE = 0.25
 LINES = [
-    (0.8, "You paid for every lead. Most of them never heard back."),
-    (None, "Revenue OS works every lead, books every visit, and grows every customer. In their language. At the right moment."),
-    (None, "Your CRM records what happened. Revenue OS makes it happen."),
+    "Every unworked lead is revenue you paid for, and lost. Every month you wait, a competitor answers first.",
+    "Revenue OS works every lead within minutes, books the visit, and grows the customer, on the systems you already run. Live in weeks.",
+    "Your CRM records what happened. Revenue OS makes it happen. Starting this quarter.",
 ]
-VO3_END = 25.6
+VO1_START = 0.4
+VO3_END = 25.8
+
+
+def scan_frame() -> int:
+    src = (ROOT / "src/RevenueOS/timeline.ts").read_text()
+    return int(re.search(r"\bscan:\s*(\d+)", src).group(1))
 
 
 def main() -> None:
@@ -41,7 +49,7 @@ def main() -> None:
     words = []
     with tempfile.TemporaryDirectory() as tmp:
         timed_lines, clips = [], []
-        for vo, (_, text) in enumerate(LINES, 1):
+        for vo, text in enumerate(LINES, 1):
             clip = Path(tmp) / f"vo{vo}.mp3"
             subprocess.run(
                 [sys.executable, str(ROOT / "scripts/tts.py"), text, str(clip), "--engine", args.engine,
@@ -50,18 +58,16 @@ def main() -> None:
             )
             timed_lines.append((clip, json.loads(clip.with_suffix(".words.json").read_text())))
 
-        # Place VO3 so it ends at VO3_END, then put VO2 midway so both gaps match
-        span = lambda t: t[-1]["end"] - t[0]["start"]
-        s1 = LINES[0][0]
-        e1 = s1 + timed_lines[0][1][-1]["end"]
+        e1 = VO1_START + timed_lines[0][1][-1]["end"]
+        s2 = (scan_frame() + 4) / FPS - timed_lines[1][1][0]["start"]
+        e2 = s2 + timed_lines[1][1][-1]["end"]
         s3 = VO3_END - timed_lines[2][1][-1]["end"]
-        len2 = span(timed_lines[1][1])
-        gap = (s3 + timed_lines[2][1][0]["start"] - e1 - len2) / 2
-        s2 = e1 + gap - timed_lines[1][1][0]["start"]
-        starts = [s1, round(s2, 2), round(s3, 2)]
-        print(f"VO starts {starts}; gaps between lines {gap:.2f}s")
+        starts = [VO1_START, round(s2, 2), round(s3, 2)]
+        print(f"VO starts {starts}; VO1 ends {e1:.2f}s, VO2 ends {e2:.2f}s")
+        if s2 + timed_lines[1][1][0]["start"] < e1 + 0.2 or s3 < e2 + 0.5:
+            print("WARNING: VO lines too close; move T.scan or shorten a line")
 
-        for vo, ((clip, timed), start, (_, text)) in enumerate(zip(timed_lines, starts, LINES), 1):
+        for vo, ((clip, timed), start, text) in enumerate(zip(timed_lines, starts, LINES), 1):
             display = text.split()
             assert len(display) == len(timed), f"VO{vo}: {len(display)} tokens vs {len(timed)} timed words"
             for shown, w in zip(display, timed):

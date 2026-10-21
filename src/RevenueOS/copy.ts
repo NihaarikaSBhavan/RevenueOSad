@@ -1,8 +1,10 @@
 // Every on-screen string lives here so it can be checked against the brief's banned-word list.
 export const COPY = {
-  dashTitle: "Enquiries · All sources",
+  dashTitle: "Enquiries · 38 branches · All sources",
   clock: "2:47 AM",
-  unanswered: "Unanswered",
+  unanswered: "Unanswered this quarter",
+  atRisk: "Revenue at risk",
+  atRiskSub: "Still climbing.",
   clinical: "Leads paid for. Leads never called.",
   priyaTitle: "New enquiry · Priya S. · Instagram ad",
   lastContact: "Last contact: —",
