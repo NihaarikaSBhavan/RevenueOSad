@@ -4,6 +4,8 @@ This folder is a video ad studio. Follow these rules for every ad.
 
 ## Creative direction (standing, every video)
 
+The full reusable brief for any Vertical AI video (products, clarity rules, colour arc, voice, sound, build steps, review checklist) is `brief/video-master-prompt.md`. Follow it for every new storyboard.
+
 These apply to every video unless a brief for that video says otherwise. Where they disagree with an older brief (e.g. `brief/creative-brief.md` using blue as "the OS acting"), this section wins.
 
 - **Audience:** enterprises and large businesses. Write for the CEO, CFO and revenue leadership: people who think in margin, pipeline, risk and board-level outcomes, not features.
