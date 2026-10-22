@@ -11,7 +11,10 @@ the lines end to end, derives each shot from its first line, then builds the sou
   src/Mozhi/timeline.json        shots, voice clips and cues, in frames
   public/audio/mozhi-mix.wav     voice + ambience + SFX + music, -14 LUFS, true peak <= -1 dBTP
 
-Voices: narrator af_heart (Kokoro's best-rated voice), with a light clean-up and room. Mozhi
+Voices: narrator af_heart (Kokoro's best-rated voice) at natural pace, each line voiced as one
+whole sentence so it keeps its intonation; where picture must land on a phrase inside a line
+(the use cases, the three outcomes, the sign-off), each phrase start is timed by voicing the
+line up to that phrase. Mozhi
 is hf_alpha and Priya hf_beta; their English lines are written in Devanagari and voiced with
 the Hindi phonemiser, which gives Indian English. Priya is heard down a phone line.
 "Mozhi" is pronounced "mo-lee", so the narrator's text spells it that way.
@@ -38,27 +41,26 @@ t_all = np.arange(N) / SR
 
 # (id, speaker, voice, lang, speed, gap before in s (or (absolute start,)), spoken text, shown text)
 LINES = [
-    ("vo1", "narrator", "af_heart", "en-us", 1.02, (0.3,), "Your team can't call every lead. Most never hear back.", None),
-    ("vo2", "narrator", "af_heart", "en-us", 1.05, 0.4, "Meet Mo-lee. An AI voice agent that makes your calls for you.", "Meet Mozhi. An AI voice agent that makes your calls for you."),
-    ("vo3", "narrator", "af_heart", "en-us", 1.05, 0.35, "Every lead, called in minutes.", None),
-    ("mozhiOpen", "mozhi", "hf_alpha", "hi", 1.12, 0.35, "हाय प्रिया, इज़ नाउ अ गुड टाइम?", "Hi Priya, is now a good time?"),
-    ("priyaEn", "priya", "hf_beta", "hi", 1.1, 0.22, "श्योर, बट", "Sure, but"),
+    ("vo1", "narrator", "af_heart", "en-us", 0.98, (0.3,), "Your team can't call every lead. Most never hear back.", None),
+    ("vo2", "narrator", "af_heart", "en-us", 0.98, 0.35, "Meet Mo-lee: an AI voice agent that makes your calls for you.", "Meet Mozhi: an AI voice agent that makes your calls for you."),
+    ("vo3", "narrator", "af_heart", "en-us", 0.98, 0.3, "Every lead, called in minutes.", None),
+    ("mozhiOpen", "mozhi", "hf_alpha", "hi", 1.1, 0.35, "हाय प्रिया, इज़ नाउ अ गुड टाइम?", "Hi Priya, is now a good time?"),
+    ("priyaEn", "priya", "hf_beta", "hi", 1.1, 0.2, "श्योर, बट", "Sure, but"),
     ("priyaHi", "priya", "hf_beta", "hi", 1.1, 0.02, "पहले डिटेल्स भेज दीजिए।", None),
-    ("mozhiHi", "mozhi", "hf_alpha", "hi", 1.18, 0.25, "ज़रूर, अभी व्हाट्सऐप पर भेजती हूँ।", None),
-    ("ucFollow", "narrator", "af_heart", "en-us", 1.05, 0.4, "Follow-ups.", None),
-    ("ucBook", "narrator", "af_heart", "en-us", 1.05, 0.2, "Bookings.", None),
-    ("ucSupport", "narrator", "af_heart", "en-us", 1.05, 0.2, "Support.", None),
-    ("ucPay", "narrator", "af_heart", "en-us", 1.05, 0.2, "Payment reminders.", None),
-    ("oneAgent", "narrator", "af_heart", "en-us", 1.05, 0.35, "One agent. Every call.", None),
-    ("sell", "narrator", "af_heart", "en-us", 1.1, 0.4, "Sell more.", None),
-    ("spend", "narrator", "af_heart", "en-us", 1.1, 0.12, "Spend less.", None),
-    ("grow", "narrator", "af_heart", "en-us", 1.1, 0.12, "Grow without growing the team.", None),
-    ("brand", "narrator", "af_heart", "en-us", 1.08, 0.4, "The Vertical AI.", None),
-    ("tagline", "narrator", "af_heart", "en-us", 1.12, 0.08, "AI Enterprise OS for success.", None),
+    ("mozhiHi", "mozhi", "hf_alpha", "hi", 1.15, 0.22, "ज़रूर, अभी व्हाट्सऐप पर भेजती हूँ।", None),
+    ("uses", "narrator", "af_heart", "en-us", 0.98, 0.4, "Follow-ups, bookings, support, payment reminders. One agent, for every call.", None),
+    ("outcome", "narrator", "af_heart", "en-us", 0.98, 0.35, "Sell more. Spend less. Grow without growing the team.", None),
+    ("brand", "narrator", "af_heart", "en-us", 0.98, 0.45, "Mo-lee, by The Vertical AI.", "Mozhi, by The Vertical AI."),
 ]
+# Phrases inside a line that picture lands on; their starts are timed by voicing each prefix
+MARKS = {
+    "uses": ["Follow-ups,", "bookings,", "support,", "payment reminders.", "One agent, for every call."],
+    "outcome": ["Sell more.", "Spend less.", "Grow without growing the team."],
+}
+
 
 # Each shot starts LEAD seconds before its first line; the first shot starts at 0
-SHOTS = [("pain", "vo1"), ("meet", "vo2"), ("scale", "vo3"), ("call", "mozhiOpen"), ("uses", "ucFollow"), ("outcome", "sell"), ("end", "brand")]
+SHOTS = [("pain", "vo1"), ("meet", "vo2"), ("scale", "vo3"), ("call", "mozhiOpen"), ("uses", "uses"), ("outcome", "outcome"), ("end", "brand")]
 LEAD = 0.25
 
 
@@ -78,20 +80,22 @@ def voice_lines():
         a, sr = k.create(text, voice=voice, lang=lang, speed=speed)
         a = resample_poly(trim(a), SR, sr)
         start = gap[0] if isinstance(gap, tuple) else t + gap
-        clips.append({"id": cid, "who": who, "text": shown or text, "start": start, "end": start + len(a) / SR, "audio": a})
+        clip = {"id": cid, "who": who, "text": shown or text, "start": start, "end": start + len(a) / SR, "audio": a}
+        if cid in MARKS:
+            phrases = MARKS[cid]
+            assert " ".join(phrases) == text, cid
+            clip["marks"] = [start]
+            for n in range(1, len(phrases)):
+                p, psr = k.create(" ".join(phrases[:n]), voice=voice, lang=lang, speed=speed)
+                clip["marks"].append(start + len(trim(p)) / psr)
+        clips.append(clip)
         t = start + len(a) / SR
     return clips
 
 
 def narrator_chain(x: np.ndarray) -> np.ndarray:
-    """Clean up the low end, lift presence a touch, and add a short, quiet room for warmth."""
-    x = sosfilt(butter(2, 80, btype="highpass", fs=SR, output="sos"), x)
-    x = x + 0.25 * sosfilt(butter(2, [2500, 6000], btype="bandpass", fs=SR, output="sos"), x)
-    n = int(0.35 * SR)
-    ir = lowpass(rng.standard_normal(n) * np.exp(-np.arange(n) / (0.07 * SR)), 4000)
-    wet = np.convolve(x, ir)
-    out = np.concatenate([x, np.zeros(len(wet) - len(x))])
-    return out + 0.06 * wet / (np.max(np.abs(wet)) + 1e-9) * np.max(np.abs(x))
+    """Clean up the low end only; anything more makes the voice sound processed."""
+    return sosfilt(butter(2, 80, btype="highpass", fs=SR, output="sos"), x)
 
 
 def phone_line(x: np.ndarray) -> np.ndarray:
@@ -188,11 +192,10 @@ def main() -> None:
         "dialFrom": s["scale"] + 4,
         "langSwitch": f(by["priyaHi"]["start"]),
         "whatsapp": mid(by["mozhiHi"]),
-        "uses": [f(by[k]["start"]) - 2 for k in ["ucFollow", "ucBook", "ucSupport", "ucPay"]],
-        "oneAgent": f(by["oneAgent"]["start"]),
-        "metrics": [f(by[k]["start"]) for k in ["sell", "spend", "grow"]],
+        "uses": [f(m) - 2 for m in by["uses"]["marks"][:4]],
+        "oneAgent": f(by["uses"]["marks"][4]),
+        "metrics": [f(m) for m in by["outcome"]["marks"]],
         "logo": f(by["brand"]["start"]) - 4,
-        "tagline": f(by["tagline"]["start"]),
     }
     tl = {
         "fps": FPS,

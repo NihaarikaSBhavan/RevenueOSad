@@ -1,27 +1,16 @@
 import { Audio } from "@remotion/media";
-import { AbsoluteFill, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { ramp } from "../RevenueOS/anim";
+import { AbsoluteFill, staticFile, useVideoConfig } from "remotion";
 import { Grain } from "../RevenueOS/ui/Background";
-import { Call, End, Meet, Outcome, Pain, Scale, Uses } from "./Scenes";
-import { C, Q, sans } from "./theme";
-
-/** Navy, with an orange glow that grows once Mozhi arrives and again under the sign-off. */
-const Backdrop: React.FC = () => {
-  const frame = useCurrentFrame();
-  const a = 0.14 * ramp(frame, Q.reveal, Q.reveal + 30) + 0.08 * ramp(frame, Q.logo - 10, Q.logo + 30);
-  return (
-    <AbsoluteFill style={{ background: C.navy }}>
-      <AbsoluteFill style={{ background: `radial-gradient(60% 60% at 50% 42%, rgba(254,119,44,${a}), transparent 70%)` }} />
-    </AbsoluteFill>
-  );
-};
+import { Call, End, Meet, Outcome, Pain, Scale, Sun, Uses } from "./Scenes";
+import { sans } from "./theme";
 
 export const MozhiFilm: React.FC = () => {
   const { fps } = useVideoConfig();
   return (
-    <AbsoluteFill style={{ fontFamily: sans }}>
-      <Backdrop />
+    <AbsoluteFill style={{ fontFamily: sans, background: "#020817" }}>
       <Pain />
+      {/* Mozhi arrives and the frame floods orange; it stays orange to the end */}
+      <Sun />
       <Meet />
       <Scale />
       <Call />

@@ -32,6 +32,13 @@ export const C = {
   dim: "rgba(244,247,252,0.6)",
   faint: "rgba(244,247,252,0.14)",
   card: "rgba(14,28,66,0.92)",
+  // After Mozhi arrives: bright orange, white paper, dark ink
+  sun: "#FF7A2E",
+  sunLight: "#FFA35F",
+  sunDeep: "#D9520F",
+  paper: "#FFF8F2",
+  dark: "#1E0D05",
+  darkDim: "rgba(30,13,5,0.58)",
 };
 
 export type Shot = { id: string; start: number; end: number };
@@ -52,7 +59,6 @@ export const TL = timeline as {
     oneAgent: number;
     metrics: number[];
     logo: number;
-    tagline: number;
   };
 };
 
