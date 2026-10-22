@@ -43,23 +43,14 @@ export const TL = timeline as {
   shots: Shot[];
   clips: Clip[];
   cues: {
-    toggle: number;
+    ringUntil: number;
+    reveal: number;
     dialFrom: number;
     langSwitch: number;
-    qualify: number[];
     whatsapp: number;
-    crm: number[];
-    day3: number;
-    memory: number;
-    booked: number;
-    confirm: number;
-    handoff: number;
-    salesUp: number;
-    logged: number;
-    tap: number;
-    paid: number;
+    uses: number[];
+    oneAgent: number;
     metrics: number[];
-    drums: number[];
     logo: number;
     tagline: number;
   };
@@ -79,6 +70,6 @@ export const clip = (id: string): Clip => {
   return c;
 };
 
-/** Is anyone on the call speaking at this frame? Drives the waveforms. */
+/** Is anyone on the call (or, with who, that speaker) speaking at this frame? Drives the waveforms. */
 export const speaking = (frame: number, who?: string) =>
-  TL.clips.some((c) => c.who !== "narrator" && (!who || c.who === who) && frame >= c.start && frame < c.end);
+  TL.clips.some((c) => (who ? c.who === who : c.who !== "narrator") && frame >= c.start && frame < c.end);

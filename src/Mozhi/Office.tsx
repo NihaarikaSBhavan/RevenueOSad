@@ -11,7 +11,7 @@ const MARKER = "#17357A";
 /** Ring bursts that match scripts/mozhi_audio.py: two 0.4s bursts per ring. */
 const ringing = (frame: number, first: number, every: number) => {
   const t = frame / 30;
-  if (frame >= Q.toggle || t < first) return false;
+  if (frame >= Q.ringUntil || t < first) return false;
   const k = (t - first) % every;
   return k < 0.4 || (k > 0.6 && k < 1.0);
 };
@@ -102,7 +102,7 @@ const Salesperson: React.FC = () => {
 const LaptopScreen: React.FC<{ mode: Mode; on: number }> = ({ mode, on }) => {
   const frame = useCurrentFrame();
   if (mode === "growth") {
-    const t = ramp(frame, Q.metrics[0] - 10, Q.metrics[0] + 30);
+    const t = ramp(frame, Q.metrics[0] - 10, Q.metrics[2]);
     return (
       <g>
         <rect x="612" y="482" width="296" height="186" fill="#1C1520" />
@@ -143,10 +143,10 @@ const LaptopScreen: React.FC<{ mode: Mode; on: number }> = ({ mode, on }) => {
  */
 export const Office: React.FC<{ mode: Mode }> = ({ mode }) => {
   const frame = useCurrentFrame();
-  const on = mode === "on" ? sp(frame, Q.toggle, 18) : mode === "growth" ? 1 : 0;
-  const reach = mode === "on" ? sp(frame, Q.toggle - 14, 18) : 0;
+  const on = mode === "on" ? 1 : mode === "growth" ? 1 : 0;
+  const reach = mode === "on" ? 1 : 0;
   const warm = mode === "growth" ? 1 : 0;
-  const grow = mode === "growth" ? ramp(frame, Q.metrics[0] - 12, Q.metrics[4]) : 0;
+  const grow = mode === "growth" ? ramp(frame, Q.metrics[0] - 12, Q.metrics[2]) : 0;
   return (
     <svg width="1920" height="1080" viewBox="0 0 1920 1080" style={{ position: "absolute", inset: 0 }}>
       <rect width="1920" height="830" fill={mixColor(C.wall, "#1B1420", warm)} />

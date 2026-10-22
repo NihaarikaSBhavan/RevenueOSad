@@ -3,57 +3,37 @@
  "duration": 900,
  "shots": [
   {
-   "id": "tension",
+   "id": "pain",
    "start": 0,
-   "end": 120
+   "end": 106
   },
   {
-   "id": "switch",
-   "start": 120,
-   "end": 180
+   "id": "meet",
+   "start": 106,
+   "end": 223
   },
   {
-   "id": "firstCall",
-   "start": 180,
-   "end": 321
+   "id": "scale",
+   "start": 223,
+   "end": 282
   },
   {
-   "id": "orchestrate",
-   "start": 321,
-   "end": 400
+   "id": "call",
+   "start": 282,
+   "end": 512
   },
   {
-   "id": "followUp",
-   "start": 400,
-   "end": 531
+   "id": "uses",
+   "start": 512,
+   "end": 691
   },
   {
-   "id": "book",
-   "start": 531,
-   "end": 591
-  },
-  {
-   "id": "support",
-   "start": 591,
-   "end": 648
-  },
-  {
-   "id": "recover",
-   "start": 648,
-   "end": 699
-  },
-  {
-   "id": "growth",
-   "start": 699,
-   "end": 750
-  },
-  {
-   "id": "title",
-   "start": 750,
+   "id": "outcome",
+   "start": 691,
    "end": 792
   },
   {
-   "id": "endCard",
+   "id": "end",
    "start": 792,
    "end": 900
   }
@@ -62,140 +42,142 @@
   {
    "id": "vo1",
    "who": "narrator",
-   "text": "Every lead you don't call is revenue you've already paid for.",
+   "text": "Your team can't call every lead. Most never hear back.",
    "start": 9,
-   "end": 105
+   "end": 102
   },
   {
    "id": "vo2",
    "who": "narrator",
-   "text": "Mozhi calls every one of them.",
-   "start": 129,
-   "end": 178
+   "text": "Meet Mozhi. An AI voice agent that makes your calls for you.",
+   "start": 114,
+   "end": 220
+  },
+  {
+   "id": "vo3",
+   "who": "narrator",
+   "text": "Every lead, called in minutes.",
+   "start": 230,
+   "end": 279
   },
   {
    "id": "mozhiOpen",
    "who": "mozhi",
    "text": "Hi Priya, is now a good time?",
-   "start": 184,
-   "end": 244
+   "start": 289,
+   "end": 352
   },
   {
    "id": "priyaEn",
    "who": "priya",
    "text": "Sure, but",
-   "start": 251,
-   "end": 269
+   "start": 358,
+   "end": 380
   },
   {
    "id": "priyaHi",
    "who": "priya",
    "text": "पहले डिटेल्स भेज दीजिए।",
-   "start": 269,
-   "end": 319
+   "start": 380,
+   "end": 430
   },
   {
    "id": "mozhiHi",
    "who": "mozhi",
    "text": "ज़रूर, अभी व्हाट्सऐप पर भेजती हूँ।",
-   "start": 328,
-   "end": 398
+   "start": 437,
+   "end": 508
   },
   {
-   "id": "mozhiDay3",
-   "who": "mozhi",
-   "text": "Hi Priya, did you see the brochure I sent on Tuesday?",
-   "start": 408,
-   "end": 492
+   "id": "ucFollow",
+   "who": "narrator",
+   "text": "Follow-ups.",
+   "start": 520,
+   "end": 543
   },
   {
-   "id": "priyaYes",
-   "who": "priya",
-   "text": "Yes, we liked it.",
-   "start": 495,
-   "end": 527
+   "id": "ucBook",
+   "who": "narrator",
+   "text": "Bookings.",
+   "start": 549,
+   "end": 568
   },
   {
-   "id": "mozhiSupport",
-   "who": "mozhi",
-   "text": "Done. It's moved to the fifteenth.",
-   "start": 596,
-   "end": 649
+   "id": "ucSupport",
+   "who": "narrator",
+   "text": "Support.",
+   "start": 574,
+   "end": 594
   },
   {
-   "id": "vo3a",
+   "id": "ucPay",
+   "who": "narrator",
+   "text": "Payment reminders.",
+   "start": 600,
+   "end": 633
+  },
+  {
+   "id": "oneAgent",
+   "who": "narrator",
+   "text": "One agent. Every call.",
+   "start": 643,
+   "end": 687
+  },
+  {
+   "id": "sell",
    "who": "narrator",
    "text": "Sell more.",
-   "start": 700,
-   "end": 721
+   "start": 699,
+   "end": 718
   },
   {
-   "id": "vo3b",
+   "id": "spend",
    "who": "narrator",
    "text": "Spend less.",
-   "start": 724,
-   "end": 746
+   "start": 722,
+   "end": 743
   },
   {
-   "id": "vo3c",
+   "id": "grow",
    "who": "narrator",
    "text": "Grow without growing the team.",
-   "start": 749,
-   "end": 792
+   "start": 747,
+   "end": 788
   },
   {
-   "id": "vo4a",
+   "id": "brand",
    "who": "narrator",
    "text": "The Vertical AI.",
-   "start": 807,
-   "end": 839
+   "start": 800,
+   "end": 832
   },
   {
-   "id": "vo4b",
+   "id": "tagline",
    "who": "narrator",
    "text": "AI Enterprise OS for success.",
-   "start": 841,
-   "end": 897
+   "start": 834,
+   "end": 893
   }
  ],
  "cues": {
-  "toggle": 126,
-  "dialFrom": 136,
-  "langSwitch": 269,
-  "qualify": [
-   238,
-   273,
-   315
+  "ringUntil": 106,
+  "reveal": 107,
+  "dialFrom": 227,
+  "langSwitch": 380,
+  "whatsapp": 476,
+  "uses": [
+   518,
+   547,
+   572,
+   598
   ],
-  "whatsapp": 367,
-  "crm": [
-   373,
-   379,
-   385,
-   391
-  ],
-  "day3": 402,
-  "memory": 412,
-  "booked": 539,
-  "confirm": 549,
-  "handoff": 561,
-  "salesUp": 575,
-  "logged": 645,
-  "tap": 678,
-  "paid": 686,
+  "oneAgent": 643,
   "metrics": [
-   705,
-   713,
-   721,
-   729,
-   737
+   699,
+   722,
+   747
   ],
-  "drums": [
-   794,
-   799,
-   804
-  ],
-  "logo": 805,
-  "tagline": 841
+  "logo": 796,
+  "tagline": 834
  }
 }
