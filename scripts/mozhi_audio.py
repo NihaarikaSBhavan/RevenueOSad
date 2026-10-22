@@ -37,12 +37,12 @@ SHOTS = [
     ("firstCall", 6.0),
     ("orchestrate", 9.6),
     ("followUp", 12.4),
-    ("book", 17.3),
-    ("support", 19.5),
+    ("book", 17.6),
+    ("support", 19.6),
     ("recover", 21.4),
     ("growth", 23.3),
-    ("title", 25.3),
-    ("endCard", 27.3),
+    ("title", 25.2),
+    ("endCard", 27.45),
 ]
 
 # (id, speaker, voice, lang, speed, start s, text). Phone = the caller is heard down a phone line.
@@ -54,12 +54,12 @@ LINES = [
     ("mozhiDay3", "mozhi", "af_heart", "en-us", 1.2, 12.75, "Hi Priya, did you get a chance to go through the brochure I sent on Tuesday?"),
     ("priyaYes", "priya", "hf_beta", "en-us", 1.1, None, "Yes, we liked it."),
     ("mozhiSupport", "mozhi", "af_heart", "en-us", 1.15, 19.75, "Done. It's moved to the fifteenth."),
-    ("vo3a", "narrator", "am_michael", "en-us", 1.05, 24.1, "Sell more."),
-    ("vo3b", "narrator", "am_michael", "en-us", 1.05, None, "Spend less."),
-    ("vo3c", "narrator", "am_michael", "en-us", 1.05, None, "Grow without growing the team."),
+    ("vo3a", "narrator", "am_michael", "en-us", 1.15, 23.9, "Sell more."),
+    ("vo3b", "narrator", "am_michael", "en-us", 1.15, None, "Spend less."),
+    ("vo3c", "narrator", "am_michael", "en-us", 1.12, None, "Grow without growing the team."),
 ]
 GAP = 0.08  # between a line that follows straight on (start None) and the one before
-GAP_VO3 = 0.3
+GAP_VO3 = 0.15
 
 
 def f(t: float) -> int:
@@ -204,7 +204,7 @@ def main() -> None:
         "paid": s["recover"] + 38,
         "metrics": [s["growth"] + 6 + 8 * i for i in range(5)],
         "drums": [s["endCard"] + 3, s["endCard"] + 13, s["endCard"] + 23],
-        "logo": s["endCard"] + 36,
+        "logo": s["endCard"] + 32,
     }
     tl = {
         "fps": FPS,
