@@ -1,0 +1,422 @@
+{
+ "fps": 30,
+ "duration": 900,
+ "scenes": [
+  {
+   "id": "arrive",
+   "start": 4,
+   "words": [
+    {
+     "text": "A",
+     "frame": 12,
+     "end": 18
+    },
+    {
+     "text": "customer",
+     "frame": 18,
+     "end": 33
+    },
+    {
+     "text": "is",
+     "frame": 35,
+     "end": 41
+    },
+    {
+     "text": "ready",
+     "frame": 41,
+     "end": 50
+    },
+    {
+     "text": "to",
+     "frame": 50,
+     "end": 56
+    },
+    {
+     "text": "buy.",
+     "frame": 56,
+     "end": 64
+    }
+   ],
+   "end": 77
+  },
+  {
+   "id": "wait",
+   "start": 71,
+   "words": [
+    {
+     "text": "Your",
+     "frame": 80,
+     "end": 87
+    },
+    {
+     "text": "business",
+     "frame": 87,
+     "end": 99
+    },
+    {
+     "text": "makes",
+     "frame": 99,
+     "end": 109
+    },
+    {
+     "text": "them",
+     "frame": 109,
+     "end": 116
+    },
+    {
+     "text": "wait.",
+     "frame": 116,
+     "end": 124
+    }
+   ],
+   "end": 136
+  },
+  {
+   "id": "leak",
+   "start": 130,
+   "words": [
+    {
+     "text": "That's",
+     "frame": 139,
+     "end": 148
+    },
+    {
+     "text": "revenue",
+     "frame": 148,
+     "end": 160
+    },
+    {
+     "text": "you",
+     "frame": 160,
+     "end": 165
+    },
+    {
+     "text": "paid",
+     "frame": 165,
+     "end": 174
+    },
+    {
+     "text": "for,",
+     "frame": 174,
+     "end": 181
+    },
+    {
+     "text": "going",
+     "frame": 188,
+     "end": 201
+    },
+    {
+     "text": "to",
+     "frame": 201,
+     "end": 207
+    },
+    {
+     "text": "whoever",
+     "frame": 207,
+     "end": 219
+    },
+    {
+     "text": "answers",
+     "frame": 219,
+     "end": 231
+    },
+    {
+     "text": "first.",
+     "frame": 231,
+     "end": 241
+    }
+   ],
+   "end": 255
+  },
+  {
+   "id": "gap",
+   "start": 249,
+   "words": [
+    {
+     "text": "Every",
+     "frame": 258,
+     "end": 265
+    },
+    {
+     "text": "quarter",
+     "frame": 265,
+     "end": 276
+    },
+    {
+     "text": "you",
+     "frame": 276,
+     "end": 280
+    },
+    {
+     "text": "wait,",
+     "frame": 280,
+     "end": 288
+    },
+    {
+     "text": "the",
+     "frame": 294,
+     "end": 300
+    },
+    {
+     "text": "gap",
+     "frame": 300,
+     "end": 308
+    },
+    {
+     "text": "compounds.",
+     "frame": 308,
+     "end": 328
+    }
+   ],
+   "end": 355
+  },
+  {
+   "id": "turn",
+   "start": 349,
+   "words": [
+    {
+     "text": "Revenue",
+     "frame": 358,
+     "end": 372
+    },
+    {
+     "text": "OS",
+     "frame": 375,
+     "end": 384
+    },
+    {
+     "text": "closes",
+     "frame": 384,
+     "end": 398
+    },
+    {
+     "text": "it.",
+     "frame": 398,
+     "end": 403
+    }
+   ],
+   "end": 421
+  },
+  {
+   "id": "answered",
+   "start": 415,
+   "words": [
+    {
+     "text": "Every",
+     "frame": 424,
+     "end": 433
+    },
+    {
+     "text": "enquiry",
+     "frame": 433,
+     "end": 451
+    },
+    {
+     "text": "answered",
+     "frame": 451,
+     "end": 461
+    },
+    {
+     "text": "within",
+     "frame": 461,
+     "end": 472
+    },
+    {
+     "text": "minutes.",
+     "frame": 472,
+     "end": 484
+    },
+    {
+     "text": "Booked.",
+     "frame": 492,
+     "end": 503
+    },
+    {
+     "text": "Followed",
+     "frame": 507,
+     "end": 519
+    },
+    {
+     "text": "up.",
+     "frame": 519,
+     "end": 525
+    }
+   ],
+   "end": 538
+  },
+  {
+   "id": "clicks",
+   "start": 532,
+   "words": [
+    {
+     "text": "Your",
+     "frame": 541,
+     "end": 549
+    },
+    {
+     "text": "team",
+     "frame": 549,
+     "end": 556
+    },
+    {
+     "text": "steps",
+     "frame": 556,
+     "end": 567
+    },
+    {
+     "text": "in",
+     "frame": 567,
+     "end": 572
+    },
+    {
+     "text": "for",
+     "frame": 572,
+     "end": 579
+    },
+    {
+     "text": "three",
+     "frame": 579,
+     "end": 587
+    },
+    {
+     "text": "clicks.",
+     "frame": 587,
+     "end": 598
+    }
+   ],
+   "end": 622
+  },
+  {
+   "id": "grown",
+   "start": 616,
+   "words": [
+    {
+     "text": "Every",
+     "frame": 625,
+     "end": 635
+    },
+    {
+     "text": "lead",
+     "frame": 635,
+     "end": 644
+    },
+    {
+     "text": "worked.",
+     "frame": 644,
+     "end": 655
+    },
+    {
+     "text": "Every",
+     "frame": 662,
+     "end": 671
+    },
+    {
+     "text": "customer",
+     "frame": 671,
+     "end": 685
+    },
+    {
+     "text": "grown.",
+     "frame": 685,
+     "end": 696
+    }
+   ],
+   "end": 711
+  },
+  {
+   "id": "weeks",
+   "start": 705,
+   "words": [
+    {
+     "text": "Live",
+     "frame": 714,
+     "end": 724
+    },
+    {
+     "text": "in",
+     "frame": 724,
+     "end": 730
+    },
+    {
+     "text": "weeks,",
+     "frame": 730,
+     "end": 740
+    },
+    {
+     "text": "on",
+     "frame": 746,
+     "end": 751
+    },
+    {
+     "text": "your",
+     "frame": 751,
+     "end": 758
+    },
+    {
+     "text": "existing",
+     "frame": 758,
+     "end": 774
+    },
+    {
+     "text": "systems.",
+     "frame": 774,
+     "end": 788
+    }
+   ],
+   "end": 815
+  }
+ ],
+ "signoff": [
+  {
+   "text": "Start",
+   "frame": 825,
+   "end": 836
+  },
+  {
+   "text": "this",
+   "frame": 836,
+   "end": 843
+  },
+  {
+   "text": "quarter.",
+   "frame": 843,
+   "end": 855
+  }
+ ],
+ "cues": {
+  "ping": 8,
+  "ticks": [
+   77,
+   86,
+   94,
+   100,
+   106,
+   111,
+   115,
+   119,
+   122,
+   125,
+   127,
+   129,
+   131,
+   133
+  ],
+  "fieldIn": 134,
+  "leakGo": 186,
+  "chart": 255,
+  "collapse": 329,
+  "sweep": 347,
+  "timerStop": 484,
+  "clicks": [
+   579,
+   588,
+   597
+  ],
+  "fieldBack": 618,
+  "stackDrop": 713,
+  "endCard": 809,
+  "logo": 811,
+  "cta": 859,
+  "proof": 869
+ }
+}

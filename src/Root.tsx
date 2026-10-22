@@ -1,4 +1,5 @@
 import { Composition } from "remotion";
+import { ClockFilm } from "./Clock/Film";
 import { Quickstart } from "./Quickstart";
 import { RevenueOSFilm } from "./RevenueOS/Film";
 import { TestClip } from "./TestClip";
@@ -6,6 +7,14 @@ import { TestClip } from "./TestClip";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="TheClock30"
+        component={ClockFilm}
+        durationInFrames={900}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="RevenueOS30"
         component={RevenueOSFilm}
