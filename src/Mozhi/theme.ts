@@ -61,6 +61,7 @@ export const TL = timeline as {
     metrics: number[];
     drums: number[];
     logo: number;
+    tagline: number;
   };
 };
 

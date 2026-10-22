@@ -45,16 +45,16 @@
   {
    "id": "growth",
    "start": 699,
-   "end": 756
+   "end": 750
   },
   {
    "id": "title",
-   "start": 756,
-   "end": 824
+   "start": 750,
+   "end": 792
   },
   {
    "id": "endCard",
-   "start": 824,
+   "start": 792,
    "end": 900
   }
  ],
@@ -62,16 +62,16 @@
   {
    "id": "vo1",
    "who": "narrator",
-   "text": "Every lead you don't call is a sale you already paid for.",
-   "start": 8,
-   "end": 114
+   "text": "Every lead you don't call is revenue you've already paid for.",
+   "start": 9,
+   "end": 105
   },
   {
    "id": "vo2",
    "who": "narrator",
-   "text": "Mozhi calls every lead.",
-   "start": 130,
-   "end": 179
+   "text": "Mozhi calls every one of them.",
+   "start": 129,
+   "end": 178
   },
   {
    "id": "mozhiOpen",
@@ -126,22 +126,36 @@
    "id": "vo3a",
    "who": "narrator",
    "text": "Sell more.",
-   "start": 717,
-   "end": 740
+   "start": 700,
+   "end": 721
   },
   {
    "id": "vo3b",
    "who": "narrator",
    "text": "Spend less.",
-   "start": 745,
-   "end": 770
+   "start": 724,
+   "end": 746
   },
   {
    "id": "vo3c",
    "who": "narrator",
    "text": "Grow without growing the team.",
-   "start": 775,
-   "end": 822
+   "start": 749,
+   "end": 792
+  },
+  {
+   "id": "vo4a",
+   "who": "narrator",
+   "text": "The Vertical AI.",
+   "start": 807,
+   "end": 839
+  },
+  {
+   "id": "vo4b",
+   "who": "narrator",
+   "text": "AI Enterprise OS for success.",
+   "start": 841,
+   "end": 897
   }
  ],
  "cues": {
@@ -177,10 +191,11 @@
    737
   ],
   "drums": [
-   827,
-   837,
-   847
+   794,
+   799,
+   804
   ],
-  "logo": 856
+  "logo": 805,
+  "tagline": 841
  }
 }

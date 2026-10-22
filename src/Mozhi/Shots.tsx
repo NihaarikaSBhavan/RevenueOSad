@@ -305,8 +305,9 @@ export const EndCard: React.FC = () => {
       <div style={{ position: "absolute", left: 960 - LOGO_W / 2, top: 600, opacity: logo, scale: String(lerp(0.94, 1, logo)) }}>
         <CanvasImage src={staticFile("images/logo-white.png")} width={LOGO_W} height={LOGO_H} style={{ width: LOGO_W, height: LOGO_H }} />
       </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 800, textAlign: "center", fontFamily: sans, fontSize: 26, color: C.dim, opacity: sp(frame, Q.logo + 6, 18) }}>
-        Part of The Vertical AI Enterprise OS
+      {/* Spoken as the sign-off: "The Vertical AI. AI Enterprise OS for success." */}
+      <div style={{ position: "absolute", left: 0, right: 0, top: 790, textAlign: "center", fontFamily: sans, fontSize: 44, fontWeight: 600, color: C.text, opacity: sp(frame, Q.tagline - 2, 18), translate: `0px ${14 * (1 - sp(frame, Q.tagline - 2, 18))}px` }}>
+        AI Enterprise OS for <span style={{ color: C.orange }}>success.</span>
       </div>
     </InShot>
   );

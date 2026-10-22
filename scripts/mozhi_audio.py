@@ -7,7 +7,7 @@ places it on the shot timeline, then builds the sound design around it and write
   src/Mozhi/timeline.json        shots, voice clips and cues, in frames
   public/audio/mozhi-mix.wav     voice + ambience + SFX + music, -14 LUFS, true peak <= -1 dBTP
 
-Voices: narrator am_michael; Mozhi hf_alpha; Priya hf_beta. The first call starts in English; Priya
+Voices: narrator af_heart (Kokoro's best-rated voice), warmed with a light room; Mozhi hf_alpha; Priya hf_beta. The first call starts in English; Priya
 switches to Hindi mid-sentence (one voice across both languages) and Mozhi carries on in Hindi.
 Callers on the phone are band-limited.
 
@@ -42,15 +42,15 @@ SHOTS = [
     ("support", 19.7),
     ("recover", 21.6),
     ("growth", 23.3),
-    ("title", 25.2),
-    ("endCard", 27.45),
+    ("title", 25.0),
+    ("endCard", 26.4),
 ]
 
 # (id, speaker, voice, lang, speed, start, text). start is seconds, or ("after", gap) to follow the
 # previous line.
 LINES = [
-    ("vo1", "narrator", "am_michael", "en-us", 1.08, 0.25, "Every lead you don't call is a sale you already paid for."),
-    ("vo2", "narrator", "am_michael", "en-us", 1.08, 4.35, "Mozhi calls every lead."),
+    ("vo1", "narrator", "af_heart", "en-us", 1.0, 0.3, "Every lead you don't call is revenue you've already paid for."),
+    ("vo2", "narrator", "af_heart", "en-us", 1.05, 4.3, "Mozhi calls every one of them."),
     ("mozhiOpen", "mozhi", "hf_alpha", "en-us", 1.2, 6.15, "Hi Priya, is now a good time?"),
     ("priyaEn", "priya", "hf_beta", "en-us", 1.1, ("after", 0.25), "Sure, but"),
     ("priyaHi", "priya", "hf_beta", "hi", 1.1, ("after", 0.02), "पहले डिटेल्स भेज दीजिए।"),
@@ -58,9 +58,12 @@ LINES = [
     ("mozhiDay3", "mozhi", "hf_alpha", "en-us", 1.3, 13.6, "Hi Priya, did you see the brochure I sent on Tuesday?"),
     ("priyaYes", "priya", "hf_beta", "en-us", 1.1, ("after", 0.1), "Yes, we liked it."),
     ("mozhiSupport", "mozhi", "hf_alpha", "en-us", 1.15, 19.85, "Done. It's moved to the fifteenth."),
-    ("vo3a", "narrator", "am_michael", "en-us", 1.15, 23.9, "Sell more."),
-    ("vo3b", "narrator", "am_michael", "en-us", 1.15, ("after", 0.15), "Spend less."),
-    ("vo3c", "narrator", "am_michael", "en-us", 1.12, ("after", 0.15), "Grow without growing the team."),
+    ("vo3a", "narrator", "af_heart", "en-us", 1.15, 23.35, "Sell more."),
+    ("vo3b", "narrator", "af_heart", "en-us", 1.15, ("after", 0.1), "Spend less."),
+    ("vo3c", "narrator", "af_heart", "en-us", 1.12, ("after", 0.1), "Grow without growing the team."),
+    # The sign-off, over the logo after the drumbeats
+    ("vo4a", "narrator", "af_heart", "en-us", 1.15, 26.9, "The Vertical AI."),
+    ("vo4b", "narrator", "af_heart", "en-us", 1.22, ("after", 0.06), "AI Enterprise OS for success."),
 ]
 
 
@@ -84,6 +87,19 @@ def voice_lines():
         clips.append({"id": cid, "who": who, "text": text, "start": start, "end": start + len(a) / SR, "audio": a})
         t = start + len(a) / SR
     return clips
+
+
+def narrator_chain(x: np.ndarray) -> np.ndarray:
+    """Clean up the low end, lift presence a touch, and add a short, quiet room for warmth."""
+    x = sosfilt(butter(2, 80, btype="highpass", fs=SR, output="sos"), x)
+    x = x + 0.25 * sosfilt(butter(2, [2500, 6000], btype="bandpass", fs=SR, output="sos"), x)
+    n = int(0.35 * SR)
+    ir = rng.standard_normal(n) * np.exp(-np.arange(n) / (0.07 * SR))
+    ir = lowpass(ir, 4000)
+    wet = np.convolve(x, ir)
+    out = np.concatenate([x, np.zeros(len(wet) - len(x))])
+    out += 0.06 * wet / (np.max(np.abs(wet)) + 1e-9) * np.max(np.abs(x))
+    return out
 
 
 def phone_line(x: np.ndarray) -> np.ndarray:
@@ -206,8 +222,9 @@ def main() -> None:
         "tap": s["recover"] + 30,
         "paid": s["recover"] + 38,
         "metrics": [s["growth"] + 6 + 8 * i for i in range(5)],
-        "drums": [s["endCard"] + 3, s["endCard"] + 13, s["endCard"] + 23],
-        "logo": s["endCard"] + 32,
+        "drums": [s["endCard"] + 2, s["endCard"] + 7, s["endCard"] + 12],
+        "logo": f(by["vo4a"]["start"]) - 2,
+        "tagline": f(by["vo4b"]["start"]),
     }
     tl = {
         "fps": FPS,
@@ -224,6 +241,8 @@ def main() -> None:
     voice = np.zeros(N)
     for c in clips:
         a = c["audio"] * (1.0 if c["who"] == "narrator" else 0.9)
+        if c["who"] == "narrator":
+            a = narrator_chain(a)
         if c["who"] == "priya":
             a = phone_line(a)
         place(voice, a, c["start"])
