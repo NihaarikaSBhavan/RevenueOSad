@@ -56,7 +56,7 @@ export const Book: React.FC = () => {
 
       <Phone x={760} y={110} scale={0.84} title="Mozhi · Sales" sub="online">
         <Bubble side="left" style={{ fontSize: 20, opacity: 0.55 }}>
-          Pricing: Starter ₹1.9L · Plus ₹2.6L.
+          कीमतें: Starter ₹1.9L · Plus ₹2.6L.
         </Bubble>
         {frame >= Q.confirm - 1 && (
           <Pop at={Q.confirm}>

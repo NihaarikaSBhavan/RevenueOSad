@@ -208,6 +208,37 @@ const Spoken: React.FC<{ id: string; lead?: number }> = ({ id, lead = 2 }) => {
   );
 };
 
+/** An English subtitle under a Hindi line. */
+const Translation: React.FC<{ children: React.ReactNode; on?: number }> = ({ children, on = 1 }) => (
+  <div style={{ marginTop: 8, fontSize: "0.72em", fontStyle: "italic", color: C.dim, opacity: on }}>{children}</div>
+);
+
+/** The language chip in a call header; pops when the caller switches. */
+const LangChip: React.FC<{ switchAt: number; from: string; to: string }> = ({ switchAt, from, to }) => {
+  const frame = useCurrentFrame();
+  const on = frame >= switchAt;
+  const pop = on ? 1 - sp(frame, switchAt, 14, 220) : 0;
+  return (
+    <div
+      style={{
+        fontFamily: mono,
+        fontSize: 22,
+        fontWeight: 600,
+        letterSpacing: 2,
+        padding: "8px 18px",
+        borderRadius: 99,
+        border: `1px solid ${C.orange}`,
+        color: on ? "#fff" : C.orange,
+        background: on ? C.orange : "transparent",
+        scale: String(1 + 0.25 * pop),
+        boxShadow: on ? `0 0 ${40 * pop + 20}px rgba(254,119,44,0.45)` : undefined,
+      }}
+    >
+      {on ? `${from} → ${to}` : from}
+    </div>
+  );
+};
+
 const QUALIFY: [string, string][] = [
   ["Need", "Confirmed"],
   ["Budget", "₹2–3 lakh"],
@@ -219,7 +250,7 @@ export const FirstCall: React.FC = () => {
   const s = shot("firstCall");
   const content = ramp(frame, s.start + 8, s.start + 16);
   const switched = frame >= Q.langSwitch;
-  const en = clip("priyaEn");
+  const hi = clip("priyaHi");
   return (
     <InShot id="firstCall">
       <ZoomFromTile />
@@ -231,9 +262,7 @@ export const FirstCall: React.FC = () => {
           right={
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 12 }}>
               <LiveTimer from={s.start} base={9} />
-              <div style={{ fontFamily: mono, fontSize: 20, letterSpacing: 2, padding: "6px 14px", borderRadius: 99, border: `1px solid ${C.orange}`, color: C.orange }}>
-                HINDI{switched ? " → ENGLISH" : ""}
-              </div>
+              <LangChip switchAt={Q.langSwitch} from="ENGLISH" to="HINDI" />
             </div>
           }
         />
@@ -242,17 +271,24 @@ export const FirstCall: React.FC = () => {
         </div>
         <div style={{ display: "flex", gap: 44, marginTop: 26 }}>
           <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 22, fontSize: 32 }}>
-            <Bubble side="right" meta="MOZHI · HINDI · replied in 420 ms" style={{ fontSize: 32 }}>नमस्ते प्रिया जी, कल आपने enquiry भेजी थी।</Bubble>
-            <Pop at={clip("priyaHi").start - 2}>
-              <Bubble side="left" meta={switched ? "PRIYA · SWITCHED TO ENGLISH MID-SENTENCE" : "PRIYA · HINDI"} style={{ fontSize: 32 }}>
-                हाँ जी, बोलिए…{" "}
-                {frame >= en.start - 2 && (
-                  <span style={{ color: C.text }}>
-                    <Spoken id="priyaEn" />
-                  </span>
-                )}
+            <Pop at={clip("mozhiOpen").start - 2}>
+              <Bubble side="right" meta="MOZHI · ENGLISH" style={{ fontSize: 32 }}>
+                <Spoken id="mozhiOpen" />
               </Bubble>
             </Pop>
+            {frame >= clip("priyaEn").start - 3 && (
+              <Pop at={clip("priyaEn").start - 2}>
+                <Bubble side="left" meta={switched ? "PRIYA · SWITCHES TO HINDI MID-SENTENCE" : "PRIYA · ENGLISH"} style={{ fontSize: 32 }}>
+                  <Spoken id="priyaEn" />{" "}
+                  {frame >= hi.start - 2 && (
+                    <span style={{ color: C.orange, fontWeight: 600 }}>
+                      <Spoken id="priyaHi" />
+                    </span>
+                  )}
+                  {switched && <Translation on={ramp(frame, hi.start, hi.start + 10)}>“Sure, but first send me the details.”</Translation>}
+                </Bubble>
+              </Pop>
+            )}
           </div>
           <div style={{ width: 420, padding: 28, borderRadius: 22, background: "rgba(244,247,252,0.04)", border: `1px solid ${C.faint}` }}>
             <Label>Qualifying</Label>
@@ -319,14 +355,22 @@ export const Orchestrate: React.FC = () => {
             <div style={{ fontSize: 28, fontWeight: 600 }}>Priya Sharma</div>
             <LiveTimer from={shot("firstCall").start} base={9} />
           </div>
+          <div style={{ fontFamily: mono, fontSize: 18, fontWeight: 600, letterSpacing: 2, padding: "6px 14px", borderRadius: 99, background: C.orange, color: "#fff" }}>HINDI</div>
         </div>
         <div style={{ marginTop: 22 }}>
           <Waveform width={490} height={60} bars={40} />
         </div>
         <div style={{ marginTop: 22, display: "flex", flexDirection: "column", gap: 14 }}>
-          <Bubble side="left" style={{ fontSize: 22 }}>Send me the details, I'll discuss and get back.</Bubble>
-          <Pop at={s.start + 2}>
-            <Bubble side="right" meta="replied in 420 ms">Of course. Sending them to your WhatsApp now.</Bubble>
+          <Bubble side="left" style={{ fontSize: 24 }}>
+            Sure, but <span style={{ color: C.orange, fontWeight: 600 }}>पहले डिटेल्स भेज दीजिए।</span>
+          </Bubble>
+          <Pop at={clip("mozhiHi").start - 2}>
+            <Bubble side="right" meta="MOZHI · CONTINUES IN HINDI · 420 ms" style={{ fontSize: 30 }}>
+              <span style={{ fontWeight: 600 }}>
+                <Spoken id="mozhiHi" />
+              </span>
+              <Translation on={ramp(frame, clip("mozhiHi").start + 6, clip("mozhiHi").start + 16)}>“Of course. Sending it on WhatsApp now.”</Translation>
+            </Bubble>
           </Pop>
         </div>
       </Card>
@@ -349,7 +393,7 @@ export const Orchestrate: React.FC = () => {
         {frame >= Q.whatsapp + 7 && (
           <Pop at={Q.whatsapp + 8}>
             <Bubble side="left" style={{ fontSize: 22 }}>
-              Pricing: Starter ₹1.9L · Plus ₹2.6L. Happy to answer anything.
+              कीमतें: Starter ₹1.9L · Plus ₹2.6L. कोई भी सवाल हो तो पूछिए।
             </Bubble>
           </Pop>
         )}
@@ -359,7 +403,7 @@ export const Orchestrate: React.FC = () => {
       <Card style={{ left: 1260, top: 120, width: 570, height: 660, padding: 36 }} glow={ramp(frame, Q.crm[0], Q.crm[3] + 8) * 0.5}>
         <Label>CRM · Lead</Label>
         <div style={{ fontSize: 34, fontWeight: 600, marginTop: 12 }}>Priya Sharma</div>
-        <div style={{ fontSize: 20, color: C.dim }}>Enquiry form · Hindi / English</div>
+        <div style={{ fontSize: 20, color: C.dim }}>Enquiry form · prefers Hindi</div>
         <div style={{ marginTop: 26, display: "flex", flexDirection: "column", gap: 22 }}>
           {CRM_FIELDS.map(([k, v], i) => {
             const on = ramp(frame, Q.crm[i], Q.crm[i] + 8);
@@ -381,7 +425,7 @@ export const Orchestrate: React.FC = () => {
 
 // ---------- 5. day 3, the follow-up ----------
 
-const MEMORY = ["Tue · First call, Hindi → English", "Brochure + pricing sent on WhatsApp", "Discussing with family", "Budget confirmed"];
+const MEMORY = ["Tue · First call, English → Hindi", "Brochure + pricing sent on WhatsApp", "Discussing with family", "Budget confirmed"];
 
 export const FollowUp: React.FC = () => {
   const frame = useCurrentFrame();

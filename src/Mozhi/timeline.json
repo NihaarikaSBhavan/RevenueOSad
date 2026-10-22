@@ -15,31 +15,31 @@
   {
    "id": "firstCall",
    "start": 180,
-   "end": 288
+   "end": 321
   },
   {
    "id": "orchestrate",
-   "start": 288,
-   "end": 372
+   "start": 321,
+   "end": 400
   },
   {
    "id": "followUp",
-   "start": 372,
-   "end": 528
+   "start": 400,
+   "end": 531
   },
   {
    "id": "book",
-   "start": 528,
-   "end": 588
+   "start": 531,
+   "end": 591
   },
   {
    "id": "support",
-   "start": 588,
-   "end": 642
+   "start": 591,
+   "end": 648
   },
   {
    "id": "recover",
-   "start": 642,
+   "start": 648,
    "end": 699
   },
   {
@@ -67,46 +67,60 @@
    "end": 114
   },
   {
-   "id": "priyaHi",
-   "who": "priya",
-   "text": "हाँ जी, बोलिए…",
+   "id": "vo2",
+   "who": "narrator",
+   "text": "Mozhi calls every lead.",
+   "start": 130,
+   "end": 179
+  },
+  {
+   "id": "mozhiOpen",
+   "who": "mozhi",
+   "text": "Hi Priya, is now a good time?",
    "start": 184,
-   "end": 216
+   "end": 244
   },
   {
    "id": "priyaEn",
    "who": "priya",
-   "text": "Send me the details, I'll discuss and get back.",
-   "start": 218,
-   "end": 289
+   "text": "Sure, but",
+   "start": 251,
+   "end": 269
   },
   {
-   "id": "vo2",
-   "who": "narrator",
-   "text": "Mozhi calls every lead, and follows through.",
-   "start": 300,
-   "end": 377
+   "id": "priyaHi",
+   "who": "priya",
+   "text": "पहले डिटेल्स भेज दीजिए।",
+   "start": 269,
+   "end": 319
+  },
+  {
+   "id": "mozhiHi",
+   "who": "mozhi",
+   "text": "ज़रूर, अभी व्हाट्सऐप पर भेजती हूँ।",
+   "start": 328,
+   "end": 398
   },
   {
    "id": "mozhiDay3",
    "who": "mozhi",
-   "text": "Hi Priya, did you get a chance to go through the brochure I sent on Tuesday?",
-   "start": 382,
+   "text": "Hi Priya, did you see the brochure I sent on Tuesday?",
+   "start": 408,
    "end": 492
   },
   {
    "id": "priyaYes",
    "who": "priya",
    "text": "Yes, we liked it.",
-   "start": 494,
-   "end": 526
+   "start": 495,
+   "end": 527
   },
   {
    "id": "mozhiSupport",
    "who": "mozhi",
    "text": "Done. It's moved to the fifteenth.",
-   "start": 592,
-   "end": 641
+   "start": 596,
+   "end": 649
   },
   {
    "id": "vo3a",
@@ -133,28 +147,28 @@
  "cues": {
   "toggle": 126,
   "dialFrom": 136,
-  "langSwitch": 218,
+  "langSwitch": 269,
   "qualify": [
-   224,
-   240,
-   256
+   238,
+   273,
+   315
   ],
-  "whatsapp": 297,
+  "whatsapp": 367,
   "crm": [
-   312,
-   322,
-   332,
-   342
+   373,
+   379,
+   385,
+   391
   ],
-  "day3": 374,
-  "memory": 384,
-  "booked": 536,
-  "confirm": 546,
-  "handoff": 558,
-  "salesUp": 572,
-  "logged": 637,
-  "tap": 672,
-  "paid": 680,
+  "day3": 402,
+  "memory": 412,
+  "booked": 539,
+  "confirm": 549,
+  "handoff": 561,
+  "salesUp": 575,
+  "logged": 645,
+  "tap": 678,
+  "paid": 686,
   "metrics": [
    705,
    713,

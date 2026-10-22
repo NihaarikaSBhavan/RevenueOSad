@@ -7,8 +7,9 @@ places it on the shot timeline, then builds the sound design around it and write
   src/Mozhi/timeline.json        shots, voice clips and cues, in frames
   public/audio/mozhi-mix.wav     voice + ambience + SFX + music, -14 LUFS, true peak <= -1 dBTP
 
-Voices: narrator am_michael; Mozhi af_heart; Priya hf_beta, the same voice speaking Hindi then
-English so the mid-sentence switch is one person. Callers on the phone are band-limited.
+Voices: narrator am_michael; Mozhi hf_alpha; Priya hf_beta. The first call starts in English; Priya
+switches to Hindi mid-sentence (one voice across both languages) and Mozhi carries on in Hindi.
+Callers on the phone are band-limited.
 
 Usage: python3 scripts/mozhi_audio.py
 """
@@ -35,31 +36,32 @@ SHOTS = [
     ("tension", 0.0),
     ("switch", 4.0),
     ("firstCall", 6.0),
-    ("orchestrate", 9.6),
-    ("followUp", 12.4),
-    ("book", 17.6),
-    ("support", 19.6),
-    ("recover", 21.4),
+    ("orchestrate", 10.7),
+    ("followUp", 13.35),
+    ("book", 17.7),
+    ("support", 19.7),
+    ("recover", 21.6),
     ("growth", 23.3),
     ("title", 25.2),
     ("endCard", 27.45),
 ]
 
-# (id, speaker, voice, lang, speed, start s, text). Phone = the caller is heard down a phone line.
+# (id, speaker, voice, lang, speed, start, text). start is seconds, or ("after", gap) to follow the
+# previous line.
 LINES = [
     ("vo1", "narrator", "am_michael", "en-us", 1.08, 0.25, "Every lead you don't call is a sale you already paid for."),
-    ("priyaHi", "priya", "hf_beta", "hi", 1.15, 6.15, "हाँ जी, बोलिए…"),
-    ("priyaEn", "priya", "hf_beta", "en-us", 1.2, None, "Send me the details, I'll discuss and get back."),
-    ("vo2", "narrator", "am_michael", "en-us", 1.1, 10.0, "Mozhi calls every lead, and follows through."),
-    ("mozhiDay3", "mozhi", "af_heart", "en-us", 1.2, 12.75, "Hi Priya, did you get a chance to go through the brochure I sent on Tuesday?"),
-    ("priyaYes", "priya", "hf_beta", "en-us", 1.1, None, "Yes, we liked it."),
-    ("mozhiSupport", "mozhi", "af_heart", "en-us", 1.15, 19.75, "Done. It's moved to the fifteenth."),
+    ("vo2", "narrator", "am_michael", "en-us", 1.08, 4.35, "Mozhi calls every lead."),
+    ("mozhiOpen", "mozhi", "hf_alpha", "en-us", 1.2, 6.15, "Hi Priya, is now a good time?"),
+    ("priyaEn", "priya", "hf_beta", "en-us", 1.1, ("after", 0.25), "Sure, but"),
+    ("priyaHi", "priya", "hf_beta", "hi", 1.1, ("after", 0.02), "पहले डिटेल्स भेज दीजिए।"),
+    ("mozhiHi", "mozhi", "hf_alpha", "hi", 1.2, ("after", 0.3), "ज़रूर, अभी व्हाट्सऐप पर भेजती हूँ।"),
+    ("mozhiDay3", "mozhi", "hf_alpha", "en-us", 1.3, 13.6, "Hi Priya, did you see the brochure I sent on Tuesday?"),
+    ("priyaYes", "priya", "hf_beta", "en-us", 1.1, ("after", 0.1), "Yes, we liked it."),
+    ("mozhiSupport", "mozhi", "hf_alpha", "en-us", 1.15, 19.85, "Done. It's moved to the fifteenth."),
     ("vo3a", "narrator", "am_michael", "en-us", 1.15, 23.9, "Sell more."),
-    ("vo3b", "narrator", "am_michael", "en-us", 1.15, None, "Spend less."),
-    ("vo3c", "narrator", "am_michael", "en-us", 1.12, None, "Grow without growing the team."),
+    ("vo3b", "narrator", "am_michael", "en-us", 1.15, ("after", 0.15), "Spend less."),
+    ("vo3c", "narrator", "am_michael", "en-us", 1.12, ("after", 0.15), "Grow without growing the team."),
 ]
-GAP = 0.08  # between a line that follows straight on (start None) and the one before
-GAP_VO3 = 0.15
 
 
 def f(t: float) -> int:
@@ -77,8 +79,8 @@ def voice_lines():
     for cid, who, voice, lang, speed, start, text in LINES:
         a, sr = k.create(text, voice=voice, lang=lang, speed=speed)
         a = resample_poly(trim(a), SR, sr)
-        if start is None:
-            start = t + (GAP_VO3 if cid.startswith("vo3") else GAP)
+        if isinstance(start, tuple):
+            start = t + start[1]
         clips.append({"id": cid, "who": who, "text": text, "start": start, "end": start + len(a) / SR, "audio": a})
         t = start + len(a) / SR
     return clips
@@ -189,10 +191,11 @@ def main() -> None:
     cue = {
         "toggle": s["switch"] + 6,
         "dialFrom": s["switch"] + 16,
-        "langSwitch": f(by["priyaEn"]["start"]),
-        "qualify": [f(by["priyaEn"]["start"]) + 6, f(by["priyaEn"]["start"]) + 22, f(by["priyaEn"]["start"]) + 38],
-        "whatsapp": s["orchestrate"] + 9,
-        "crm": [s["orchestrate"] + 24, s["orchestrate"] + 34, s["orchestrate"] + 44, s["orchestrate"] + 54],
+        "langSwitch": f(by["priyaHi"]["start"]),
+        "qualify": [f(by["mozhiOpen"]["end"]) - 6, f(by["priyaHi"]["start"]) + 4, f(by["priyaHi"]["end"]) - 4],
+        # the WhatsApp lands as Mozhi says it, with the CRM filling straight after
+        "whatsapp": f(by["mozhiHi"]["start"] + 0.55 * (by["mozhiHi"]["end"] - by["mozhiHi"]["start"])),
+        "crm": [f(by["mozhiHi"]["start"] + 0.55 * (by["mozhiHi"]["end"] - by["mozhiHi"]["start"])) + 6 + 6 * i for i in range(4)],
         "day3": s["followUp"] + 2,
         "memory": s["followUp"] + 12,
         "booked": s["book"] + 8,
@@ -226,7 +229,7 @@ def main() -> None:
         place(voice, a, c["start"])
     # Priya is on a call: her room bleeds in under her lines, through the same phone line
     calls = np.zeros(N)
-    for a, b in [(by["priyaHi"]["start"] - 0.3, by["priyaEn"]["end"] + 0.3), (by["priyaYes"]["start"] - 0.3, by["priyaYes"]["end"] + 0.3)]:
+    for a, b in [(by["priyaEn"]["start"] - 0.3, by["priyaHi"]["end"] + 0.3), (by["priyaYes"]["start"] - 0.3, by["priyaYes"]["end"] + 0.3)]:
         calls += home_noise(a, b)
     calls = phone_line(calls) * 0.05
 
