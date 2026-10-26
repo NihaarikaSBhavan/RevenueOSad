@@ -3,7 +3,7 @@ import { Quickstart } from "./Quickstart";
 import { RevenueOSFilm } from "./RevenueOS/Film";
 import { TestClip } from "./TestClip";
 import { TVAArchitecture } from "./TVAArchitecture/Infographic";
-import { DURATION } from "./TVAArchitecture/theme";
+import { CYCLE } from "./TVAArchitecture/theme";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -19,7 +19,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="TVAArchitecture"
         component={TVAArchitecture}
-        durationInFrames={DURATION}
+        durationInFrames={3 * CYCLE}
         fps={30}
         width={1080}
         height={1350}

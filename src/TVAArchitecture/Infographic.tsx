@@ -1,8 +1,8 @@
-import { AbsoluteFill, Img, staticFile, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Img, Sequence, staticFile, useCurrentFrame } from "remotion";
 import { sansStack } from "../RevenueOS/fonts";
 import { Contract, Kernel, Plugins, Principles, Roadmap, Routing, Rules, Targets, Topologies } from "./Cards";
 import { Lifecycle } from "./Lifecycle";
-import { C, ease, pop } from "./theme";
+import { C, ease, LOOP_START, pop } from "./theme";
 import type { Box } from "./ui";
 
 // 1080 × 1350 (LinkedIn 4:5), 40px gutters, 20px gaps, four rows of cards
@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
   );
 };
 
-export const TVAArchitecture: React.FC = () => (
+const Board: React.FC = () => (
   <AbsoluteFill style={{ background: C.bg, fontFamily: sansStack }}>
     <Title />
     <Plugins box={COL(40, 320, A.y, A.h)} />
@@ -78,4 +78,11 @@ export const TVAArchitecture: React.FC = () => (
     <Targets box={COL(720, 320, D.y, D.h)} />
     <Footer />
   </AbsoluteFill>
+);
+
+/** Starts fully built: the time shift skips the card entrances so the GIF opens on the loop. */
+export const TVAArchitecture: React.FC = () => (
+  <Sequence from={-LOOP_START}>
+    <Board />
+  </Sequence>
 );
